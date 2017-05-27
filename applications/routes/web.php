@@ -18,3 +18,8 @@ Route::get('/', function () {
 Route::get('dashboard', function () {
     return view('dashboard.dashboard');
 });
+
+Route::get('seleksi-kegiatan', 'SeleksiKegiatanController@seleksi')->name('seleksi-kegiatan.index');
+Route::get('seleksi-kegiatan/bidang', 'SeleksiKegiatanController@seleksiperbidang')->name('seleksi-kegiatan.bidang');
+
+Route::get('manajemen-akun', 'ManajemenAkunController@index')->name('akun.index');

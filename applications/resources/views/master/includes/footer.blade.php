@@ -1,3 +1,3 @@
 <div class="row-fluid">
-  <div id="footer" class="span12"> 2013 &copy; Matrix Admin. Brought to you by <a href="http://themedesigner.in">Themedesigner.in</a> </div>
+  <div id="footer" class="span12"> 2017 &copy; Adik Bang Taru. Developed by : <a target="_blank" href="http://9tins.com">9Tins</a> </div>
 </div>

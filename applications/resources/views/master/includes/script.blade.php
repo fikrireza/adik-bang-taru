@@ -9,7 +9,7 @@
 <script src="{{asset('theme/js/matrix.js')}}"></script>
 <script src="{{asset('theme/js/matrix.dashboard.js')}}"></script>
 <script src="{{asset('theme/js/jquery.gritter.min.js')}}"></script>
-<script src="{{asset('theme/js/matrix.interface.js')}}"></script>
+{{-- <script src="{{asset('theme/js/matrix.interface.js')}}"></script> --}}
 <script src="{{asset('theme/js/matrix.chat.js')}}"></script>
 <script src="{{asset('theme/js/jquery.validate.js')}}"></script>
 <script src="{{asset('theme/js/matrix.form_validation.js')}}"></script>

@@ -15,7 +15,6 @@
 
   @include('master.includes.footer')
 
-  @include('master.includes.script')
   @yield('footscript')
 </body>
 </html>
