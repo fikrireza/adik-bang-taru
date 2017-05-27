@@ -23,3 +23,6 @@ Route::get('seleksi-kegiatan', 'SeleksiKegiatanController@seleksi')->name('selek
 Route::get('seleksi-kegiatan/bidang', 'SeleksiKegiatanController@seleksiperbidang')->name('seleksi-kegiatan.bidang');
 
 Route::get('manajemen-akun', 'ManajemenAkunController@index')->name('akun.index');
+
+Route::get('verifikasi-dokumen', 'VerifikasiDokumenController@index')->name('verifikasi.index');
+Route::get('verifikasi-dokumen/detail', 'VerifikasiDokumenController@detail')->name('verifikasi.detail');

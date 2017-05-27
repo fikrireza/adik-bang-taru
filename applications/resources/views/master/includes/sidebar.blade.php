@@ -10,7 +10,7 @@
     </li>
     <li class="submenu"> <a href="#"><i class="icon icon-file"></i> <span>Verifikasi Dokumen</span> </a>
       <ul>
-        <li><a href="form-common.html">Dummy Menu</a></li>
+        <li><a href="{{route('verifikasi.index')}}">Lakukan Verifikasi Dokumen</a></li>
       </ul>
     </li>
     <li class="submenu"> <a href="#"><i class="icon icon-user"></i> <span>Manajemen Akun</span> </a>
