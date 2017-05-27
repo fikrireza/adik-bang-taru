@@ -49,7 +49,7 @@
                     <td>Program Pelayanan Administrasi Perkantoran</td>
                     <td>Penyediaan Barang Cetakan dan Penggandaan</td>
                     <td>Barang Cetak</td>
-                    <td>
+                    <td style="text-align:center;">
                       <a href="{{route('verifikasi.detail')}}" class="btn btn-primary btn-mini tip-top" data-original-title="Proses Verifikasi">
                         Proses
                       </a>

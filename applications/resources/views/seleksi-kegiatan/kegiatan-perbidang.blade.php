@@ -107,7 +107,7 @@
                     <td>01.05.01.05.01.001</td>
                     <td>Penyediaan Jasa Surat Menyurat</td>
                     <td>Program Pelayanan Administrasi Perkantoran</td>
-                    <td>
+                    <td style="text-align:center;">
                       <a href="#myAlert" data-toggle="modal" class="btn btn-danger btn-mini tip-top" data-original-title="Copot kegiatan ini">
                         <i class="icon-remove"></i>
                       </a>

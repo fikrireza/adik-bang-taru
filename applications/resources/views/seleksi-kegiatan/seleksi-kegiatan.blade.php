@@ -49,7 +49,7 @@
                     <td>01.05.01.05.01.001</td>
                     <td>Penyediaan Jasa Surat Menyurat</td>
                     <td>Program Pelayanan Administrasi Perkantoran</td>
-                    <td>
+                    <td style="text-align:center;">
                       <div class="btn-group">
                         <button class="btn btn-mini btn-primary">Pilih Bidang / UPT</button>
                         <button data-toggle="dropdown" class="btn btn-mini btn-primary dropdown-toggle"><span class="caret"></span></button>
