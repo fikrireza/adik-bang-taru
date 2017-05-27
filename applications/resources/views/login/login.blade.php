@@ -13,8 +13,8 @@
         <div id="loginbox">
             <form id="loginform" class="form-vertical" action="index.html">
 			          <div class="control-group normal_text">
-                  {{-- <h3><img src="img/logo.png" alt="Logo" />ADIK</h3> --}}
-                  <h3 style="margin-bottom:0px;">ADIK BANG TARU</h3>
+                  <h3><img src="{{asset('theme/img/logo3.png')}}" alt="Logo" /></h3>
+                  {{-- <h3 style="margin-bottom:0px;">ADIK BANG TARU</h3> --}}
                   Aplikasi Data dan Informasi Keuangan dan Bangunan
                   <br><span style="font-size:10px;">Dinas Tata Ruang dan Bangunan, Kabupaten Tangerang.</span>
                 </div>

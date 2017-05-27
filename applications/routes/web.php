@@ -13,11 +13,11 @@
 
 Route::get('/', function () {
     return view('login.login');
-});
+})->name('login.index');
 
 Route::get('dashboard', function () {
     return view('dashboard.dashboard');
-});
+})->name('dashboard.index');
 
 Route::get('seleksi-kegiatan', 'SeleksiKegiatanController@seleksi')->name('seleksi-kegiatan.index');
 Route::get('seleksi-kegiatan/bidang', 'SeleksiKegiatanController@seleksiperbidang')->name('seleksi-kegiatan.bidang');
