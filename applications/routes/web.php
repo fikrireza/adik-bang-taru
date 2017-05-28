@@ -26,3 +26,6 @@ Route::get('manajemen-akun', 'ManajemenAkunController@index')->name('akun.index'
 
 Route::get('verifikasi-dokumen', 'VerifikasiDokumenController@index')->name('verifikasi.index');
 Route::get('verifikasi-dokumen/detail', 'VerifikasiDokumenController@detail')->name('verifikasi.detail');
+
+Route::post('authenticate', 'LoginController@dologin')->name('auth.login');
+Route::get('logout', 'LoginController@dologout')->name('auth.logout');

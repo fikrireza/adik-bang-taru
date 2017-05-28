@@ -11,7 +11,7 @@
 </head>
     <body>
         <div id="loginbox">
-            <form id="loginform" class="form-vertical" action="index.html">
+            <form id="loginform" class="form-vertical" action="{{url('authenticate')}}" method="post">
 			          <div class="control-group normal_text">
                   <h3><img src="{{asset('theme/img/logo3.png')}}" alt="Logo" /></h3>
                   {{-- <h3 style="margin-bottom:0px;">ADIK BANG TARU</h3> --}}
@@ -21,14 +21,15 @@
                 <div class="control-group">
                     <div class="controls">
                         <div class="main_input_box">
-                            <span class="add-on bg_lg"><i class="icon-user"> </i></span><input type="text" placeholder="Username" />
+                            {{ csrf_field() }}
+                            <span class="add-on bg_lg"><i class="icon-user"> </i></span><input type="text" placeholder="Email" name="email"/>
                         </div>
                     </div>
                 </div>
                 <div class="control-group">
                     <div class="controls">
                         <div class="main_input_box">
-                            <span class="add-on bg_ly"><i class="icon-lock"></i></span><input type="password" placeholder="Password" />
+                            <span class="add-on bg_ly"><i class="icon-lock"></i></span><input type="password" placeholder="Password" name="password"/>
                         </div>
                     </div>
                 </div>

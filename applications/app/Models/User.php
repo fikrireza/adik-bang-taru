@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -24,6 +24,16 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
     ];
+
+    // override function to disable remember_token column.
+    public function setAttribute($key, $value)
+    {
+      $isRememberTokenAttribute = $key == $this->getRememberTokenName();
+      if (!$isRememberTokenAttribute)
+      {
+        parent::setAttribute($key, $value);
+      }
+    }
 }
