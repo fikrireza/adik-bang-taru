@@ -10,9 +10,9 @@
   <div id="content-header">
     <div id="breadcrumb">
       <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
-      <a href="#" class="current">Pencairan Dana</a>
+      <a href="#" class="current">Manajemen Pencairan</a>
     </div>
-    <h1>Pencairan Dana</h1>
+    <h1>Manajemen Pencairan</h1>
   </div>
 @endsection
 
@@ -50,7 +50,7 @@
                     <td>Penyediaan Jasa Surat Menyurat</td>
                     <td>Program Pelayanan Administrasi Perkantoran</td>
                     <td style="text-align:center;">
-                      <a href="{{route('pencairan.proses')}}" class="btn btn-mini btn-warning">Proses</a>
+                      <a href="{{route('pencairan.proses')}}" class="btn btn-mini btn-warning">Kelola Data</a>
                     </td>
                   </tr>
                 @endfor

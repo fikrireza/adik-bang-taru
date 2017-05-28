@@ -15,4 +15,14 @@ class PencairanDanaController extends Controller
     {
       return view('pencairan-dana.proses');
     }
+
+    public function rincian()
+    {
+      return view('pencairan-dana.rincian');
+    }
+
+    public function pencairan()
+    {
+      return view('pencairan-dana.pencairan');
+    }
 }
