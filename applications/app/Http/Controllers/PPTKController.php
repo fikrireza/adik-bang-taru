@@ -10,4 +10,9 @@ class PPTKController extends Controller
     {
       return view('pptk.index');
     }
+
+    public function setkegiatan()
+    {
+      return view('pptk.pptk-kegiatan');
+    }
 }

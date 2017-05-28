@@ -10,4 +10,9 @@ class KPAController extends Controller
     {
       return view('kpa.index');
     }
+
+    public function setkegiatan()
+    {
+      return view('kpa.kpa-kegiatan');
+    }
 }

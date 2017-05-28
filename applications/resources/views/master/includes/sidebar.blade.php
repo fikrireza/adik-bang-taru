@@ -16,12 +16,14 @@
         </li>
         <li class="submenu"> <a href="#"><i class="icon icon-group"></i> <span>Manajemen KPA</span> </a>
           <ul>
-            <li><a href="{{route('kpa.index')}}">Lakukan Manajemen KPA</a></li>
+            <li><a href="{{route('kpa.index')}}">Manajemen Master KPA</a></li>
+            <li><a href="{{route('kpa.setkegiatan')}}">Set KPA Kegiatan</a></li>
           </ul>
         </li>
         <li class="submenu"> <a href="#"><i class="icon icon-key"></i> <span>Manajemen PPTK</span> </a>
           <ul>
-            <li><a href="{{route('pptk.index')}}">Lakukan Manajemen PPTK</a></li>
+            <li><a href="{{route('pptk.index')}}">Manajemen Master PPTK</a></li>
+            <li><a href="{{route('pptk.setkegiatan')}}">Set PPTK Kegiatan</a></li>
           </ul>
         </li>
         <li class="submenu"> <a href="#"><i class="icon icon-user"></i> <span>Manajemen Akun</span> </a>
