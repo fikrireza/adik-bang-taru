@@ -21,24 +21,78 @@
   <div id="myAlert" class="modal hide">
     <div class="modal-header" style="background:#3a87ad;color:white;">
       <button data-dismiss="modal" class="close" type="button">×</button>
-      <h3 style="text-shadow:0 0px;">Input Realisasi Fisik</h3>
+      <h3 style="text-shadow:0 0px;">Kelengkapan Dokumen</h3>
     </div>
-    <form action="index.html" method="post">
-      <div class="modal-body">
-        <div class="controls" style="margin-left:15px;">
-          <span style="font-weight:bold;">Presentase Realisasi Fisik :</span>
-          <br>
-          <div class="input-append">
-            <input type="text" class="span5">
-            <span class="add-on">%</span>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <a data-dismiss="modal" class="btn" href="#">Cancel</a>
-        <input type="submit" class="btn btn-primary" value="Simpan">
-      </div>
-    </form>
+    <div class="modal-body">
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>Nama Dokumen</th>
+            <th>Download File</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="label label-info">SPP</span></td>
+            <td style="text-align:center;">
+              <span class="badge btn-primary"><a href="#myAlert" data-toggle="modal" style="color:white;">Download</a></span>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="label label-info">SPM</span></td>
+            <td style="text-align:center;">
+              <span class="badge btn-primary"><a href="#myAlert" data-toggle="modal" style="color:white;">Download</a></span>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="label label-info">Pengajuan SP2D</span></td>
+            <td style="text-align:center;">
+              <span class="badge btn-primary"><a href="#myAlert" data-toggle="modal" style="color:white;">Download</a></span>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="label label-info">Resume Kontrak</span></td>
+            <td style="text-align:center;">
+              <span class="badge btn-primary"><a href="#myAlert" data-toggle="modal" style="color:white;">Download</a></span>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="label label-info">Syarat Khusus Kontrak</span></td>
+            <td style="text-align:center;">
+              <span class="badge btn-primary"><a href="#myAlert" data-toggle="modal" style="color:white;">Download</a></span>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="label label-info">NPD</span></td>
+            <td style="text-align:center;">
+              <span class="badge btn-primary"><a href="#myAlert" data-toggle="modal" style="color:white;">Download</a></span>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="label label-info">PHO/FHO</span></td>
+            <td style="text-align:center;">
+              <span class="badge btn-primary"><a href="#myAlert" data-toggle="modal" style="color:white;">Download</a></span>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="label label-info">Kwitansi</span></td>
+            <td style="text-align:center;">
+              <span class="badge btn-primary"><a href="#myAlert" data-toggle="modal" style="color:white;">Download</a></span>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="label label-info">Mutual Cek 100</span></td>
+            <td style="text-align:center;">
+              <span class="badge btn-primary"><a href="#myAlert" data-toggle="modal" style="color:white;">Download</a></span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <a href="#" class="btn btn-primary pull-right btn-mini"><i class="icon-plus"></i> &nbsp;Tambah Dokumen</a>
+    </div>
+    <div class="modal-footer">
+      <a data-dismiss="modal" class="btn" href="#">Tutup</a>
+    </div>
   </div>
 
   <div id="myInputKontrak" class="modal hide">
@@ -111,6 +165,7 @@
                   <th>Anggaran</th>
                   <th>Realisasi Anggaran</th>
                   <th>Memiliki Rincian Item</th>
+                  <th>Kelengkapan Dokumen</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
@@ -123,6 +178,9 @@
                     <td>1.190.000</td>
                     <td>1.190.000</td>
                     <td style="text-align:center;"><a href="#myInputKontrak" data-toggle="modal" class="badge btn-info">Ya</a></td>
+                    <td style="width:100px;">
+                      <span class="badge btn-primary"><a href="#myAlert" data-toggle="modal" style="color:white;">Lihat Dokumen</a></span>
+                    </td>
                     <td style="text-align:center;">
                       <a href="{{route('pencairan.rincian')}}" class="btn btn-primary btn-mini">Lihat Detail</a>
                     </td>
@@ -136,6 +194,9 @@
                     <td>1.190.000</td>
                     <td>1.190.000</td>
                     <td style="text-align:center;"><a href="#myInputKontrak" data-toggle="modal" class="badge btn-warning">Tidak</a></td>
+                    <td style="width:100px;">
+                      <span class="badge btn-primary"><a href="#myAlert" data-toggle="modal" style="color:white;">Lihat Dokumen</a></span>
+                    </td>
                     <td style="text-align:center;">
                       <a href="{{route('pencairan.progress')}}" class="btn btn-primary btn-mini">Proses Pencairan</a>
                     </td>

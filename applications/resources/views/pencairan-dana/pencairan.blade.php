@@ -33,13 +33,13 @@
       <div class="span12">
         <div class="widget-box">
           <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
-            <h5>Detail Informasi Kontrak</h5>
+            <h5>Detail Resume Kontrak</h5>
           </div>
           <div class="widget-content">
             <div class="alert alert-info alert-block" style="margin-bottom:0px;">
-              <h4 class="alert-heading">Informasi Kontrak</h4>
+              <h4 class="alert-heading">Resume Kontrak</h4>
               <hr style="margin:5px 0px 10px 0px; border-top-color:#9fd5dc;">
-              Berikut adalah detail informasi kontrak untuk pencairan dana:
+              Berikut adalah resume kontrak untuk pencairan dana:
               <table cellpadding="5" style="margin-top:5px;">
                 <tr>
                   <td>Nomor & Tanggal DPA</td>
@@ -105,9 +105,18 @@
                   <td>Nomor Rekening BANK</td>
                   <td>: &nbsp;&nbsp;0010365090001 a.n PT. BIT OPTIMUM</td>
                 </tr>
+                <tr>
+                  <td>Kuasa Pengguna Anggaran</td>
+                  <td>: &nbsp;&nbsp;Firdiansyah Sundawa, M.Kom</td>
+                </tr>
+                <tr>
+                  <td>Pejabat Pelaksana Teknis Kegiatan</td>
+                  <td>: &nbsp;&nbsp;Dwi Handika Putro, M.Sc</td>
+                </tr>
               </table>
               <br>
-              <button type="button" name="button" class="btn btn-warning">Update Kelengkapan Informasi Kontrak</button>
+              <button type="button" name="button" class="btn btn-warning">Update Kelengkapan Resume Kontrak</button>
+              <button type="button" name="button" class="btn btn-success">Download Resume Kontrak</button>
             </div>
           </div>
         </div>
@@ -135,19 +144,70 @@
                   </select>
                 </div>
               </div>
-              <div class="control-group" style="border-bottom:0px;">
+              <div class="control-group" style="padding-bottom:7px;border-bottom:0px;">
                 <label class="control-label">Nilai Pembayaran</label>
                 <div class="controls">
                   <input type="text" class="span11">
                 </div>
               </div>
-              <br>
+              {{-- <br>
+              &nbsp;&nbsp;Upload Kelengkapan Dokumen:
+              <table class="table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Nama Dokumen</th>
+                    <th>Upload File</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="text-align:center;"><a href="#" class="btn btn-mini btn-danger"><i class="icon-remove"></i></a></td>
+                    <td>
+                      <select class="span12" name="">
+                        <option value="">SPP</option>
+                        <option value="">SPM</option>
+                        <option value="">Pengajuan SP2D</option>
+                        <option value="">Syarat Khusus Kontrak</option>
+                        <option value="">NDP</option>
+                        <option value="">PHO/FHO</option>
+                        <option value="">Kwitansi</option>
+                        <option value="">Mutual Cek 100</option>
+                        <option value="">Lainnya</option>
+                      </select>
+                    </td>
+                    <td style="text-align:center;"><input type="file" class="span12"></td>
+                  </tr>
+                  <tr>
+                    <td style="text-align:center;"><a href="#" class="btn btn-mini btn-danger"><i class="icon-remove"></i></a></td>
+                    <td>
+                      <select class="span12" name="">
+                        <option value="">SPP</option>
+                        <option value="">SPM</option>
+                        <option value="">Pengajuan SP2D</option>
+                        <option value="">Syarat Khusus Kontrak</option>
+                        <option value="">NDP</option>
+                        <option value="">PHO/FHO</option>
+                        <option value="">Kwitansi</option>
+                        <option value="">Mutual Cek 100</option>
+                        <option value="">Lainnya</option>
+                      </select>
+                    </td>
+                    <td style="text-align:center;"><input type="file" class="span12"></td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <a href="#" class="btn btn-mini btn-primary pull-right" style="margin-right:5px;margin-bottom:5px;"><i class="icon-plus"></i> Tambah Dokumen</a>
+                </tfoot>
+              </table> --}}
               <div class="form-actions">
-                <button type="submit" class="btn btn-success pull-right">Lihat Kegiatan</button>
+                <button type="submit" class="btn btn-success pull-right">Simpan</button>
               </div>
             </form>
           </div>
         </div>
+      </div>
+      <div class="span7">
         <ul class="quick-actions">
           <li class="bg_lg span12">
             <a>
@@ -158,8 +218,6 @@
             </a>
           </li>
         </ul>
-      </div>
-      <div class="span7">
         <div class="widget-box">
           <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
             <h5>Termin Pembayaran</h5>
@@ -171,6 +229,7 @@
                   <th width="20px;">#</th>
                   <th>Jenis Pembayaran</th>
                   <th>Nilai Pembayaran</th>
+                  {{-- <th>Download Dokumen</th> --}}
                   <th>Aksi</th>
                 </tr>
               </thead>
@@ -180,6 +239,7 @@
                     <td style="text-align:center;">1</td>
                     <td>Termin 1</td>
                     <td>Rp 20.000.000,-</td>
+                    {{-- <td>-</td> --}}
                     <td style="text-align:center;">
                       <a href="#" class="btn btn-warning btn-mini">Ubah</a>
                     </td>

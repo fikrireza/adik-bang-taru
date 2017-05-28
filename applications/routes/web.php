@@ -37,3 +37,7 @@ Route::get('pencairan-dana', 'PencairanDanaController@index')->name('pencairan.i
 Route::get('pencairan-dana/proses', 'PencairanDanaController@proses')->name('pencairan.proses');
 Route::get('pencairan-dana/rincian-item', 'PencairanDanaController@rincian')->name('pencairan.rincian');
 Route::get('pencairan-dana/progress-pencairan', 'PencairanDanaController@pencairan')->name('pencairan.progress');
+
+Route::get('kpa', 'KPAController@index')->name('kpa.index');
+
+Route::get('pptk', 'PPTKController@index')->name('pptk.index');
