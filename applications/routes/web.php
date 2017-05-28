@@ -29,3 +29,9 @@ Route::get('verifikasi-dokumen/detail', 'VerifikasiDokumenController@detail')->n
 
 Route::post('authenticate', 'LoginController@dologin')->name('auth.login');
 Route::get('logout', 'LoginController@dologout')->name('auth.logout');
+
+Route::get('daftar-kegiatan', 'DaftarKegiatanController@index')->name('daftar-kegiatan.index');
+Route::get('daftar-kegiatan/detail', 'DaftarKegiatanController@detail')->name('daftar-kegiatan.detail');
+
+Route::get('pencairan-dana', 'PencairanDanaController@index')->name('pencairan.index');
+Route::get('pencairan-dana/proses', 'PencairanDanaController@proses')->name('pencairan.proses');

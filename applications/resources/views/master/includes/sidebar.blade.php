@@ -22,12 +22,12 @@
       @else
         <li class="submenu"> <a href="#"><i class="icon-flag"></i> <span>Daftar Kegiatan</span> </a>
           <ul>
-            <li><a href="#">Lihat Kegiatan Saya</a></li>
+            <li><a href="{{route('daftar-kegiatan.index')}}">Lihat Kegiatan Saya</a></li>
           </ul>
         </li>
         <li class="submenu"> <a href="#"><i class="icon-money"></i> <span>Pencairan Dana</span> </a>
           <ul>
-            <li><a href="#">Lakukan Pencairan Dana</a></li>
+            <li><a href="{{route('pencairan.index')}}">Lakukan Pencairan Dana</a></li>
           </ul>
         </li>
       @endif
