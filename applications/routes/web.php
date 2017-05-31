@@ -43,3 +43,6 @@ Route::get('kpa/set-kegiatan', 'KPAController@setkegiatan')->name('kpa.setkegiat
 
 Route::get('pptk', 'PPTKController@index')->name('pptk.index');
 Route::get('pptk/set-kegiatan', 'PPTKController@setkegiatan')->name('pptk.setkegiatan');
+
+Route::get('sync/apbd-bl', 'SyncController@apbdbl');
+Route::get('sync/apbd-btl', 'SyncController@apbdbtl');
