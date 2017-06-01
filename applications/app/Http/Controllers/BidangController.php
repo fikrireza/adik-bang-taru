@@ -18,7 +18,6 @@ class BidangController extends Controller
     public function store(Request $request)
     {
       $validator = Validator::make($request->all(), [
-        'id' => 'required',
         'nama_bidang' => 'required',
         'jenis_bidang' => 'required',
       ]);
