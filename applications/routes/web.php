@@ -22,8 +22,6 @@ Route::get('dashboard', function () {
 Route::get('seleksi-kegiatan', 'SeleksiKegiatanController@seleksi')->name('seleksi-kegiatan.index');
 Route::get('seleksi-kegiatan/bidang', 'SeleksiKegiatanController@seleksiperbidang')->name('seleksi-kegiatan.bidang');
 
-Route::get('manajemen-akun', 'ManajemenAkunController@index')->name('akun.index');
-
 Route::get('verifikasi-dokumen', 'VerifikasiDokumenController@index')->name('verifikasi.index');
 Route::get('verifikasi-dokumen/detail', 'VerifikasiDokumenController@detail')->name('verifikasi.detail');
 
@@ -46,5 +44,16 @@ Route::get('pptk/set-kegiatan', 'PPTKController@setkegiatan')->name('pptk.setkeg
 
 Route::get('sync/apbd-bl', 'SyncController@apbdbl');
 Route::get('sync/apbd-btl', 'SyncController@apbdbtl');
-
 Route::get('sync/restructure', 'SyncController@restructure');
+
+Route::get('bidang', 'BidangController@index')->name('bidang.index');
+Route::post('bidang', 'BidangController@store')->name('bidang.store');
+Route::get('bidang/bind/{id}', 'BidangController@bind')->name('bidang.bind');
+Route::post('bidang/update', 'BidangController@update')->name('bidang.update');
+Route::get('bidang/destroy/{id}', 'BidangController@destroy')->name('bidang.destroy');
+
+Route::get('manajemen-akun', 'ManajemenAkunController@index')->name('akun.index');
+Route::post('manajemen-akun', 'ManajemenAkunController@store')->name('akun.store');
+Route::get('manajemen-akun/bind/{id}', 'ManajemenAkunController@bind')->name('akun.bind');
+Route::post('manajemen-akun/update', 'ManajemenAkunController@update')->name('akun.update');
+Route::get('manajemen-akun/destroy/{id}', 'ManajemenAkunController@destroy')->name('akun.destroy');

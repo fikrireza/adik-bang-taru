@@ -14,6 +14,11 @@
             <li><a href="{{route('verifikasi.index')}}">Lakukan Verifikasi Dokumen</a></li>
           </ul>
         </li>
+        <li class="submenu"> <a href="#"><i class="icon icon-building"></i> <span>Manajemen Bidang</span> </a>
+          <ul>
+            <li><a href="{{route('bidang.index')}}">Lakukan Manajemen Bidang</a></li>
+          </ul>
+        </li>
         <li class="submenu"> <a href="#"><i class="icon icon-group"></i> <span>Manajemen KPA</span> </a>
           <ul>
             <li><a href="{{route('kpa.index')}}">Manajemen Master KPA</a></li>
