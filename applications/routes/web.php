@@ -46,3 +46,5 @@ Route::get('pptk/set-kegiatan', 'PPTKController@setkegiatan')->name('pptk.setkeg
 
 Route::get('sync/apbd-bl', 'SyncController@apbdbl');
 Route::get('sync/apbd-btl', 'SyncController@apbdbtl');
+
+Route::get('sync/restructure', 'SyncController@restructure');
