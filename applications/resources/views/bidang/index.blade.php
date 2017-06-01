@@ -9,7 +9,7 @@
 @section('breadcrumb')
   <div id="content-header">
     <div id="breadcrumb">
-      <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
+      <a href="{{route('dashboard.index')}}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
       <a href="#" class="current">Manajemen Bidang</a>
     </div>
     <h1>Manajemen Bidang</h1>
