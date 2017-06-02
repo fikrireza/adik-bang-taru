@@ -1,7 +1,7 @@
 
-<div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
+<div id="sidebar"><a href="" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
   <ul>
-    <li class="active"><a href="{{route('dashboard.index')}}"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
+    <li class=""><a href="{{route('dashboard.index')}}"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
       @if (Auth::user()->level==1)
         <li class="submenu"> <a href="#"><i class="icon-tasks"></i> <span>Seleksi Kegiatan</span> </a>
           <ul>
@@ -19,10 +19,10 @@
             <li><a href="{{route('bidang.index')}}">Lakukan Manajemen Bidang</a></li>
           </ul>
         </li>
-        <li class="submenu"> <a href="#"><i class="icon icon-group"></i> <span>Manajemen KPA</span> </a>
+        <li class="submenu {{ Route::is('kpa*') ? 'active' : '' }}"> <a href="#"><i class="icon icon-group"></i> <span>Manajemen KPA</span> </a>
           <ul>
-            <li><a href="{{route('kpa.index')}}">Manajemen Master KPA</a></li>
-            <li><a href="{{route('kpa.setkegiatan')}}">Set KPA Kegiatan</a></li>
+            <li class="{{ Route::is('kpa.index') ? 'active' : '' }}"><a href="{{route('kpa.index')}}">Manajemen Master KPA</a></li>
+            <li class="{{ Route::is('kpa.setkegiatan') ? 'active' : '' }}"><a href="{{route('kpa.setkegiatan')}}">Set KPA Kegiatan</a></li>
           </ul>
         </li>
         <li class="submenu"> <a href="#"><i class="icon icon-key"></i> <span>Manajemen PPTK</span> </a>
