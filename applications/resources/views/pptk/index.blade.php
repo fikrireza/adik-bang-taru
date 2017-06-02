@@ -4,6 +4,7 @@
   <title>Adik Bang Taru</title>
   <link rel="stylesheet" href="{{asset('theme/css/uniform.css')}}" />
   <link rel="stylesheet" href="{{asset('theme/css/select2.css')}}" />
+  <link rel="stylesheet" href="{{ asset('backend/css/jquery.gritter.css') }}" />
 @endsection
 
 @section('breadcrumb')
@@ -48,37 +49,67 @@
             <h5>Input Data PPTK</h5>
           </div>
           <div class="widget-content nopadding">
-            <form action="#" method="get" class="form-horizontal">
-              <div class="control-group" style="border-bottom:0px;">
+            @if (isset($editPptk))
+            <form action="{{ route('pptk.edit')}}" method="POST" class="form-horizontal" name="form-validate" id="form-validate" novalidate="novalidate">
+            @else
+            <form action="{{ route('pptk.store')}}" method="POST" class="form-horizontal" name="form-validate" id="form-validate" novalidate="novalidate">
+            @endif
+              {{ csrf_field() }}
+              <div class="control-group">
                 <label class="control-label">NIP</label>
                 <div class="controls">
-                  <input class="span11" type="text" name="nip">
-                </div>
-              </div>
-              <div class="control-group" style="border-bottom:0px;">
-                <label class="control-label">Nama</label>
-                <div class="controls">
-                  <input class="span11" type="text" name="nama">
+                  @if (isset($editPptk))
+                  <input type="hidden" name="id" value="{{ $editPptk->id }}">
+                  @endif
+                  <select class="span11" name="nip_sapk" id="nip_sapk" title="Pilih Pegawai">
+                    <option value="">--Choose--</option>
+                    @if (isset($editPptk))
+                      @php
+                        $nip_sapk = $editPptk->nip_sapk.'|'.$editPptk->nama;
+                      @endphp
+                      @if(!$pegawaiApi == null)
+                        @foreach ($pegawaiApi as $key)
+                          <option value="{{ $key->nip_sapk }} | {{ $key->nama }}" {{ $nip_sapk == $key->nip_sapk.' | '.$key->nama ? 'selected="selected"' : '' }}>{{ $key->nip_sapk }} | {{ $key->nama }}</option>
+                        @endforeach
+                      @else
+                        <option value="">Connection Error</option>
+                      @endif
+                    @else
+                      @if(!$pegawaiApi == null)
+                        @foreach ($pegawaiApi as $key)
+                          <option value="{{ $key->nip_sapk }} | {{ $key->nama }}" {{ old('nip_sapk') == $key->nip_sapk ? 'selected="selected"' : '' }}>{{ $key->nip_sapk }} | {{ $key->nama }}</option>
+                        @endforeach
+                      @else
+                        <option value="">Connection Error</option>
+                      @endif
+                    @endif
+                  </select>
                 </div>
               </div>
               <div class="control-group" style="border-bottom:0px;">
                 <label class="control-label">Bidang / UPT</label>
                 <div class="controls">
-                  <select class="span11" name="">
-                    <option value="">Bidang Tataruang</option>
-                    <option value="">Bidang Bangunan</option>
-                    <option value="">Bidang Wasdal</option>
-                    <option value="">UPT</option>
+                  <select class="span11" name="id_bidang" id="id_bidang" title="Pilih Pegawai">
+                    <option value="" selected="">--Choose--</option>
+                    @if (isset($editPptk))
+                      @foreach ($getBidang as $key)
+                        <option value="{{ $key->id }}" {{ $editPptk->id_bidang == $key->id ? 'selected="selected"' : '' }}>{{ $key->nama_bidang }}</option>
+                      @endforeach
+                    @else
+                      @foreach ($getBidang as $key)
+                        <option value="{{ $key->id }}">{{ $key->nama_bidang }}</option>
+                      @endforeach
+                    @endif
                   </select>
                 </div>
               </div>
               <br>
               <div class="form-actions">
-                <button type="submit" class="btn btn-success pull-right">Simpan</button>
+                <input type="submit" value="Simpan" class="btn btn-success pull-right">
               </div>
-              </form>
-            </div>
+            </form>
           </div>
+        </div>
       </div>
       <div class="span7">
         <div class="widget-box">
@@ -97,14 +128,17 @@
                 </tr>
               </thead>
               <tbody>
-                @for ($i=0; $i < 10; $i++)
+                @php
+                  $no = 1;
+                @endphp
+                @foreach ($getPptk as $key)
                   <tr>
-                    <td style="text-align:center;">1</td>
-                    <td>197857739939</td>
-                    <td>Aga Al Husna, M.Kom</td>
-                    <td>Bidang Tata Ruang</td>
+                    <td style="text-align:center;">{{ $no }}</td>
+                    <td>{{ $key->nip_sapk }}</td>
+                    <td>{{ $key->nama }}</td>
+                    <td>{{ $key->bidang->nama_bidang }}</td>
                     <td>
-                      <a href="#myAlert" data-toggle="modal" class="btn btn-warning btn-mini tip-top" data-original-title="Ubah">
+                      <a href="{{ route('pptk.ubah', ['id' => $key->id ])}}" class="btn btn-warning btn-mini tip-top" data-original-title="Ubah">
                         <i class="icon-edit"></i>
                       </a>
                       <a href="#myAlert" data-toggle="modal" class="btn btn-danger btn-mini tip-top" data-original-title="Hapus">
@@ -112,7 +146,10 @@
                       </a>
                     </td>
                   </tr>
-                @endfor
+                @php
+                  $no++;
+                @endphp
+                @endforeach
               </tbody>
             </table>
           </div>
@@ -129,6 +166,39 @@
   <script src="{{asset('theme/js/jquery.uniform.js')}}"></script>
   <script src="{{asset('theme/js/select2.min.js')}}"></script>
   <script src="{{asset('theme/js/jquery.dataTables.min.js')}}"></script>
+  <script src="{{asset('theme/js/jquery.validate.js') }}"></script>
+  <script src="{{asset('theme/js/jquery.gritter.min.js') }}"></script>
   <script src="{{asset('theme/js/matrix.js')}}"></script>
   <script src="{{asset('theme/js/matrix.tables.js')}}"></script>
+
+  <script type="text/javascript">
+  $(document).ready(function(){
+    $('input[type=checkbox],input[type=radio],input[type=file]').uniform();
+
+    $('select').select2();
+
+    // Form Validation
+    $("#form-validate").validate({
+      ignore: [],
+      rules:{
+        nip_sapk:{
+          required:true
+        },
+        id_bidang:{
+          required:true,
+        },
+      },
+      errorClass: "help-inline",
+      errorElement: "span",
+      highlight:function(element, errorClass, validClass) {
+        $(element).parents('.control-group').addClass('error');
+      },
+      unhighlight: function(element, errorClass, validClass) {
+        $(element).parents('.control-group').removeClass('error');
+        $(element).parents('.control-group').addClass('success');
+      }
+    });
+  });
+
+  </script>
 @endsection

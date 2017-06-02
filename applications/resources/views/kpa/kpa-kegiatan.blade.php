@@ -18,18 +18,32 @@
 
 @section('content')
 
-  <div id="myAlert" class="modal hide">
-    <div class="modal-header" style="background:#da4f49;color:white;">
+  <div id="pilihKpa" class="modal hide">
+    <div class="modal-header">
       <button data-dismiss="modal" class="close" type="button">×</button>
-      <h3 style="text-shadow:0 0px;">Hapus Kegiatan</h3>
+      <h3 style="text-shadow:0 0px;">Pilih KPA</h3>
     </div>
     <div class="modal-body">
-      <p>Apakah anda yakin akan menghapus kegiatan dari bidang ini?</p>
+      <form action="{{ route('kpa.store')}}" method="POST" class="form-horizontal" name="form-validate" id="form-validate" novalidate="novalidate">
+        {{ csrf_field() }}
+        <div class="control-group">
+          <label class="control-label">NIP</label>
+          <div class="controls">
+            <select class="" name="nip_sapk" id="nip_sapk" title="Pilih Pegawai">
+              <option value="">--Choose--</option>
+              @foreach ($getMasterKpa as $key)
+              <option value="{{ $key->id }}">{{ $key->nama }} | {{ $key->bidang->nama_bidang }}</option>
+              @endforeach
+            </select>
+          </div>
+        </div>
+        <br>
     </div>
     <div class="modal-footer">
       <a data-dismiss="modal" class="btn" href="#">Tidak</a>
-      <a data-dismiss="modal" class="btn btn-danger" href="#">Ya, saya yakin</a>
+      <button class="btn btn-primary" href="#">Simpan</button>
     </div>
+    </form>
   </div>
 
 
@@ -60,18 +74,26 @@
                 </tr>
               </thead>
               <tbody>
-                @for ($i=0; $i < 10; $i++)
+                @php
+                  $no = 1;
+                @endphp
+                @foreach ($getKegiatan as $key)
                   <tr>
-                    <td style="text-align:center;">1</td>
-                    <td>01.05.01.05.01.001</td>
-                    <td>Penyediaan Jasa Surat Menyurat</td>
-                    <td>Program Pelayanan Administrasi Perkantoran</td>
-                    <td>Dwi Handika Putro, S.Kom</td>
+                    <td style="text-align:center;">{{ $no }}</td>
+                    <td>{{ $key->kode_kegiatan}}</td>
+                    <td>{{ $key->nama_kegiatan}}</td>
+                    <td>{{ $key->program->nama_program}}</td>
+                    <td>-</td>
                     <td style="text-align:center;">
-                      <button class="btn btn-mini btn-primary">Pilih KPA</button>
+                      <a href="#pilihKpa" data-value="{{ $key->id }}" data-toggle="modal" class="btn btn-mini btn-primary">
+                        Pilih KPA
+                      </a>
                     </td>
                   </tr>
-                @endfor
+                  @php
+                    $no++;
+                  @endphp
+                @endforeach
               </tbody>
             </table>
           </div>

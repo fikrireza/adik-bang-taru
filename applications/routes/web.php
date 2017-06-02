@@ -37,15 +37,19 @@ Route::get('pencairan-dana/rincian-item', 'PencairanDanaController@rincian')->na
 Route::get('pencairan-dana/progress-pencairan', 'PencairanDanaController@pencairan')->name('pencairan.progress');
 
 // KPA
-Route::get('kpa', 'KPAController@index')->name('kpa.index');
-Route::post('kpa', 'KPAController@store')->name('kpa.store');
-Route::get('kpa/{id}', 'KPAController@ubah')->name('kpa.ubah');
-Route::post('kpa/edit', 'KPAController@edit')->name('kpa.edit');
+Route::get('kpa', 'KPAController@indexMaster')->name('kpa.index');
+Route::post('kpa', 'KPAController@storeMaster')->name('kpa.store');
+Route::get('kpa/{id}', 'KPAController@ubahMaster')->name('kpa.ubah');
+Route::post('kpa/edit', 'KPAController@editMaster')->name('kpa.edit');
 Route::get('kpa/status/{id}', 'KPAController@status')->name('kpa.status');
 
-Route::get('kpa-set-kegiatan', 'KPAController@setkegiatan')->name('kpa.setkegiatan');
+Route::get('kpa-set-kegiatan', 'KPAController@indexKpa')->name('kpa.indexKpa');
 
-Route::get('pptk', 'PPTKController@index')->name('pptk.index');
+Route::get('pptk', 'PPTKController@indexMaster')->name('pptk.index');
+Route::post('pptk', 'PPTKController@storeMaster')->name('pptk.store');
+Route::get('pptk/{id}', 'PPTKController@ubahMaster')->name('pptk.ubah');
+Route::post('pptk/edit', 'PPTKController@editMaster')->name('pptk.edit');
+
 Route::get('pptk/set-kegiatan', 'PPTKController@setkegiatan')->name('pptk.setkegiatan');
 
 Route::get('sync/apbd-bl', 'SyncController@apbdbl');

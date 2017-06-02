@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Models\MasterBidang;
 use App\Models\MasterKpa;
+use App\Models\KegiatanKpa;
+use App\Models\Program;
+use App\Models\Kegiatan;
 
 use Auth;
 use Db;
@@ -14,7 +17,7 @@ use Validator;
 
 class KPAController extends Controller
 {
-    public function index()
+    public function indexMaster()
     {
 
       $getBidang = MasterBidang::get();
@@ -23,7 +26,7 @@ class KPAController extends Controller
       return view('kpa.index', compact('getBidang', 'getKpa'));
     }
 
-    public function store(Request $request)
+    public function storeMaster(Request $request)
     {
         $message = [
           'nip_sapk.required' => 'This field is required.',
@@ -53,7 +56,7 @@ class KPAController extends Controller
 
     }
 
-    public function ubah($id)
+    public function ubahMaster($id)
     {
         $editKpa = MasterKpa::find($id);
 
@@ -67,7 +70,7 @@ class KPAController extends Controller
         return view('kpa.index', compact('getBidang', 'getKpa', 'editKpa'));
     }
 
-    public function edit(Request $request)
+    public function editMaster(Request $request)
     {
         $message = [
           'nip_sapk.required' => 'This field is required.',
@@ -97,11 +100,12 @@ class KPAController extends Controller
     }
 
 
-    public function setkegiatan()
+    public function indexKpa()
     {
-      
+        $getKegiatan = Kegiatan::get();
+        $getMasterKpa = MasterKpa::get();
 
-      return view('kpa.kpa-kegiatan');
+        return view('kpa.kpa-kegiatan', compact('getKegiatan', 'getMasterKpa'));
     }
 
 }
