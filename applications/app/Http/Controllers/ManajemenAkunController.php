@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\MasterBidang;
 use Validator;
+use Hash;
 
 class ManajemenAkunController extends Controller
 {
@@ -37,7 +38,7 @@ class ManajemenAkunController extends Controller
     $set = new User;
     $set->name = $request->name;
     $set->email = $request->email;
-    $set->password = $request->password;
+    $set->password = Hash::make($request->password);
     $set->id_bidang = $request->id_bidang;
     $set->level = $request->level;
     $set->save();
@@ -80,7 +81,6 @@ class ManajemenAkunController extends Controller
 
   public function destroy($id)
   {
-    return $id;
     $drop = User::find($id);
     $drop->delete();
 

@@ -43,12 +43,15 @@
                 </tr>
               </thead>
               <tbody>
-                @for ($i=0; $i < 10; $i++)
+                @php
+                  $no = 1;
+                @endphp
+                @foreach ($data as $key)
                   <tr>
-                    <td style="text-align:center;">1</td>
-                    <td>01.05.01.05.01.001</td>
-                    <td>Penyediaan Jasa Surat Menyurat</td>
-                    <td>Program Pelayanan Administrasi Perkantoran</td>
+                    <td style="text-align:center;">{{$no}}</td>
+                    <td>???</td>
+                    <td>{{$key->nama_kegiatan}}</td>
+                    <td>{{$key->nama_program}}</td>
                     <td style="text-align:center;">
                       <div class="btn-group">
                         <button class="btn btn-mini btn-primary">Pilih Bidang / UPT</button>
@@ -63,7 +66,7 @@
                       </div>
                     </td>
                   </tr>
-                @endfor
+                @endforeach
               </tbody>
             </table>
           </div>

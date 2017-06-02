@@ -95,7 +95,7 @@ class SyncController extends Controller
     public function restructure()
     {
       // ---- INSERT UNIQUE PRORAM FROM SIMDA TO ADIK ----
-      $distinctprogram = SimdaAPBDBL::select(DB::raw('distinct ket_program'))->get();
+      $distinctprogram = SimdaAPBDBL::select(DB::raw('distinct ket_program'), 'kd_urusan', 'kd_bidang', 'kd_prog')->get();
 
       $availableprogram = Program::all();
       $arr_program = array();
@@ -108,22 +108,53 @@ class SyncController extends Controller
       foreach ($distinctprogram as $key) {
         if (count($availableprogram)!=0) {
           if (!in_array($key->ket_program, $arr_program)) {
+            $bidang_code = 0;
+            if ($key->kd_bidang<10) {
+              $bidang_code = "0".$key->kd_bidang;
+            } else {
+              $bidang_code = $key->kd_bidang;
+            }
+            $program_code = 0;
+            if ($key->kd_prog<10) {
+              $program_code = "0".$key->kd_prog;
+            } else {
+              $program_code = $key->kd_prog;
+            }
+            $rek_program = $key->kd_urusan.".".$bidang_code.".".$key->kd_urusan.".".$bidang_code.".".$program_code;
+
             $program = new Program;
             $program->nama_program = $key->ket_program;
+            $program->kode_program = $rek_program;
             $program->save();
           }
         } else {
+          $bidang_code = 0;
+          if ($key->kd_bidang<10) {
+            $bidang_code = "0".$key->kd_bidang;
+          } else {
+            $bidang_code = $key->kd_bidang;
+          }
+          $program_code = 0;
+          if ($key->kd_prog<10) {
+            $program_code = "0".$key->kd_prog;
+          } else {
+            $program_code = $key->kd_prog;
+          }
+          $rek_program = $key->kd_urusan.".".$bidang_code.".".$key->kd_urusan.".".$bidang_code.".".$program_code;
+
           $program = new Program;
           $program->nama_program = $key->ket_program;
+          $program->kode_program = $rek_program;
           $program->save();
         }
       }
       // ---- END OF INSERT UNIQUE PRORAM FROM SIMDA TO ADIK ----
 
       // ---- INSERT UNIQUE KEGIATAN FROM SIMDA TO ADIK ----
-      $distinctkegiatan = SimdaAPBDBL::select('ket_program', 'ket_kegiatan')
+      $distinctkegiatan = SimdaAPBDBL::select('ket_program', 'ket_kegiatan', 'kd_keg')
         ->groupby('ket_program')
         ->groupby('ket_kegiatan')
+        ->groupby('kd_keg')
         ->get();
 
       $availablekegiatan = Kegiatan::all();
@@ -139,41 +170,81 @@ class SyncController extends Controller
         if (count($availablekegiatan)!=0) {
           if (!in_array($key->ket_kegiatan, $arr_kegiatan)) {
             $idprog = 0;
+            $norek_prog = 0;
             foreach ($availableprogram as $prg) {
               if ($key->ket_program == $prg->nama_program) {
                 $idprog = $prg->id;
+                $norek_prog = $prg->kode_program;
                 break;
               }
             }
+            $norek_keg = 0;
+            if ($key->kd_keg < 10) {
+              $norek_keg = "00".$key->kd_keg;
+            } else if ($key->kd_keg < 100) {
+              $norek_keg = "0".$key->kd_keg;
+            } else if ($key->kd_keg < 1000) {
+              $norek_keg = $key->kd_keg;
+            }
+            $kode_kegiatan = $norek_prog.".".$norek_keg;
+
             $kegiatan = new Kegiatan;
             $kegiatan->nama_kegiatan = $key->ket_kegiatan;
             $kegiatan->id_program = $idprog;
+            $kegiatan->kode_kegiatan = $kode_kegiatan;
             $kegiatan->save();
           }
         } else {
           $idprog = 0;
+          $norek_prog = 0;
           foreach ($availableprogram as $prg) {
             if ($key->ket_program == $prg->nama_program) {
               $idprog = $prg->id;
+              $norek_prog = $prg->kode_program;
               break;
             }
           }
+          $norek_keg = 0;
+          if ($key->kd_keg < 10) {
+            $norek_keg = "00".$key->kd_keg;
+          } else if ($key->kd_keg < 100) {
+            $norek_keg = "0".$key->kd_keg;
+          } else if ($key->kd_keg < 1000) {
+            $norek_keg = $key->kd_keg;
+          }
+          $kode_kegiatan = $norek_prog.".".$norek_keg;
+
           $kegiatan = new Kegiatan;
           $kegiatan->nama_kegiatan = $key->ket_kegiatan;
           $kegiatan->id_program = $idprog;
+          $kegiatan->kode_kegiatan = $kode_kegiatan;
           $kegiatan->save();
         }
       }
-      // ---- END OF INSERT UNIQUE KEGIATAN FROM SIMDA TO ADIK ----
+      //---- END OF INSERT UNIQUE KEGIATAN FROM SIMDA TO ADIK ----
 
-      // ---- INSERT ITEM KEGIATAN FROM SIMDA TO ADIK ----
+      //---- INSERT ITEM KEGIATAN FROM SIMDA TO ADIK ----
       $getallitem = SimdaAPBDBL::select('ket_kegiatan', 'kd_rek_1', 'kd_rek_2', 'kd_rek_3', 'kd_rek_4', 'kd_rek_5', 'keterangan', 'sat_1', 'nilai_1', 'sat_2', 'nilai_2', 'sat_3', 'nilai_3', 'nilai_rp', 'total', 'expr1')->get();
-
+      // return count($getallitem);
       ItemKegiatan::query()->truncate();
 
       $availablekegiatan = Kegiatan::all();
       foreach ($getallitem as $key) {
-        $no_rekening = $key->kd_rek_1.".".$key->kd_rek_2.".".$key->kd_rek_3.".".$key->kd_rek_4.".".$key->kd_rek_5;
+        $rek_4 = 0;
+        if ($key->kd_rek_4 < 10) {
+          $rek_4 = "0".$key->kd_rek_4;
+        } else {
+          $rek_4 = $key->kd_rek_4;
+        }
+        $rek_5 = 0;
+        if ($key->kd_rek_5 < 10) {
+          $rek_5 = "00".$key->kd_rek_5;
+        } else if ($key->kd_rek_5 < 100) {
+          $rek_5 = "0".$key->kd_rek_5;
+        } else if ($key->kd_rek_5 < 1000) {
+          $rek_5 = $key->kd_rek_5;
+        }
+        $no_rekening = $key->kd_rek_1.".".$key->kd_rek_2.".".$key->kd_rek_3.".".$rek_4.".".$rek_5;
         $idkeg = 0;
         foreach ($availablekegiatan as $kgtn) {
           if ($key->ket_kegiatan == $kgtn->nama_kegiatan) {
@@ -196,7 +267,7 @@ class SyncController extends Controller
         $item->id_kegiatan = $idkeg;
         $item->save();
       }
-      // ---- END OF INSERT ITEM KEGIATAN FROM SIMDA TO ADIK ----
+      //---- END OF INSERT ITEM KEGIATAN FROM SIMDA TO ADIK ----
 
       return "Done!";
     }
