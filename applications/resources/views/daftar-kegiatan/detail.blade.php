@@ -34,23 +34,28 @@
               <table cellpadding="5">
                 <tr>
                   <td>Nama Program</td>
-                  <td>: &nbsp;&nbsp;Program Pelayanan Administrasi Perkantoran</td>
+                  <td style="width:1px;">:</td>
+                  <td>{{$getkegiatan->nama_program}}</td>
                 </tr>
                 <tr>
                   <td>Nama Kegiatan</td>
-                  <td>: &nbsp;&nbsp;Penyediaan Jasa Surat Menyurat</td>
+                  <td style="width:1px;">:</td>
+                  <td>{{$getkegiatan->nama_kegiatan}}</td>
                 </tr>
                 <tr>
-                  <td>Kode Rekening Kegiatan</td>
-                  <td>: &nbsp;&nbsp;01.05.01.05.01.001</td>
+                  <td>Kode Kegiatan</td>
+                  <td style="width:1px;">:</td>
+                  <td>{{$getkegiatan->kode_kegiatan}}</td>
                 </tr>
                 <tr>
-                  <td>Jumlah Item Kegiatan</td>
-                  <td>: &nbsp;&nbsp;<span class="badge badge-info">10</span></td>
+                  <td style="width:130px;">Jumlah Item Kegiatan</td>
+                  <td style="width:1px;">:</td>
+                  <td><span class="badge badge-info">{{count($getitem)}}</span></td>
                 </tr>
                 <tr>
                   <td>Jumlah Anggaran</td>
-                  <td>: &nbsp;&nbsp;Rp 18.000.000,-</td>
+                  <td style="width:1px;">:</td>
+                  <td>Rp {{number_format($jumlahanggaran, 0, ',', '.')}},-</td>
                 </tr>
               </table>
             </div>
@@ -67,22 +72,28 @@
               <thead>
                 <tr>
                   <th width="20px;">#</th>
-                  <th>Kode</th>
+                  <th>Kode Rekening</th>
                   <th>Uraian Item Kegiatan</th>
-                  <th>Anggaran</th>
-                  <th>Realisasi Anggaran</th>
+                  <th>Keterangan Item</th>
+                  <th>Nilai</th>
                 </tr>
               </thead>
               <tbody>
-                @for ($i=0; $i < 10; $i++)
+                @php
+                  $no=1;
+                @endphp
+                @foreach ($getitem as $key)
                   <tr>
-                    <td style="text-align:center;">1</td>
-                    <td>5.2.1.01.001</td>
-                    <td>Honorarium Panitia Pelaksana Kegiatan</td>
-                    <td>1.190.000</td>
-                    <td>1.190.000</td>
+                    <td style="text-align:center;">{{$no}}</td>
+                    <td>{{$key->no_rekening}}</td>
+                    <td>{{$key->nama_item_kegiatan}}</td>
+                    <td>{{$key->expr1}}</td>
+                    <td>{{number_format($key->total, 0, ',', '.')}}</td>
                   </tr>
-                @endfor
+                  @php
+                    $no++;
+                  @endphp
+                @endforeach
               </tbody>
             </table>
           </div>
