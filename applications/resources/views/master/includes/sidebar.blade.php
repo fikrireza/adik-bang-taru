@@ -6,7 +6,7 @@
         <li class="submenu"> <a href="#"><i class="icon-tasks"></i> <span>Seleksi Kegiatan</span> </a>
           <ul>
             <li><a href="{{route('seleksi-kegiatan.index')}}">Lakukan Seleksi Kegiatan</a></li>
-            <li><a href="{{route('seleksi-kegiatan.bidang')}}">Seleksi Kegiatan Per Bidang</a></li>
+            <li><a href="{{route('seleksi-kegiatan.bidang')}}">Kegiatan Per Bidang</a></li>
           </ul>
         </li>
         <li class="submenu"> <a href="#"><i class="icon icon-file"></i> <span>Verifikasi Dokumen</span> </a>

@@ -17,6 +17,26 @@
 @endsection
 
 @section('content')
+  <script>
+    window.setTimeout(function() {
+      $(".alert-success").fadeTo(500, 0).slideUp(500, function(){
+          $(this).remove();
+      });
+    }, 5000);
+
+    window.setTimeout(function() {
+      $(".alert-danger").fadeTo(500, 0).slideUp(500, function(){
+          $(this).remove();
+      });
+    }, 5000);
+
+    window.setTimeout(function() {
+      $(".alert-info").fadeTo(500, 0).slideUp(500, function(){
+          $(this).remove();
+      });
+    }, 5000);
+  </script>
+  
   <div class="container-fluid">
     <hr style="margin:0px 0px 15px 0px;">
     <div class="alert alert-info alert-block" style="margin-bottom:0px;">
@@ -36,7 +56,7 @@
               <thead>
                 <tr>
                   <th width="20px;">#</th>
-                  <th>Kode</th>
+                  <th>Kode Kegiatan</th>
                   <th>Kegiatan</th>
                   <th>Program</th>
                   <th>Aksi Seleksi</th>
@@ -49,23 +69,32 @@
                 @foreach ($data as $key)
                   <tr>
                     <td style="text-align:center;">{{$no}}</td>
-                    <td>???</td>
-                    <td>{{$key->nama_kegiatan}}</td>
-                    <td>{{$key->nama_program}}</td>
-                    <td style="text-align:center;">
+                    <td>{{$key->kode_kegiatan}}</td>
+                    <td>
+                      @php
+                        echo ucwords($key->nama_kegiatan);
+                      @endphp
+                    </td>
+                    <td>
+                      @php
+                        echo ucwords($key->nama_program);
+                      @endphp
+                    </td>
+                    <td>
                       <div class="btn-group">
                         <button class="btn btn-mini btn-primary">Pilih Bidang / UPT</button>
                         <button data-toggle="dropdown" class="btn btn-mini btn-primary dropdown-toggle"><span class="caret"></span></button>
                         <ul class="dropdown-menu">
-                          <li><a href="#">Bidang Tata Ruang</a></li>
-                          <li><a href="#">Bidang Bangunan</a></li>
-                          <li><a href="#">Bidang Wasdal</a></li>
-                          <li class="divider"></li>
-                          <li><a href="#">UPT</a></li>
+                          @foreach ($bidang as $bdg)
+                            <li><a href="#">{{$bdg->nama_bidang}}</a></li>
+                          @endforeach
                         </ul>
                       </div>
                     </td>
                   </tr>
+                  @php
+                    $no++;
+                  @endphp
                 @endforeach
               </tbody>
             </table>
