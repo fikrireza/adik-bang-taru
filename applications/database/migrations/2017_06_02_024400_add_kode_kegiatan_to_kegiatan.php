@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddColumnIdBidangToUsers extends Migration
+class AddKodeKegiatanToKegiatan extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,9 @@ class AddColumnIdBidangToUsers extends Migration
      */
     public function up()
     {
-        Schema::table('users', function($table){
-          $table->integer('id_bidang')->unsigned()->nullable()->after('password');
-        });
-
-        Schema::table('users', function($table){
-          $table->foreign('id_bidang')->references('id')->on('master_bidang');
-        });
+      Schema::table('adik_kegiatan', function($table){
+        $table->string('kode_kegiatan')->after('nama_kegiatan')->nullable();
+      });
     }
 
     /**

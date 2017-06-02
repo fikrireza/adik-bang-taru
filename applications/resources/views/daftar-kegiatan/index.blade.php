@@ -36,24 +36,30 @@
               <thead>
                 <tr>
                   <th width="20px;">#</th>
-                  <th>Kode</th>
+                  <th>Kode Kegiatan</th>
                   <th>Kegiatan</th>
                   <th>Program</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
               <tbody>
-                @for ($i=0; $i < 10; $i++)
+                @php
+                  $no=1;
+                @endphp
+                @foreach ($getperbidang as $key)
                   <tr>
-                    <td style="text-align:center;">1</td>
-                    <td>01.05.01.05.01.001</td>
-                    <td>Penyediaan Jasa Surat Menyurat</td>
-                    <td>Program Pelayanan Administrasi Perkantoran</td>
+                    <td style="text-align:center;">{{$no}}</td>
+                    <td>{{$key->kode_kegiatan}}</td>
+                    <td>{{$key->nama_kegiatan}}</td>
+                    <td>{{$key->nama_program}}</td>
                     <td style="text-align:center;">
-                      <a href="{{route('daftar-kegiatan.detail')}}" class="btn btn-mini btn-primary">Lihat Detail</a>
+                      <a href="{{route('daftar-kegiatan.detail', $key->id_kegiatan)}}" class="btn btn-mini btn-primary">Lihat Detail</a>
                     </td>
                   </tr>
-                @endfor
+                  @php
+                    $no++;
+                  @endphp
+                @endforeach
               </tbody>
             </table>
           </div>

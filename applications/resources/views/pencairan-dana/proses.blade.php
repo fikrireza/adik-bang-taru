@@ -125,23 +125,28 @@
               <table cellpadding="5">
                 <tr>
                   <td>Nama Program</td>
-                  <td>: &nbsp;&nbsp;Program Pelayanan Administrasi Perkantoran</td>
+                  <td style="width:1px;">:</td>
+                  <td>{{$getkegiatan->nama_program}}</td>
                 </tr>
                 <tr>
                   <td>Nama Kegiatan</td>
-                  <td>: &nbsp;&nbsp;Penyediaan Jasa Surat Menyurat</td>
+                  <td style="width:1px;">:</td>
+                  <td>{{$getkegiatan->nama_kegiatan}}</td>
                 </tr>
                 <tr>
-                  <td>Kode Rekening Kegiatan</td>
-                  <td>: &nbsp;&nbsp;01.05.01.05.01.001</td>
+                  <td>Kode Kegiatan</td>
+                  <td style="width:1px;">:</td>
+                  <td>{{$getkegiatan->kode_kegiatan}}</td>
                 </tr>
                 <tr>
-                  <td>Jumlah Item Kegiatan</td>
-                  <td>: &nbsp;&nbsp;<span class="badge badge-info">10</span></td>
+                  <td style="width:130px;">Jumlah Item Kegiatan</td>
+                  <td style="width:1px;">:</td>
+                  <td><span class="badge badge-info">{{count($getitem)}}</span></td>
                 </tr>
                 <tr>
                   <td>Jumlah Anggaran</td>
-                  <td>: &nbsp;&nbsp;Rp 18.000.000,-</td>
+                  <td style="width:1px;">:</td>
+                  <td>Rp {{number_format($jumlahanggaran, 0, ',', '.')}},-</td>
                 </tr>
               </table>
             </div>
@@ -162,46 +167,64 @@
                   <th width="20px;">#</th>
                   <th>Kode</th>
                   <th>Uraian Item Kegiatan</th>
-                  <th>Anggaran</th>
-                  <th>Realisasi Anggaran</th>
+                  <th>Keterangan</th>
+                  <th>Nilai</th>
                   <th>Memiliki Rincian Item</th>
                   <th>Kelengkapan Dokumen</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
               <tbody>
-                @for ($i=0; $i < 3; $i++)
+                @php
+                  $no=1;
+                @endphp
+                @foreach ($getitem as $key)
+                  <tr>
+                    <td style="text-align:center;">{{$no}}</td>
+                    <td>{{$key->no_rekening}}</td>
+                    <td>{{$key->nama_item_kegiatan}}</td>
+                    <td>{{$key->expr1}}</td>
+                    <td>{{number_format($key->total, 0, ',', '.')}}</td>
+                    <td style="text-align:center;">
+                      @if ($key->flag_rincian_item==0)
+                        <a href="#myInputKontrak" data-toggle="modal" class="badge btn-warning">Tidak</a>
+                      @else
+                        <a href="#myInputKontrak" data-toggle="modal" class="badge btn-info">Ya</a>
+                      @endif
+                    </td>
+                    <td style="width:100px;">
+                      <span class="badge btn-primary"><a href="#myAlert" data-toggle="modal" style="color:white;">Lihat Dokumen</a></span>
+                    </td>
+                    <td style="text-align:center;">
+                      @if ($key->flag_rincian_item==0)
+                        <a href="{{route('pencairan.progress')}}" class="btn btn-primary btn-mini">Proses Pencairan</a>
+                      @else
+                        <a href="{{route('pencairan.rincian')}}" class="btn btn-primary btn-mini">Lihat Detail</a>
+                      @endif
+                    </td>
+                  </tr>
+                  @php
+                    $no++;
+                  @endphp
+                @endforeach
+
+                {{-- @for ($i=0; $i < 3; $i++)
                   <tr>
                     <td style="text-align:center;">1</td>
                     <td>5.2.1.01.001</td>
                     <td>Honorarium Panitia Pelaksana Kegiatan</td>
                     <td>1.190.000</td>
                     <td>1.190.000</td>
-                    <td style="text-align:center;"><a href="#myInputKontrak" data-toggle="modal" class="badge btn-info">Ya</a></td>
+                    <td style="text-align:center;">
+                      <a href="#myInputKontrak" data-toggle="modal" class="badge btn-warning">Tidak</a>
+                    </td>
                     <td style="width:100px;">
                       <span class="badge btn-primary"><a href="#myAlert" data-toggle="modal" style="color:white;">Lihat Dokumen</a></span>
                     </td>
                     <td style="text-align:center;">
-                      <a href="{{route('pencairan.rincian')}}" class="btn btn-primary btn-mini">Lihat Detail</a>
                     </td>
                   </tr>
-                @endfor
-                @for ($i=0; $i < 3; $i++)
-                  <tr>
-                    <td style="text-align:center;">1</td>
-                    <td>5.2.1.01.001</td>
-                    <td>Honorarium Panitia Pelaksana Kegiatan</td>
-                    <td>1.190.000</td>
-                    <td>1.190.000</td>
-                    <td style="text-align:center;"><a href="#myInputKontrak" data-toggle="modal" class="badge btn-warning">Tidak</a></td>
-                    <td style="width:100px;">
-                      <span class="badge btn-primary"><a href="#myAlert" data-toggle="modal" style="color:white;">Lihat Dokumen</a></span>
-                    </td>
-                    <td style="text-align:center;">
-                      <a href="{{route('pencairan.progress')}}" class="btn btn-primary btn-mini">Proses Pencairan</a>
-                    </td>
-                  </tr>
-                @endfor
+                @endfor --}}
               </tbody>
             </table>
           </div>

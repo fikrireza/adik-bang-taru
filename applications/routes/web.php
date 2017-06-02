@@ -21,6 +21,9 @@ Route::get('dashboard', function () {
 
 Route::get('seleksi-kegiatan', 'SeleksiKegiatanController@seleksi')->name('seleksi-kegiatan.index');
 Route::get('seleksi-kegiatan/bidang', 'SeleksiKegiatanController@seleksiperbidang')->name('seleksi-kegiatan.bidang');
+Route::get('seleksi-kegiatan/proses/{id_kegiatan}/{id_bidang}', 'SeleksiKegiatanController@proses')->name('seleksi-kegiatan.proses');
+Route::post('seleksi-kegiatan/find', 'SeleksiKegiatanController@findkegiatan')->name('seleksi-kegiatan.find');
+Route::get('seleksi-kegiatan/destroy/{id}', 'SeleksiKegiatanController@destroy')->name('seleksi-kegiatan.delete');
 
 Route::get('verifikasi-dokumen', 'VerifikasiDokumenController@index')->name('verifikasi.index');
 Route::get('verifikasi-dokumen/detail', 'VerifikasiDokumenController@detail')->name('verifikasi.detail');
@@ -29,10 +32,10 @@ Route::post('authenticate', 'LoginController@dologin')->name('auth.login');
 Route::get('logout', 'LoginController@dologout')->name('auth.logout');
 
 Route::get('daftar-kegiatan', 'DaftarKegiatanController@index')->name('daftar-kegiatan.index');
-Route::get('daftar-kegiatan/detail', 'DaftarKegiatanController@detail')->name('daftar-kegiatan.detail');
+Route::get('daftar-kegiatan/detail/{id}', 'DaftarKegiatanController@detail')->name('daftar-kegiatan.detail');
 
 Route::get('pencairan-dana', 'PencairanDanaController@index')->name('pencairan.index');
-Route::get('pencairan-dana/proses', 'PencairanDanaController@proses')->name('pencairan.proses');
+Route::get('pencairan-dana/proses/{id}', 'PencairanDanaController@proses')->name('pencairan.proses');
 Route::get('pencairan-dana/rincian-item', 'PencairanDanaController@rincian')->name('pencairan.rincian');
 Route::get('pencairan-dana/progress-pencairan', 'PencairanDanaController@pencairan')->name('pencairan.progress');
 
