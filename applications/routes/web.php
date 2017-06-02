@@ -35,7 +35,7 @@ Route::get('daftar-kegiatan', 'DaftarKegiatanController@index')->name('daftar-ke
 Route::get('daftar-kegiatan/detail/{id}', 'DaftarKegiatanController@detail')->name('daftar-kegiatan.detail');
 
 Route::get('pencairan-dana', 'PencairanDanaController@index')->name('pencairan.index');
-Route::get('pencairan-dana/proses', 'PencairanDanaController@proses')->name('pencairan.proses');
+Route::get('pencairan-dana/proses/{id}', 'PencairanDanaController@proses')->name('pencairan.proses');
 Route::get('pencairan-dana/rincian-item', 'PencairanDanaController@rincian')->name('pencairan.rincian');
 Route::get('pencairan-dana/progress-pencairan', 'PencairanDanaController@pencairan')->name('pencairan.progress');
 
