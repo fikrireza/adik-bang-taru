@@ -36,7 +36,21 @@
       });
     }, 5000);
   </script>
-  
+
+  <div id="seleksi" class="modal hide">
+    <div class="modal-header" style="background:#da4f49;color:white;">
+      <button data-dismiss="modal" class="close" type="button">×</button>
+      <h3 style="text-shadow:0 0px;">Hapus Bidang</h3>
+    </div>
+    <div class="modal-body">
+      <p>Apakah anda yakin akan menghapus bidang ini?</p>
+    </div>
+    <div class="modal-footer">
+      <a data-dismiss="modal" class="btn" href="#">Tidak</a>
+      <a class="btn btn-danger" href="#" id="sethapus">Ya, saya yakin</a>
+    </div>
+  </div>
+
   <div class="container-fluid">
     <hr style="margin:0px 0px 15px 0px;">
     <div class="alert alert-info alert-block" style="margin-bottom:0px;">
@@ -52,7 +66,7 @@
             <h5>Data Program & Kegiatan</h5>
           </div>
           <div class="widget-content nopadding">
-            <table class="table table-bordered data-table">
+            <table class="table table-bordered data-table" id="tabel_kegiatan">
               <thead>
                 <tr>
                   <th width="20px;">#</th>
@@ -86,7 +100,7 @@
                         <button data-toggle="dropdown" class="btn btn-mini btn-primary dropdown-toggle"><span class="caret"></span></button>
                         <ul class="dropdown-menu">
                           @foreach ($bidang as $bdg)
-                            <li><a href="#">{{$bdg->nama_bidang}}</a></li>
+                            <li><a href="#seleksi" data-toggle="modal" data-value="{{$bdg->id}}" class="seleksi">{{$bdg->nama_bidang}}</a></li>
                           @endforeach
                         </ul>
                       </div>
@@ -114,4 +128,13 @@
   <script src="{{asset('theme/js/jquery.dataTables.min.js')}}"></script>
   <script src="{{asset('theme/js/matrix.js')}}"></script>
   <script src="{{asset('theme/js/matrix.tables.js')}}"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('#tabel_kegiatan').on('click','.seleksi', function(){
+        var id = $(this).data('value');
+        // $('#sethapus').attr('href', '{{url('/')}}/bidang/destroy/'+id);
+      });
+    });
+  </script>
 @endsection

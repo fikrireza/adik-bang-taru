@@ -17,6 +17,11 @@ class SeleksiKegiatanController extends Controller
         ->with('data', $get);
     }
 
+    public function proses($id)
+    {
+      
+    }
+
     public function seleksiperbidang()
     {
       return view('seleksi-kegiatan.kegiatan-perbidang');
