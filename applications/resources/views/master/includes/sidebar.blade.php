@@ -22,7 +22,7 @@
         <li class="submenu {{ Route::is('kpa*') ? 'active' : '' }}"> <a href="#"><i class="icon icon-group"></i> <span>Manajemen KPA</span> </a>
           <ul>
             <li class="{{ Route::is('kpa.index') ? 'active' : '' }}"><a href="{{ route('kpa.index') }}">Manajemen Master KPA</a></li>
-            <li class="{{ Route::is('kpa.indexKpa') ? 'active' : '' }}"><a href="{{ route('kpa.indexKpa') }}">Set KPA Kegiatan</a></li>
+            <li class="{{ Route::is('kpa.setkegiatan') ? 'active' : '' }}"><a href="{{ route('kpa.setkegiatan') }}">Set KPA Kegiatan</a></li>
           </ul>
         </li>
         <li class="submenu {{ Route::is('pptk*') ? 'active' : '' }}"> <a href="#"><i class="icon icon-key"></i> <span>Manajemen PPTK</span> </a>

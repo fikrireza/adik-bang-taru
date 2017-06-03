@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Models\MasterBidang;
 use App\Models\MasterPpko;
-use App\Models\KegiatanKpa;
+use App\Models\KegiatanPpko;
 use App\Models\Program;
 use App\Models\Kegiatan;
 
@@ -100,10 +100,42 @@ class PPKOController extends Controller
 
   public function indexPpko()
   {
-    $getKegiatan = Kegiatan::get();
+    $getKegiatanPpko = KegiatanPpko::get();
     $getMasterPpko = MasterPpko::get();
 
+    $kegiatan_ppko = KegiatanPpko::pluck('id_kegiatan')->all();
+    $kegiatan = Kegiatan::whereNotIn('id', $kegiatan_ppko)->get();
 
-    return view('ppko.ppko-kegiatan', compact('getKegiatan', 'getMasterPpko'));
+    return view('ppko.ppko-kegiatan', compact('getKegiatanPpko', 'getMasterPpko', 'kegiatan'));
+  }
+
+  public function storeKegiatanPpko(Request $request)
+  {
+      $message = [
+        'ppko.required' => 'This field is required.',
+        'id_kegiatan.required' => 'This field is required.',
+      ];
+
+      $validator = Validator::make($request->all(), [
+        'ppko' => 'required',
+        'id_kegiatan' => 'required',
+      ], $message);
+
+      if($validator->fails()){
+        return redirect()->route('ppko.setkegiatan')->withErrors($validator)->withInput();
+      }
+
+      $kegiatan = Kegiatan::find($request->id_kegiatan);
+
+      $save = new KegiatanPpko;
+      $save->kode_kegiatan = $kegiatan->kode_kegiatan;
+      $save->id_kegiatan = $kegiatan->id;
+      $save->id_program = $kegiatan->id_program;
+      $save->id_master_ppko  = $request->ppko;
+      $save->id_aktor = Auth::user()->id;
+      $save->flag_status = 1;
+      $save->save();
+
+      return redirect()->route('ppko.setkegiatan')->with('berhasil', 'Berhasil Mengubah Data PPTK');
   }
 }

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Models\MasterBidang;
 use App\Models\MasterPptk;
-use App\Models\KegiatanKpa;
+use App\Models\KegiatanPptk;
 use App\Models\Program;
 use App\Models\Kegiatan;
 
@@ -100,10 +100,42 @@ class PPTKController extends Controller
 
     public function indexPptk()
     {
-      $getKegiatan = Kegiatan::get();
+      $getKegiatanPptk = KegiatanPptk::get();
       $getMasterPptk = MasterPptk::get();
 
+      $kegiatan_pptk = KegiatanPptk::pluck('id_kegiatan')->all();
+      $kegiatan = Kegiatan::whereNotIn('id', $kegiatan_pptk)->get();
 
-      return view('pptk.pptk-kegiatan', compact('getKegiatan', 'getMasterPptk'));
+      return view('pptk.pptk-kegiatan', compact('getKegiatanPptk', 'getMasterPptk', 'kegiatan'));
+    }
+
+    public function storeKegiatanKpa(Request $request)
+    {
+        $message = [
+          'pptk.required' => 'This field is required.',
+          'id_kegiatan.required' => 'This field is required.',
+        ];
+
+        $validator = Validator::make($request->all(), [
+          'pptk' => 'required',
+          'id_kegiatan' => 'required',
+        ], $message);
+
+        if($validator->fails()){
+          return redirect()->route('pptk.setkegiatan')->withErrors($validator)->withInput();
+        }
+
+        $kegiatan = Kegiatan::find($request->id_kegiatan);
+
+        $save = new KegiatanPptk;
+        $save->kode_kegiatan = $kegiatan->kode_kegiatan;
+        $save->id_kegiatan = $kegiatan->id;
+        $save->id_program = $kegiatan->id_program;
+        $save->id_master_pptk  = $request->pptk;
+        $save->id_aktor = Auth::user()->id;
+        $save->flag_status = 1;
+        $save->save();
+
+        return redirect()->route('pptk.setkegiatan')->with('berhasil', 'Berhasil Mengubah Data PPTK');
     }
 }

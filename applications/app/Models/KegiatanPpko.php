@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class KegiatanPptk extends Model
+class KegiatanPpko extends Model
 {
-    protected $table = 'adik_kegiatan_pptk';
+    protected $table = 'adik_kegiatan_ppko';
 
-    protected $fillable = ['kode_kegiatan','id_kegiatan','id_program','id_master_pptk','flag_status','id_user'];
+    protected $fillable = ['kode_kegiatan','id_kegiatan','id_program','id_master_ppko','flag_status','id_user'];
 
     public function kegiatan()
     {
@@ -20,8 +20,8 @@ class KegiatanPptk extends Model
         return $this->belongsTo('App\Models\Program', 'id_program');
     }
 
-    public function userPptk()
+    public function userPpko()
     {
-        return $this->belongsTo('App\Models\MasterPptk', 'id_master_pptk');
+        return $this->belongsTo('App\Models\MasterPpko', 'id_master_ppko');
     }
 }

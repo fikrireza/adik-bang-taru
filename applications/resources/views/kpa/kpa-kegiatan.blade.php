@@ -71,9 +71,7 @@
         <div class="widget-box">
           <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
             <h5>Daftar KPA</h5>
-            <a href="#pilihKpa" data-toggle="modal" class="btn btn-mini btn-primary pull-right">
-              Tambah Kegiatan
-            </a>
+            <a href="#pilihKpa" data-toggle="modal" class="btn btn-mini btn-primary pull-right">Tambah Kegiatan</a>
           </div>
           <div class="widget-content nopadding">
             <table class="table table-bordered data-table">
@@ -97,6 +95,7 @@
                     <td>{{ $key->kegiatan->nama_kegiatan}}</td>
                     <td>{{ $key->program->nama_program}}</td>
                     <td>{{ $key->userKpa->nama}}</td>
+                    <td>-</td>
                   </tr>
                   @php
                     $no++;
