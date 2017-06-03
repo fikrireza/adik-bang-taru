@@ -20,7 +20,7 @@ class CreateKpaKegiatanTable extends Migration
           $table->integer('id_program')->unsigned();
           $table->integer('id_master_kpa')->unsigned()->nullable();
           $table->integer('flag_status')->unsigned();
-          $table->integer('id_user')->unsigned();
+          $table->integer('id_aktor')->unsigned();
           $table->timestamps();
         });
     }

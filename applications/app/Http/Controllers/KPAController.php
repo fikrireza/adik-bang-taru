@@ -102,10 +102,43 @@ class KPAController extends Controller
 
     public function indexKpa()
     {
-        $getKegiatan = Kegiatan::get();
+        $getKegiatanKpa = KegiatanKpa::get();
         $getMasterKpa = MasterKpa::get();
 
-        return view('kpa.kpa-kegiatan', compact('getKegiatan', 'getMasterKpa'));
+        $kegiatan_kpa = KegiatanKpa::pluck('id_kegiatan')->all();
+        $kegiatan = Kegiatan::whereNotIn('id', $kegiatan_kpa)->get();
+
+        return view('kpa.kpa-kegiatan', compact('getKegiatanKpa', 'getMasterKpa', 'kegiatan'));
+    }
+
+    public function storeKegiatanKpa(Request $request)
+    {
+        $message = [
+          'kpa.required' => 'This field is required.',
+          'id_kegiatan.required' => 'This field is required.',
+        ];
+
+        $validator = Validator::make($request->all(), [
+          'kpa' => 'required',
+          'id_kegiatan' => 'required',
+        ], $message);
+
+        if($validator->fails()){
+          return redirect()->route('kpa.indexKpa')->withErrors($validator)->withInput();
+        }
+
+        $kegiatan = Kegiatan::find($request->id_kegiatan);
+
+        $save = new KegiatanKpa;
+        $save->kode_kegiatan = $kegiatan->kode_kegiatan;
+        $save->id_kegiatan = $kegiatan->id;
+        $save->id_program = $kegiatan->id_program;
+        $save->id_master_kpa  = $request->kpa;
+        $save->id_aktor = Auth::user()->id;
+        $save->flag_status = 1;
+        $save->save();
+
+        return redirect()->route('kpa.indexKpa')->with('berhasil', 'Berhasil Mengubah Data KPA');
     }
 
 }

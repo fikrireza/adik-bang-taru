@@ -17,7 +17,7 @@ class KegiatanKpa extends Model
 
     public function program()
     {
-        return $this->belongsTo('App\Models\Porgram', 'id_program');
+        return $this->belongsTo('App\Models\Program', 'id_program');
     }
 
     public function userKpa()

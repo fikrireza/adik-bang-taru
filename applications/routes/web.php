@@ -46,6 +46,7 @@ Route::get('kpa/{id}', 'KPAController@ubahMaster')->name('kpa.ubah');
 Route::post('kpa/edit', 'KPAController@editMaster')->name('kpa.edit');
 Route::get('kpa/status/{id}', 'KPAController@status')->name('kpa.status');
 Route::get('kpa-set-kegiatan', 'KPAController@indexKpa')->name('kpa.indexKpa');
+Route::post('kpa-set-kegiatan', 'KPAController@storeKegiatanKpa')->name('kpa.storeKegiatanKpa');
 
 //----- PPTK
 Route::get('pptk', 'PPTKController@indexMaster')->name('pptk.index');
