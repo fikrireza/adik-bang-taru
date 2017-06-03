@@ -123,6 +123,29 @@
     </div>
   </div>
 
+  <div id="myCair" class="modal hide">
+    <div class="modal-header" style="background:#3a87ad;color:white;">
+      <button data-dismiss="modal" class="close" type="button">×</button>
+      <h3 style="text-shadow:0 0px;">Input Realisasi Fisik</h3>
+    </div>
+    <form action="index.html" method="post">
+      <div class="modal-body">
+        <div class="controls" style="margin-left:15px;">
+          <span style="font-weight:bold;">Presentase Realisasi Fisik :</span>
+          <br>
+          <div class="input-append">
+            <input type="text" class="span5">
+            <span class="add-on">%</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a data-dismiss="modal" class="btn" href="#">Cancel</a>
+        <input type="submit" class="btn btn-primary" value="Simpan">
+      </div>
+    </form>
+  </div>
+
   <div class="container-fluid">
     <hr style="margin:0px 0px 15px 0px;">
 
@@ -224,11 +247,16 @@
                       @endif
                     </td>
                     <td style="width:100px;">
-                      <span class="badge btn-primary"><a href="#myAlert" data-toggle="modal" style="color:white;">Lihat Dokumen</a></span>
+                      @if ($key->flag_rincian_item==0)
+                        <span class="badge btn-primary"><a href="#myAlert" data-toggle="modal" style="color:white;">Lihat Dokumen</a></span>
+                      @else
+                        -
+                      @endif
+
                     </td>
                     <td style="text-align:center;">
                       @if ($key->flag_rincian_item==0)
-                        <a href="{{route('pencairan.progressbykegiatan', $key->no_rekening)}}" class="btn btn-primary btn-mini">Proses Pencairan</a>
+                        <a href="#myCair" data-toggle="modal" class="btn btn-primary btn-mini">Proses Pencairan</a>
                       @else
                         <a href="{{route('pencairan.rincian', $key->no_rekening)}}" class="btn btn-primary btn-mini">Lihat Detail</a>
                       @endif

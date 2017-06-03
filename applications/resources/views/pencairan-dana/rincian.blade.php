@@ -77,6 +77,7 @@
                 <tr>
                   <th width="20px;">#</th>
                   <th>Uraian Rincian</th>
+                  <th>Lihat Dokumen</th>
                   <th>Anggaran</th>
                   <th>Aksi</th>
                 </tr>
@@ -89,9 +90,10 @@
                   <tr>
                     <td style="width:20px;">{{$no}}</td>
                     <td>{{$key->expr1}}</td>
+                    <td style="text-align:center;"><span class="badge btn-primary"><a href="#myAlert" data-toggle="modal" style="color:white;">Lihat Dokumen</a></span></td>
                     <td>{{number_format($key->total, 0, ',', '.')}}</td>
                     <td style="text-align:center;">
-                      <a href="{{route('pencairan.progress')}}" class="btn btn-primary btn-mini">Proses Pencairan</a>
+                      <a href="{{route('pencairan.progressbyitem', $key->id)}}" class="btn btn-primary btn-mini">Proses Pencairan</a>
                     </td>
                   </tr>
                   @php

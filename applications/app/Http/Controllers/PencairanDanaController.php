@@ -73,4 +73,10 @@ class PencairanDanaController extends Controller
       $getkontrak = ResumeKontrak::where('no_rekening', $no_rek)->first();
       return view('pencairan-dana.pencairan')->with('datakontrak', $getkontrak);
     }
+
+    public function pencairanbyitem($id_item)
+    {
+      $getkontrak = ResumeKontrak::where('id_item_kegiatan', $id_item)->first();
+      return view('pencairan-dana.pencairan')->with('datakontrak', $getkontrak);
+    }
 }

@@ -4,6 +4,7 @@
   <title>Adik Bang Taru</title>
   <link rel="stylesheet" href="{{asset('theme/css/uniform.css')}}" />
   <link rel="stylesheet" href="{{asset('theme/css/select2.css')}}" />
+  <link rel="stylesheet" href="{{asset('theme/css/datepicker.css')}}" />
 @endsection
 
 @section('breadcrumb')
@@ -40,6 +41,8 @@
               <h4 class="alert-heading">Resume Kontrak</h4>
               <hr style="margin:5px 0px 10px 0px; border-top-color:#9fd5dc;">
               Berikut adalah resume kontrak untuk pencairan dana:
+              <form action="{{route('resume.store')}}" method="post">
+                {{csrf_field()}}
               <table cellpadding="5" style="margin-top:5px;">
                 <tr>
                   <td>Nomor & Tanggal DPA</td>
@@ -50,8 +53,8 @@
                     </span>
 
                     <span class="kontrak_control">
-                      <input type="text" name="no_dpa" placeholder="Nomor DPA"> --
-                      <input type="text" name="tanggal_dpa" placeholder="Tanggal Kontrak">
+                      <input type="text" name="no_dpa" placeholder="Nomor DPA" id="no_dpa"> --
+                      <input type="text" name="tanggal_dpa" placeholder="Tanggal Kontrak" id="tanggal_kontrak" data-date-format="yyyy-mm-dd" class="datepicker">
                     </span>
                   </td>
                 </tr>
@@ -64,8 +67,8 @@
                     </span>
 
                     <span class="kontrak_control">
-                      <input type="text" name="no_kontrak" placeholder="Nomor Kontrak"> --
-                      <input type="text" name="tanggal_dpa" placeholder="Tanggal Kontrak">
+                      <input type="text" name="no_kontrak" placeholder="Nomor Kontrak" id="no_kontrak"> --
+                      <input type="text" name="tanggal_kontrak" placeholder="Tanggal Kontrak" id="tanggal_dpa" data-date-format="yyyy-mm-dd" class="datepicker">
                     </span>
                   </td>
                 </tr>
@@ -77,7 +80,7 @@
                     </span>
 
                     <span class="kontrak_control">
-                      <input type="text" name="nama_perusahaan" placeholder="Nama Perusahaan">
+                      <input type="text" name="nama_perusahaan" placeholder="Nama Perusahaan" id="nama_perusahaan">
                     </span>
                   </td>
                 </tr>
@@ -89,7 +92,7 @@
                     </span>
 
                     <span class="kontrak_control">
-                      <input type="text" name="alamat_perusahaan" placeholder="Alamat Perusahaan">
+                      <input type="text" name="alamat_perusahaan" placeholder="Alamat Perusahaan" id="alamat_perusahaan">
                     </span>
                   </td>
                 </tr>
@@ -101,7 +104,7 @@
                     </span>
 
                     <span class="kontrak_control">
-                      <input type="text" name="nilai_kontrak" placeholder="Nilai Kontrak">
+                      <input type="text" name="nilai_kontrak" placeholder="Nilai Kontrak" id="nilai_kontrak">
                     </span>
                   </td>
                 </tr>
@@ -114,8 +117,8 @@
                     </span>
 
                     <span class="kontrak_control">
-                      <input type="text" name="no_ba_kemajuan" placeholder="Nomor BA Kemajuan"> --
-                      <input type="text" name="tanggal_ba_kemajuan" placeholder="Tanggal BA Kemajuan">
+                      <input type="text" name="no_ba_kemajuan" placeholder="Nomor BA Kemajuan" id="no_ba_kemajuan"> --
+                      <input type="text" name="tanggal_ba_kemajuan" placeholder="Tanggal BA Kemajuan" id="tanggal_ba_kemajuan" data-date-format="yyyy-mm-dd" class="datepicker">
                     </span>
                   </td>
                 </tr>
@@ -128,8 +131,8 @@
                     </span>
 
                     <span class="kontrak_control">
-                      <input type="text" name="no_ba_pembayaran" placeholder="Nomor BA Pembayaran"> --
-                      <input type="text" name="tanggal_ba_pembayaran" placeholder="Tanggal BA Pembayaran">
+                      <input type="text" name="no_ba_pembayaran" placeholder="Nomor BA Pembayaran" id="no_ba_pembayaran"> --
+                      <input type="text" name="tanggal_ba_pembayaran" placeholder="Tanggal BA Pembayaran" id="tanggal_ba_pembayaran" data-date-format="yyyy-mm-dd" class="datepicker">
                     </span>
                   </td>
                 </tr>
@@ -142,8 +145,8 @@
                     </span>
 
                     <span class="kontrak_control">
-                      <input type="text" name="no_ba_penyelesaian" placeholder="Nomor BA Penyelesaian"> --
-                      <input type="text" name="tanggal_ba_penyelesaian" placeholder="Tanggal BA Penyelesaian">
+                      <input type="text" name="no_ba_penyelesaian" placeholder="Nomor BA Penyelesaian" id="no_ba_penyelesaian"> --
+                      <input type="text" name="tanggal_ba_penyelesaian" placeholder="Tanggal BA Penyelesaian" id="tanggal_ba_penyelesaian" data-date-format="yyyy-mm-dd" class="datepicker">
                     </span>
                   </td>
                 </tr>
@@ -156,8 +159,8 @@
                     </span>
 
                     <span class="kontrak_control">
-                      <input type="text" name="no_ba_serah_terima" placeholder="Nomor BA Serah Terima"> --
-                      <input type="text" name="tanggal_ba_serah_terima" placeholder="Tanggal BA Serah Terima">
+                      <input type="text" name="no_ba_serah_terima" placeholder="Nomor BA Serah Terima" id="no_ba_serah_terima"> --
+                      <input type="text" name="tanggal_ba_serah_terima" placeholder="Tanggal BA Serah Terima" id="tanggal_ba_serah_terima" data-date-format="yyyy-mm-dd" class="datepicker">
                     </span>
                   </td>
                 </tr>
@@ -169,7 +172,7 @@
                     </span>
 
                     <span class="kontrak_control">
-                      <input type="text" name="uraian_volume" placeholder="Uraian">
+                      <input type="text" name="uraian_volume" placeholder="Uraian" id="uraian_volume">
                     </span>
                   </td>
                 </tr>
@@ -181,7 +184,7 @@
                     </span>
 
                     <span class="kontrak_control">
-                      <input type="text" name="cara_pembayaran" placeholder="Cara Pembayaran">
+                      <input type="text" name="cara_pembayaran" placeholder="Cara Pembayaran" id="cara_pembayaran">
                     </span>
                   </td>
                 </tr>
@@ -193,7 +196,8 @@
                     </span>
 
                     <span class="kontrak_control">
-                      <input type="text" name="jangka_waktu" placeholder="Jangka Waktu">
+                      <input type="text" name="jangka_waktu" placeholder="Awal" id="jangka_waktu" data-date-format="yyyy-mm-dd" class="datepicker"> --
+                      <input type="text" name="jangka_waktu" placeholder="Akhir" id="jangka_waktu" data-date-format="yyyy-mm-dd" class="datepicker">
                     </span>
                   </td>
                 </tr>
@@ -205,7 +209,7 @@
                     </span>
 
                     <span class="kontrak_control">
-                      <input type="text" name="tanggal_penyelesaian" placeholder="Tanggal Penyelesaian">
+                      <input type="text" name="tanggal_penyelesaian" placeholder="Tanggal Penyelesaian" id="tanggal_penyelesaian" data-date-format="yyyy-mm-dd" class="datepicker">
                     </span>
                   </td>
                 </tr>
@@ -217,7 +221,7 @@
                     </span>
 
                     <span class="kontrak_control">
-                      <input type="text" name="ketentuan_sanksi" placeholder="Ketentuan Sanksi">
+                      <input type="text" name="ketentuan_sanksi" placeholder="Ketentuan Sanksi" id="ketentuan_sanksi">
                     </span>
                   </td>
                 </tr>
@@ -229,7 +233,7 @@
                     </span>
 
                     <span class="kontrak_control">
-                      <input type="text" name="npwp" placeholder="NPWP">
+                      <input type="text" name="npwp" placeholder="NPWP" id="npwp">
                     </span>
                   </td>
                 </tr>
@@ -241,7 +245,7 @@
                     </span>
 
                     <span class="kontrak_control">
-                      <input type="text" name="no_rekening_perusahaan" placeholder="No Rekening Perusahaan">
+                      <input type="text" name="no_rekening_perusahaan" placeholder="No Rekening Perusahaan" id="no_rekening_perusahaan">
                     </span>
                   </td>
                 </tr>
@@ -256,6 +260,7 @@
                 <input type="submit" class="btn btn-primary" value="Simpan Data Resume Kontrak">
                 <a href="#resume" class="btn btn-danger" id="hideformkontrak">Batalkan</a>
               </span>
+              </form>
 
             </div>
           </div>
@@ -403,6 +408,8 @@
   <script src="{{asset('theme/js/jquery.dataTables.min.js')}}"></script>
   <script src="{{asset('theme/js/matrix.js')}}"></script>
   <script src="{{asset('theme/js/matrix.tables.js')}}"></script>
+  <script src="{{asset('theme/js/bootstrap-datepicker.js')}}"></script>
+
 
   <script type="text/javascript">
     $(function(){
@@ -417,6 +424,8 @@
         $('.kontrak_control').hide();
         $('.kontrak_label').show();
       });
+
+      $('.datepicker').datepicker();
     });
   </script>
 @endsection

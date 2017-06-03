@@ -41,6 +41,8 @@ Route::get('pencairan-dana/progress-pencairan/{no_rek}', 'PencairanDanaControlle
 Route::get('pencairan-dana/progress-pencairan-per-item/{id}', 'PencairanDanaController@pencairanbyitem')->name('pencairan.progressbyitem');
 Route::get('pencairan-dana/ubah-flag-rincian/{no_rek}', 'PencairanDanaController@ubahflagrincian')->name('pencairan.ubahflagrincian');
 
+Route::post('resume-kontrak', 'ResumeKontrakController@store')->name('resume.store');
+
 
 //----- KPA
 Route::get('kpa', 'KPAController@indexMaster')->name('kpa.index');
