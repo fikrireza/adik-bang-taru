@@ -18,6 +18,20 @@
 @endsection
 
 @section('content')
+  <script>
+    window.setTimeout(function() {
+      $(".alert-success").fadeTo(500, 0).slideUp(500, function(){
+          $(this).remove();
+      });
+    }, 5000);
+
+    window.setTimeout(function() {
+      $(".alert-danger").fadeTo(500, 0).slideUp(500, function(){
+          $(this).remove();
+      });
+    }, 5000);
+  </script>
+
   <div id="myAlert" class="modal hide">
     <div class="modal-header" style="background:#3a87ad;color:white;">
       <button data-dismiss="modal" class="close" type="button">×</button>
@@ -105,12 +119,31 @@
     </div>
     <div class="modal-footer">
       <a data-dismiss="modal" class="btn" href="#">Tidak</a>
-      <a data-dismiss="modal" class="btn btn-primary" href="#">Ya, saya yakin</a>
+      <a class="btn btn-primary" href="#" id="ubahflag">Ya, saya yakin</a>
     </div>
   </div>
 
   <div class="container-fluid">
     <hr style="margin:0px 0px 15px 0px;">
+
+    @if (Session::has('success'))
+      <div class="alert alert-success alert-block" style="margin-bottom:0px;">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">Berhasil!</h4>
+        <hr style="margin:5px 0px 10px 0px; border-top-color:#9fdcae;">
+        {{ Session::get('success') }}
+      </div>
+    @endif
+
+    @if (Session::has('failed'))
+      <div class="alert alert-danger alert-block" style="margin-bottom:0px;">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">Oops, terjadi kesalahan!</h4>
+        <hr style="margin:5px 0px 10px 0px; border-top-color:#dc9f9f;">
+        {{ Session::get('failed') }}
+      </div>
+    @endif
+
     <div class="row-fluid">
       <div class="span12">
         <div class="widget-box">
@@ -161,15 +194,14 @@
             <h5>Detail Sub Item Kegiatan</h5>
           </div>
           <div class="widget-content nopadding">
-            <table class="table table-bordered data-table">
+            <table class="table table-bordered data-table" id="tabel_item">
               <thead>
                 <tr>
                   <th width="20px;">#</th>
                   <th>Kode</th>
                   <th>Uraian Item Kegiatan</th>
-                  <th>Keterangan</th>
                   <th>Nilai</th>
-                  <th>Memiliki Rincian Item</th>
+                  <th>Memiliki Kontrak</th>
                   <th>Kelengkapan Dokumen</th>
                   <th>Aksi</th>
                 </tr>
@@ -183,13 +215,12 @@
                     <td style="text-align:center;">{{$no}}</td>
                     <td>{{$key->no_rekening}}</td>
                     <td>{{$key->nama_item_kegiatan}}</td>
-                    <td>{{$key->expr1}}</td>
                     <td>{{number_format($key->total, 0, ',', '.')}}</td>
                     <td style="text-align:center;">
                       @if ($key->flag_rincian_item==0)
-                        <a href="#myInputKontrak" data-toggle="modal" class="badge btn-warning">Tidak</a>
+                        <a href="#myInputKontrak" data-value="{{$key->no_rekening}}" data-toggle="modal" class="badge btn-warning kontrak">Tidak</a>
                       @else
-                        <a href="#myInputKontrak" data-toggle="modal" class="badge btn-info">Ya</a>
+                        <a href="#myInputKontrak" data-value="{{$key->no_rekening}}" data-toggle="modal" class="badge btn-info kontrak">Ya</a>
                       @endif
                     </td>
                     <td style="width:100px;">
@@ -197,9 +228,9 @@
                     </td>
                     <td style="text-align:center;">
                       @if ($key->flag_rincian_item==0)
-                        <a href="{{route('pencairan.progress')}}" class="btn btn-primary btn-mini">Proses Pencairan</a>
+                        <a href="{{route('pencairan.progressbykegiatan', $key->no_rekening)}}" class="btn btn-primary btn-mini">Proses Pencairan</a>
                       @else
-                        <a href="{{route('pencairan.rincian')}}" class="btn btn-primary btn-mini">Lihat Detail</a>
+                        <a href="{{route('pencairan.rincian', $key->no_rekening)}}" class="btn btn-primary btn-mini">Lihat Detail</a>
                       @endif
                     </td>
                   </tr>
@@ -207,24 +238,6 @@
                     $no++;
                   @endphp
                 @endforeach
-
-                {{-- @for ($i=0; $i < 3; $i++)
-                  <tr>
-                    <td style="text-align:center;">1</td>
-                    <td>5.2.1.01.001</td>
-                    <td>Honorarium Panitia Pelaksana Kegiatan</td>
-                    <td>1.190.000</td>
-                    <td>1.190.000</td>
-                    <td style="text-align:center;">
-                      <a href="#myInputKontrak" data-toggle="modal" class="badge btn-warning">Tidak</a>
-                    </td>
-                    <td style="width:100px;">
-                      <span class="badge btn-primary"><a href="#myAlert" data-toggle="modal" style="color:white;">Lihat Dokumen</a></span>
-                    </td>
-                    <td style="text-align:center;">
-                    </td>
-                  </tr>
-                @endfor --}}
               </tbody>
             </table>
           </div>
@@ -243,4 +256,13 @@
   <script src="{{asset('theme/js/jquery.dataTables.min.js')}}"></script>
   <script src="{{asset('theme/js/matrix.js')}}"></script>
   <script src="{{asset('theme/js/matrix.tables.js')}}"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('#tabel_item').on('click','.kontrak', function(){
+        var id = $(this).data('value');
+        $('#ubahflag').attr('href', '{{url('/')}}/pencairan-dana/ubah-flag-rincian/'+id);
+      });
+    });
+  </script>
 @endsection

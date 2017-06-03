@@ -14,7 +14,7 @@
       <a href="#">Kelola Data Pencairan</a>
       <a href="#" class="current">Rincian Item</a>
     </div>
-    <h1>Rincian Sub Item Kegiatan <span style="font-size:15px;"> &nbsp;&nbsp;//&nbsp;&nbsp; Honorarium Panitia Pelaksana Kegiatan</span></h1>
+    <h1>Rincian Sub Item Kegiatan <span style="font-size:15px;"> &nbsp;&nbsp;//&nbsp;&nbsp; {{$dataitem[0]->nama_item_kegiatan}}</span></h1>
   </div>
 @endsection
 
@@ -63,7 +63,7 @@
       <a class="close" data-dismiss="alert" href="#">×</a>
       <h4 class="alert-heading">Pemberitahuan</h4>
       <hr style="margin:5px 0px 10px 0px; border-top-color:#9fd5dc;">
-      Berikut ini adalah data rincian dari <strong>Honorarium Panitia Pelaksana Kegiatan</strong>. Silahkan lakukan pencairan dana pada tiap-tiap rincian di bawah ini.
+      Berikut ini adalah data rincian dari <strong>{{$dataitem[0]->nama_item_kegiatan}}</strong>. Silahkan lakukan pencairan dana pada tiap-tiap rincian di bawah ini.
     </div>
     <div class="row-fluid">
       <div class="span12">
@@ -72,30 +72,32 @@
             <h5>Detail Sub Item Kegiatan</h5>
           </div>
           <div class="widget-content nopadding">
-            <table class="table table-bordered data-table">
+            <table class="table table-bordered data-table" id="">
               <thead>
                 <tr>
                   <th width="20px;">#</th>
-                  <th>Kode</th>
                   <th>Uraian Rincian</th>
                   <th>Anggaran</th>
-                  <th>Realisasi Anggaran</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
               <tbody>
-                @for ($i=0; $i < 5; $i++)
+                @php
+                  $no=1;
+                @endphp
+                @foreach ($dataitem as $key)
                   <tr>
-                    <td style="text-align:center;">1</td>
-                    <td>5.2.1.01.001</td>
-                    <td>Jasa Konsultansi Pengembangan</td>
-                    <td>1.190.000</td>
-                    <td>1.190.000</td>
+                    <td style="width:20px;">{{$no}}</td>
+                    <td>{{$key->expr1}}</td>
+                    <td>{{number_format($key->total, 0, ',', '.')}}</td>
                     <td style="text-align:center;">
                       <a href="{{route('pencairan.progress')}}" class="btn btn-primary btn-mini">Proses Pencairan</a>
                     </td>
                   </tr>
-                @endfor
+                  @php
+                    $no++;
+                  @endphp
+                @endforeach
               </tbody>
             </table>
           </div>
