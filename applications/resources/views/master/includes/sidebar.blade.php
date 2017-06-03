@@ -21,14 +21,20 @@
         </li>
         <li class="submenu {{ Route::is('kpa*') ? 'active' : '' }}"> <a href="#"><i class="icon icon-group"></i> <span>Manajemen KPA</span> </a>
           <ul>
-            <li class="{{ Route::is('kpa.index') ? 'active' : '' }}"><a href="{{route('kpa.index')}}">Manajemen Master KPA</a></li>
-            <li class="{{ Route::is('kpa.setkegiatan') ? 'active' : '' }}"><a href="{{route('kpa.setkegiatan')}}">Set KPA Kegiatan</a></li>
+            <li class="{{ Route::is('kpa.index') ? 'active' : '' }}"><a href="{{ route('kpa.index') }}">Manajemen Master KPA</a></li>
+            <li class="{{ Route::is('kpa.setkegiatan') ? 'active' : '' }}"><a href="{{ route('kpa.setkegiatan') }}">Set KPA Kegiatan</a></li>
           </ul>
         </li>
-        <li class="submenu"> <a href="#"><i class="icon icon-key"></i> <span>Manajemen PPTK</span> </a>
+        <li class="submenu {{ Route::is('pptk*') ? 'active' : '' }}"> <a href="#"><i class="icon icon-key"></i> <span>Manajemen PPTK</span> </a>
           <ul>
-            <li><a href="{{route('pptk.index')}}">Manajemen Master PPTK</a></li>
-            <li><a href="{{route('pptk.setkegiatan')}}">Set PPTK Kegiatan</a></li>
+            <li class="{{ Route::is('pptk.index') ? 'active' : '' }}"><a href="{{ route('pptk.index') }}">Manajemen Master PPTK</a></li>
+            <li class="{{ Route::is('pptk.setkegiatan') ? 'active' : '' }}"><a href="{{ route('pptk.setkegiatan') }}">Set PPTK Kegiatan</a></li>
+          </ul>
+        </li>
+        <li class="submenu {{ Route::is('ppko*') ? 'active' : '' }}"> <a href="#"><i class="icon icon-key"></i> <span>Manajemen PPKo</span> </a>
+          <ul>
+            <li class="{{ Route::is('ppko.index') ? 'active' : '' }}"><a href="{{ route('ppko.index') }}">Manajemen Master PPKo</a></li>
+            <li class="{{ Route::is('ppko.setkegiatan') ? 'active' : '' }}"><a href="{{ route('ppko.setkegiatan') }}">Set PPKo Kegiatan</a></li>
           </ul>
         </li>
         <li class="submenu"> <a href="#"><i class="icon icon-user"></i> <span>Manajemen Akun</span> </a>

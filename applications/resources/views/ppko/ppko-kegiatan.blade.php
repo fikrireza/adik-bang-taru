@@ -10,21 +10,21 @@
   <div id="content-header">
     <div id="breadcrumb">
       <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
-      <a href="#" class="current">Set PPTK Kegiatan</a>
+      <a href="#" class="current">Set PPKo Kegiatan</a>
     </div>
-    <h1>Set PPTK Kegiatan</h1>
+    <h1>Set PPKo Kegiatan</h1>
   </div>
 @endsection
 
 @section('content')
 
-  <div id="pilihPptk" class="modal hide">
+  <div id="pilihPpko" class="modal hide">
     <div class="modal-header">
       <button data-dismiss="modal" class="close" type="button">×</button>
-      <h3 style="text-shadow:0 0px;">Pilih PPTK</h3>
+      <h3 style="text-shadow:0 0px;">Pilih PPKo</h3>
     </div>
     <div class="modal-body">
-      <form action="{{ route('pptk.storeKegiatanPptk')}}" method="POST" class="form-horizontal" name="form-validate" id="form-validate" novalidate="novalidate">
+      <form action="{{ route('ppko.storeKegiatanPpko')}}" method="POST" class="form-horizontal" name="form-validate" id="form-validate" novalidate="novalidate">
         {{ csrf_field() }}
         <div class="control-group">
           <label class="control-label">Kegiatan</label>
@@ -38,11 +38,11 @@
           </div>
         </div>
         <div class="control-group">
-          <label class="control-label">PPTK</label>
+          <label class="control-label">PPKo</label>
           <div class="controls">
-            <select class="" name="pptk" id="pptk" title="Pilih Pegawai">
+            <select class="" name="ppko" id="ppko" title="Pilih Pegawai">
               <option value="">--Choose--</option>
-              @foreach ($getMasterPptk as $key)
+              @foreach ($getMasterPpko as $key)
               <option value="{{ $key->id }}">{{ $key->nama }} | {{ $key->bidang->nama_bidang }}</option>
               @endforeach
             </select>
@@ -78,14 +78,14 @@
       {{-- <a class="close" data-dismiss="alert" href="#">×</a> --}}
       <h4 class="alert-heading">Pemberitahuan</h4>
       <hr style="margin:5px 0px 10px 0px; border-top-color:#9fd5dc;">
-      Dalam fitur ini, anda dapat set PPTK untuk setiap kegiatan di bawah ini.
+      Dalam fitur ini, anda dapat set PPKo untuk setiap kegiatan di bawah ini.
     </div>
     <div class="row-fluid">
       <div class="span12">
         <div class="widget-box">
           <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
             <h5>Daftar KPA</h5>
-            <a href="#pilihPptk" data-toggle="modal" class="btn btn-mini btn-primary pull-right">Tambah Kegiatan</a>
+            <a href="#pilihPpko" data-toggle="modal" class="btn btn-mini btn-primary pull-right">Tambah Kegiatan</a>
           </div>
           <div class="widget-content nopadding">
             <table class="table table-bordered data-table">
@@ -95,7 +95,7 @@
                   <th>Kode</th>
                   <th>Kegiatan</th>
                   <th>Program</th>
-                  <th>PPTK</th>
+                  <th>PPKo</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
@@ -103,13 +103,13 @@
                 @php
                   $no = 1;
                 @endphp
-                @foreach ($getKegiatanPptk as $key)
+                @foreach ($getKegiatanPpko as $key)
                   <tr>
                     <td style="text-align:center;">{{ $no }}</td>
                     <td>{{ $key->kode_kegiatan}}</td>
                     <td>{{ $key->kegiatan->nama_kegiatan}}</td>
                     <td>{{ $key->program->nama_program}}</td>
-                    <td>{{ $key->userPptk->nama}}</td>
+                    <td>{{ $key->userPpko->nama}}</td>
                     <td>-</td>
                   </tr>
                   @php

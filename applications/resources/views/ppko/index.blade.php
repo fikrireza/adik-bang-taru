@@ -11,9 +11,9 @@
   <div id="content-header">
     <div id="breadcrumb">
       <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
-      <a href="#" class="current">Manajemen PPTK</a>
+      <a href="#" class="current">Manajemen PPKo</a>
     </div>
-    <h1>Manajemen PPTK</h1>
+    <h1>Manajemen PPKo</h1>
   </div>
 @endsection
 
@@ -37,35 +37,35 @@
   <div class="container-fluid">
     <hr style="margin:0px 0px 15px 0px;">
     <div class="alert alert-info alert-block" style="margin-bottom:0px;">
-      <a class="close" data-dismiss="alert" href="#">×</a>
+      {{-- <a class="close" data-dismiss="alert" href="#">×</a> --}}
       <h4 class="alert-heading">Pemberitahuan</h4>
       <hr style="margin:5px 0px 10px 0px; border-top-color:#9fd5dc;">
-      Dalam fitur ini, anda dapat mengelola data KPA. Data ini akan digunakan dalam fitur set PPTK untuk setiap kegiatan.
+      Dalam fitur ini, anda dapat mengelola data PPKo. Data ini akan digunakan dalam fitur set PPKo untuk setiap kegiatan.
     </div>
     <div class="row-fluid">
       <div class="span5">
         <div class="widget-box">
           <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
-            <h5>Input Data PPTK</h5>
+            <h5>Input Data PPKo</h5>
           </div>
           <div class="widget-content nopadding">
-            @if (isset($editPptk))
-            <form action="{{ route('pptk.edit')}}" method="POST" class="form-horizontal" name="form-validate" id="form-validate" novalidate="novalidate">
+            @if (isset($editPpko))
+            <form action="{{ route('ppko.edit')}}" method="POST" class="form-horizontal" name="form-validate" id="form-validate" novalidate="novalidate">
             @else
-            <form action="{{ route('pptk.store')}}" method="POST" class="form-horizontal" name="form-validate" id="form-validate" novalidate="novalidate">
+            <form action="{{ route('ppko.store')}}" method="POST" class="form-horizontal" name="form-validate" id="form-validate" novalidate="novalidate">
             @endif
               {{ csrf_field() }}
               <div class="control-group">
                 <label class="control-label">NIP</label>
                 <div class="controls">
-                  @if (isset($editPptk))
-                  <input type="hidden" name="id" value="{{ $editPptk->id }}">
+                  @if (isset($editPpko))
+                  <input type="hidden" name="id" value="{{ $editPpko->id }}">
                   @endif
                   <select class="span11" name="nip_sapk" id="nip_sapk" title="Pilih Pegawai">
                     <option value="">--Choose--</option>
-                    @if (isset($editPptk))
+                    @if (isset($editPpko))
                       @php
-                        $nip_sapk = $editPptk->nip_sapk.'|'.$editPptk->nama;
+                        $nip_sapk = $editPpko->nip_sapk.'|'.$editPpko->nama;
                       @endphp
                       @if(!$pegawaiApi == null)
                         @foreach ($pegawaiApi as $key)
@@ -91,9 +91,9 @@
                 <div class="controls">
                   <select class="span11" name="id_bidang" id="id_bidang" title="Pilih Pegawai">
                     <option value="" selected="">--Choose--</option>
-                    @if (isset($editPptk))
+                    @if (isset($editPpko))
                       @foreach ($getBidang as $key)
-                        <option value="{{ $key->id }}" {{ $editPptk->id_bidang == $key->id ? 'selected="selected"' : '' }}>{{ $key->nama_bidang }}</option>
+                        <option value="{{ $key->id }}" {{ $editPpko->id_bidang == $key->id ? 'selected="selected"' : '' }}>{{ $key->nama_bidang }}</option>
                       @endforeach
                     @else
                       @foreach ($getBidang as $key)
@@ -114,7 +114,7 @@
       <div class="span7">
         <div class="widget-box">
           <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
-            <h5>Daftar PPTK</h5>
+            <h5>Daftar PPKo</h5>
           </div>
           <div class="widget-content nopadding">
             <table class="table table-bordered data-table">
@@ -131,14 +131,14 @@
                 @php
                   $no = 1;
                 @endphp
-                @foreach ($getPptk as $key)
+                @foreach ($getPpko as $key)
                   <tr>
                     <td style="text-align:center;">{{ $no }}</td>
                     <td>{{ $key->nip_sapk }}</td>
                     <td>{{ $key->nama }}</td>
                     <td>{{ $key->bidang->nama_bidang }}</td>
                     <td>
-                      <a href="{{ route('pptk.ubah', ['id' => $key->id ])}}" class="btn btn-warning btn-mini tip-top" data-original-title="Ubah">
+                      <a href="{{ route('ppko.ubah', ['id' => $key->id ])}}" class="btn btn-warning btn-mini tip-top" data-original-title="Ubah">
                         <i class="icon-edit"></i>
                       </a>
                       <a href="#myAlert" data-toggle="modal" class="btn btn-danger btn-mini tip-top" data-original-title="Hapus">

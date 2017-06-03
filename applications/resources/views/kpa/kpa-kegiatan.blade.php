@@ -18,25 +18,50 @@
 
 @section('content')
 
-  <div id="myAlert" class="modal hide">
-    <div class="modal-header" style="background:#da4f49;color:white;">
+  <div id="pilihKpa" class="modal hide">
+    <div class="modal-header">
       <button data-dismiss="modal" class="close" type="button">×</button>
-      <h3 style="text-shadow:0 0px;">Hapus Kegiatan</h3>
+      <h3 style="text-shadow:0 0px;">Pilih KPA</h3>
     </div>
     <div class="modal-body">
-      <p>Apakah anda yakin akan menghapus kegiatan dari bidang ini?</p>
+      <form action="{{ route('kpa.storeKegiatanKpa')}}" method="POST" class="form-horizontal" name="form-validate" id="form-validate" novalidate="novalidate">
+        {{ csrf_field() }}
+        <div class="control-group">
+          <label class="control-label">Kegiatan</label>
+          <div class="controls">
+            <select class="" name="id_kegiatan" id="id_kegiatan" title="Pilih Pegawai">
+              <option value="">--Choose--</option>
+              @foreach ($kegiatan as $key)
+              <option value="{{ $key->id }}">{{ $key->nama_kegiatan }} | {{ $key->kode_kegiatan }}</option>
+              @endforeach
+            </select>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label">KPA</label>
+          <div class="controls">
+            <select class="" name="kpa" id="kpa" title="Pilih Pegawai">
+              <option value="">--Choose--</option>
+              @foreach ($getMasterKpa as $key)
+              <option value="{{ $key->id }}">{{ $key->nama }} | {{ $key->bidang->nama_bidang }}</option>
+              @endforeach
+            </select>
+          </div>
+        </div>
+        <br>
     </div>
     <div class="modal-footer">
       <a data-dismiss="modal" class="btn" href="#">Tidak</a>
-      <a data-dismiss="modal" class="btn btn-danger" href="#">Ya, saya yakin</a>
+      <button class="btn btn-primary" href="#">Simpan</button>
     </div>
+    </form>
   </div>
 
 
   <div class="container-fluid">
     <hr style="margin:0px 0px 15px 0px;">
     <div class="alert alert-info alert-block" style="margin-bottom:0px;">
-      <a class="close" data-dismiss="alert" href="#">×</a>
+      {{-- <a class="close" data-dismiss="alert" href="#">×</a> --}}
       <h4 class="alert-heading">Pemberitahuan</h4>
       <hr style="margin:5px 0px 10px 0px; border-top-color:#9fd5dc;">
       Dalam fitur ini, anda dapat set KPA untuk setiap kegiatan di bawah ini.
@@ -46,6 +71,7 @@
         <div class="widget-box">
           <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
             <h5>Daftar KPA</h5>
+            <a href="#pilihKpa" data-toggle="modal" class="btn btn-mini btn-primary pull-right">Tambah Kegiatan</a>
           </div>
           <div class="widget-content nopadding">
             <table class="table table-bordered data-table">
@@ -56,22 +82,25 @@
                   <th>Kegiatan</th>
                   <th>Program</th>
                   <th>KPA</th>
-                  <th>Aksi</th>
                 </tr>
               </thead>
               <tbody>
-                @for ($i=0; $i < 10; $i++)
+                @php
+                  $no = 1;
+                @endphp
+                @foreach ($getKegiatanKpa as $key)
                   <tr>
-                    <td style="text-align:center;">1</td>
-                    <td>01.05.01.05.01.001</td>
-                    <td>Penyediaan Jasa Surat Menyurat</td>
-                    <td>Program Pelayanan Administrasi Perkantoran</td>
-                    <td>Dwi Handika Putro, S.Kom</td>
-                    <td style="text-align:center;">
-                      <button class="btn btn-mini btn-primary">Pilih KPA</button>
-                    </td>
+                    <td style="text-align:center;">{{ $no }}</td>
+                    <td>{{ $key->kode_kegiatan}}</td>
+                    <td>{{ $key->kegiatan->nama_kegiatan}}</td>
+                    <td>{{ $key->program->nama_program}}</td>
+                    <td>{{ $key->userKpa->nama}}</td>
+                    <td>-</td>
                   </tr>
-                @endfor
+                  @php
+                    $no++;
+                  @endphp
+                @endforeach
               </tbody>
             </table>
           </div>

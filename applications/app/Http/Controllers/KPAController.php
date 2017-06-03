@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Models\MasterBidang;
 use App\Models\MasterKpa;
+use App\Models\KegiatanKpa;
+use App\Models\Program;
+use App\Models\Kegiatan;
 
 use Auth;
 use Db;
@@ -14,7 +17,7 @@ use Validator;
 
 class KPAController extends Controller
 {
-    public function index()
+    public function indexMaster()
     {
 
       $getBidang = MasterBidang::get();
@@ -23,7 +26,7 @@ class KPAController extends Controller
       return view('kpa.index', compact('getBidang', 'getKpa'));
     }
 
-    public function store(Request $request)
+    public function storeMaster(Request $request)
     {
         $message = [
           'nip_sapk.required' => 'This field is required.',
@@ -53,7 +56,7 @@ class KPAController extends Controller
 
     }
 
-    public function ubah($id)
+    public function ubahMaster($id)
     {
         $editKpa = MasterKpa::find($id);
 
@@ -67,7 +70,7 @@ class KPAController extends Controller
         return view('kpa.index', compact('getBidang', 'getKpa', 'editKpa'));
     }
 
-    public function edit(Request $request)
+    public function editMaster(Request $request)
     {
         $message = [
           'nip_sapk.required' => 'This field is required.',
@@ -97,11 +100,45 @@ class KPAController extends Controller
     }
 
 
-    public function setkegiatan()
+    public function indexKpa()
     {
-      
+        $getKegiatanKpa = KegiatanKpa::get();
+        $getMasterKpa = MasterKpa::get();
 
-      return view('kpa.kpa-kegiatan');
+        $kegiatan_kpa = KegiatanKpa::pluck('id_kegiatan')->all();
+        $kegiatan = Kegiatan::whereNotIn('id', $kegiatan_kpa)->get();
+
+        return view('kpa.kpa-kegiatan', compact('getKegiatanKpa', 'getMasterKpa', 'kegiatan'));
+    }
+
+    public function storeKegiatanKpa(Request $request)
+    {
+        $message = [
+          'kpa.required' => 'This field is required.',
+          'id_kegiatan.required' => 'This field is required.',
+        ];
+
+        $validator = Validator::make($request->all(), [
+          'kpa' => 'required',
+          'id_kegiatan' => 'required',
+        ], $message);
+
+        if($validator->fails()){
+          return redirect()->route('kpa.indexKpa')->withErrors($validator)->withInput();
+        }
+
+        $kegiatan = Kegiatan::find($request->id_kegiatan);
+
+        $save = new KegiatanKpa;
+        $save->kode_kegiatan = $kegiatan->kode_kegiatan;
+        $save->id_kegiatan = $kegiatan->id;
+        $save->id_program = $kegiatan->id_program;
+        $save->id_master_kpa  = $request->kpa;
+        $save->id_aktor = Auth::user()->id;
+        $save->flag_status = 1;
+        $save->save();
+
+        return redirect()->route('kpa.indexKpa')->with('berhasil', 'Berhasil Mengubah Data KPA');
     }
 
 }
