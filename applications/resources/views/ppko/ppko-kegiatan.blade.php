@@ -10,28 +10,28 @@
   <div id="content-header">
     <div id="breadcrumb">
       <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
-      <a href="#" class="current">Set KPA Kegiatan</a>
+      <a href="#" class="current">Set PPKo Kegiatan</a>
     </div>
-    <h1>Set KPA Kegiatan</h1>
+    <h1>Set PPKo Kegiatan</h1>
   </div>
 @endsection
 
 @section('content')
 
-  <div id="pilihKpa" class="modal hide">
+  <div id="pilihPptk" class="modal hide">
     <div class="modal-header">
       <button data-dismiss="modal" class="close" type="button">×</button>
-      <h3 style="text-shadow:0 0px;">Pilih KPA</h3>
+      <h3 style="text-shadow:0 0px;">Pilih PPKo</h3>
     </div>
     <div class="modal-body">
-      <form action="{{ route('kpa.store')}}" method="POST" class="form-horizontal" name="form-validate" id="form-validate" novalidate="novalidate">
+      <form action="{{ route('pptk.store')}}" method="POST" class="form-horizontal" name="form-validate" id="form-validate" novalidate="novalidate">
         {{ csrf_field() }}
         <div class="control-group">
           <label class="control-label">NIP</label>
           <div class="controls">
             <select class="" name="nip_sapk" id="nip_sapk" title="Pilih Pegawai">
               <option value="">--Choose--</option>
-              @foreach ($getMasterKpa as $key)
+              @foreach ($getMasterPpko as $key)
               <option value="{{ $key->id }}">{{ $key->nama }} | {{ $key->bidang->nama_bidang }}</option>
               @endforeach
             </select>
@@ -46,6 +46,20 @@
     </form>
   </div>
 
+  <div id="myAlert" class="modal hide">
+    <div class="modal-header" style="background:#da4f49;color:white;">
+      <button data-dismiss="modal" class="close" type="button">×</button>
+      <h3 style="text-shadow:0 0px;">Hapus Kegiatan</h3>
+    </div>
+    <div class="modal-body">
+      <p>Apakah anda yakin akan menghapus kegiatan dari bidang ini?</p>
+    </div>
+    <div class="modal-footer">
+      <a data-dismiss="modal" class="btn" href="#">Tidak</a>
+      <a data-dismiss="modal" class="btn btn-danger" href="#">Ya, saya yakin</a>
+    </div>
+  </div>
+
 
   <div class="container-fluid">
     <hr style="margin:0px 0px 15px 0px;">
@@ -53,7 +67,7 @@
       {{-- <a class="close" data-dismiss="alert" href="#">×</a> --}}
       <h4 class="alert-heading">Pemberitahuan</h4>
       <hr style="margin:5px 0px 10px 0px; border-top-color:#9fd5dc;">
-      Dalam fitur ini, anda dapat set KPA untuk setiap kegiatan di bawah ini.
+      Dalam fitur ini, anda dapat set PPKo untuk setiap kegiatan di bawah ini.
     </div>
     <div class="row-fluid">
       <div class="span12">
@@ -69,7 +83,7 @@
                   <th>Kode</th>
                   <th>Kegiatan</th>
                   <th>Program</th>
-                  <th>KPA</th>
+                  <th>PPTK</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
@@ -85,7 +99,7 @@
                     <td>{{ $key->program->nama_program}}</td>
                     <td>-</td>
                     <td style="text-align:center;">
-                      <a href="#pilihKpa" data-value="{{ $key->id }}" data-toggle="modal" class="btn btn-mini btn-primary">
+                      <a href="#pilihPptk" data-value="{{ $key->id }}" data-toggle="modal" class="btn btn-mini btn-primary">
                         Pilih KPA
                       </a>
                     </td>

@@ -98,9 +98,12 @@ class PPTKController extends Controller
         return redirect()->route('pptk.index')->with('berhasil', 'Berhasil Mengubah Data PPTK');
     }
 
-    public function setkegiatan()
+    public function indexPptk()
     {
+      $getKegiatan = Kegiatan::get();
+      $getMasterPptk = MasterPptk::get();
 
-      return view('pptk.pptk-kegiatan');
+
+      return view('pptk.pptk-kegiatan', compact('getKegiatan', 'getMasterPptk'));
     }
 }

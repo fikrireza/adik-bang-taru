@@ -15,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
 
-      if(Request::is('kpa*') || Request::is('pptk*')){
+      if(Request::is('kpa*') || Request::is('pptk*') || Request::is('ppko*')){
         ini_set('max_execution_time', 300);
 
         try {
