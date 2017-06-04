@@ -8,8 +8,10 @@ use App\Models\ItemKegiatan;
 use App\Models\Kegiatan;
 use App\Models\Pencairan;
 use App\Models\ResumeKontrak;
+use App\Models\PresentaseFisik;
 use Auth;
 use DB;
+use Session;
 
 class PencairanDanaController extends Controller
 {
@@ -26,16 +28,19 @@ class PencairanDanaController extends Controller
 
     public function proses($id)
     {
-      $getitem = ItemKegiatan::select('nama_item_kegiatan', 'no_rekening', 'flag_rincian_item', DB::raw('sum(total) as total'))
+      $getitem = ItemKegiatan::select('nama_item_kegiatan', 'no_rekening', 'flag_rincian_item', 'realisasi_anggaran', DB::raw('sum(total) as total'))
       ->where('id_kegiatan', $id)
       ->groupby('nama_item_kegiatan')
       ->groupby('no_rekening')
       ->groupby('flag_rincian_item')
+      ->groupby('realisasi_anggaran')
       ->get();
 
       $getkegiatan = Kegiatan::join('adik_program', 'adik_program.id', '=', 'adik_kegiatan.id_program')
         ->select('adik_kegiatan.*', 'adik_program.id as id_program', 'adik_program.nama_program', 'adik_program.kode_program')
         ->where('adik_kegiatan.id', $id)->first();
+
+      $getfisik = PresentaseFisik::whereNotNull('no_rekening_kegiatan')->get();
 
       $jumlahanggaran = 0;
       foreach ($getitem as $key) {
@@ -43,7 +48,9 @@ class PencairanDanaController extends Controller
       }
 
       return view('pencairan-dana.proses')
+        ->with('id_kegiatan', $id)
         ->with('getkegiatan', $getkegiatan)
+        ->with('getfisik', $getfisik)
         ->with('jumlahanggaran', $jumlahanggaran)
         ->with('getitem', $getitem);
     }
@@ -69,15 +76,36 @@ class PencairanDanaController extends Controller
       return view('pencairan-dana.rincian')->with('dataitem', $get);
     }
 
-    public function pencairanbykegiatan($no_rek)
-    {
-      $getkontrak = ResumeKontrak::where('no_rekening', $no_rek)->first();
-      return view('pencairan-dana.pencairan')->with('datakontrak', $getkontrak);
-    }
-
     public function pencairanbyitem($id_item)
     {
       $getkontrak = ResumeKontrak::where('id_item_kegiatan', $id_item)->first();
-      return view('pencairan-dana.pencairan')->with('datakontrak', $getkontrak);
+      $gettermin = Pencairan::where('id_item_kegiatan', $id_item)->get();
+      $getfisik = PresentaseFisik::where('id_item_kegiatan', $id_item)->first();
+
+      if (count($getkontrak)!=0) {
+        $date1 = $getkontrak->jangka_waktu_awal;
+        $date2 = $getkontrak->jangka_waktu_akhir;
+
+        $diff = abs(strtotime($date2) - strtotime($date1));
+
+        $years = floor($diff / (365*60*60*24));
+        $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+        $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+      } else {
+        $days = -1;
+      }
+
+      $successmsg = null;
+      if (Session::has('success')) {
+        $successmsg = Session::get('success');
+      }
+
+      return view('pencairan-dana.pencairan')
+        ->with('id_item', $id_item)
+        ->with('success', $successmsg)
+        ->with('gettermin', $gettermin)
+        ->with('getfisik', $getfisik)
+        ->with('daysjangkawaktu', $days)
+        ->with('datakontrak', $getkontrak);
     }
 }

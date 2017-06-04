@@ -134,13 +134,24 @@
       <button data-dismiss="modal" class="close" type="button">×</button>
       <h3 style="text-shadow:0 0px;">Input Realisasi Fisik</h3>
     </div>
-    <form action="index.html" method="post">
+    <form action="{{route('fisik.storefisikkegiatan')}}" method="post">
+      {{ csrf_field() }}
       <div class="modal-body">
+        <div class="controls" style="margin-left:15px;">
+          <span style="font-weight:bold;">Realisasi Anggaran :</span>
+          <br>
+          <div class="input-append">
+            <span class="add-on">Rp</span>
+            <input type="text" class="span5" name="realisasi_anggaran" id="realisasi_anggaran" required>
+          </div>
+        </div>
         <div class="controls" style="margin-left:15px;">
           <span style="font-weight:bold;">Presentase Realisasi Fisik :</span>
           <br>
           <div class="input-append">
-            <input type="text" class="span5">
+            <input type="text" class="span5" name="realisasi_fisik" id="realisasi_fisik" required>
+            <input type="hidden" class="span5" name="no_rekening" id="no_rekening_kegiatan">
+            <input type="hidden" class="span5" name="id_kegiatan" id="id_kegiatans">
             <span class="add-on">%</span>
           </div>
         </div>
@@ -226,13 +237,18 @@
             <table class="table table-bordered data-table" id="tabel_item">
               <thead>
                 <tr>
-                  <th width="20px;">#</th>
-                  <th>Kode</th>
-                  <th>Uraian Item Kegiatan</th>
-                  <th>Nilai</th>
-                  <th>Memiliki Kontrak</th>
-                  <th>Kelengkapan Dokumen</th>
-                  <th>Aksi</th>
+                  <th width="20px;" rowspan="2">#</th>
+                  <th rowspan="2">Kode</th>
+                  <th rowspan="2">Uraian Item Kegiatan</th>
+                  <th rowspan="2">Jumlah Anggaran</th>
+                  <th rowspan="2">Memiliki Kontrak</th>
+                  <th rowspan="2">Kelengkapan Dokumen</th>
+                  <th colspan="2">Realisasi By Input</th>
+                  <th rowspan="2">Aksi</th>
+                </tr>
+                <tr>
+                  <th>Anggaran</th>
+                  <th>Fisik</th>
                 </tr>
               </thead>
               <tbody>
@@ -258,11 +274,36 @@
                       @else
                         -
                       @endif
-
+                    </td>
+                    <td>
+                      @if (!is_null($key->realisasi_anggaran))
+                        {{number_format($key->realisasi_anggaran, 0, ',', '.')}}
+                      @else
+                        -
+                      @endif
+                    </td>
+                    <td>
+                      @php
+                        $flagfisik=0;
+                        $realfisik=0;
+                      @endphp
+                      @foreach ($getfisik as $fisik)
+                        @if ($fisik->no_rekening_kegiatan == $key->no_rekening)
+                          {{$fisik->nilai}} %
+                          @php
+                            $realfisik = $fisik->nilai;
+                            $flagfisik = 1;
+                            break;
+                          @endphp
+                        @endif
+                      @endforeach
+                      @if ($flagfisik==0)
+                        -
+                      @endif
                     </td>
                     <td style="text-align:center;">
                       @if ($key->flag_rincian_item==0)
-                        <a href="#myCair" data-toggle="modal" class="btn btn-primary btn-mini">Proses Pencairan</a>
+                        <a href="#myCair" data-toggle="modal" data-value="{{$key->no_rekening}}//{{$id_kegiatan}}//{{$key->realisasi_anggaran}}//{{$realfisik}}" class="btn btn-primary btn-mini cair">Proses Pencairan</a>
                       @else
                         <a href="{{route('pencairan.rincian', $key->no_rekening)}}" class="btn btn-primary btn-mini">Lihat Detail</a>
                       @endif
@@ -297,6 +338,19 @@
       $('#tabel_item').on('click','.kontrak', function(){
         var id = $(this).data('value');
         $('#ubahflag').attr('href', '{{url('/')}}/pencairan-dana/ubah-flag-rincian/'+id);
+      });
+
+      $('#tabel_item').on('click','.cair', function(){
+        var rek_id = $(this).data('value');
+        var data = rek_id.split("//");
+        $('#no_rekening_kegiatan').attr('value', data[0]);
+        $('#id_kegiatans').attr('value', data[1]);
+        $('#realisasi_anggaran').attr('value', data[2]);
+        if (data[3]!=0) {
+          $('#realisasi_fisik').attr('value', data[3]);
+        } else {
+          $('#realisasi_fisik').attr('value', '');
+        }
       });
     });
   });
