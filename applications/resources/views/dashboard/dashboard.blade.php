@@ -24,57 +24,110 @@
     </div>
 
     <div class="row-fluid">
-      <div class="span7">
-        <div class="widget-box">
-          <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
-            <h5>Pie Chart Kegiatan Per Bidang</h5>
-          </div>
-          <div class="widget-content nopadding">
-            <div id="container" style="min-width: 310px; height: 400px; max-width: 650px; margin: 0 auto"></div>
+
+      @if (Auth::user()->level==1)
+        <div class="span7">
+          <div class="widget-box">
+            <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+              <h5>Pie Chart Kegiatan Per Bidang</h5>
+            </div>
+            <div class="widget-content nopadding">
+              <div id="container" style="min-width: 310px; height: 400px; max-width: 650px; margin: 0 auto"></div>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="span5">
-        <div class="widget-box">
-          <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
-            <h5>Daftar Bidang</h5>
-          </div>
-          <div class="widget-content nopadding">
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th width="20px;">#</th>
-                  <th>Nama Bidang</th>
-                  <th>Jumlah Akun</th>
-                  <th>Jumlah Kegiatan</th>
-                  <th>Aksi</th>
-                </tr>
-              </thead>
-              <tbody>
-                @php
-                  $no=1;
-                @endphp
-                @foreach ($databidang as $key)
+        <div class="span5">
+          <div class="widget-box">
+            <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+              <h5>Daftar Bidang</h5>
+            </div>
+            <div class="widget-content nopadding">
+              <table class="table table-bordered">
+                <thead>
                   <tr>
-                    <td>{{$no}}</td>
-                    <td>{{$key['nama_bidang']}}</td>
-                    <td><span class="badge badge-success">{{$key['jumlah_akun']}}</span></td>
-                    <td><span class="badge badge-info">{{$key['jumlah_kegiatan']}}</span></td>
-                    <td>
-                      <a href="{{route('seleksi-kegiatan.bidang')}}" class="btn btn-primary btn-mini tip-top" data-original-title="Lihat">
-                        <i class="icon-eye-open"></i>
-                      </a>
-                    </td>
+                    <th width="20px;">#</th>
+                    <th>Nama Bidang</th>
+                    <th>Jumlah Akun</th>
+                    <th>Jumlah Kegiatan</th>
+                    <th>Aksi</th>
                   </tr>
+                </thead>
+                <tbody>
                   @php
-                    $no++;
+                  $no=1;
                   @endphp
-                @endforeach
-              </tbody>
-            </table>
+                  @foreach ($databidang as $key)
+                    <tr>
+                      <td>{{$no}}</td>
+                      <td>{{$key['nama_bidang']}}</td>
+                      <td><span class="badge badge-success">{{$key['jumlah_akun']}}</span></td>
+                      <td><span class="badge badge-info">{{$key['jumlah_kegiatan']}}</span></td>
+                      <td>
+                        <a href="{{route('seleksi-kegiatan.bidang')}}" class="btn btn-primary btn-mini tip-top" data-original-title="Lihat">
+                          <i class="icon-eye-open"></i>
+                        </a>
+                      </td>
+                    </tr>
+                    @php
+                    $no++;
+                    @endphp
+                  @endforeach
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
-      </div>
+      @else
+        <div class="span7">
+          <div class="widget-box">
+            <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+              <h5>Pie Chart Kegiatan Per Bidang</h5>
+            </div>
+            <div class="widget-content nopadding">
+              <div id="container" style="min-width: 310px; height: 400px; max-width: 650px; margin: 0 auto"></div>
+            </div>
+          </div>
+        </div>
+        <div class="span5">
+          <div class="widget-box">
+            <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+              <h5>Daftar Kegiatan</h5>
+            </div>
+            <div class="widget-content nopadding">
+              <table class="table table-bordered data-tables" style="margin-top:40px;">
+                <thead>
+                  <tr>
+                    <th width="20px;">#</th>
+                    <th>Nama Kegiatan</th>
+                    <th>Jumlah Anggaran</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @php
+                    $no=1;
+                  @endphp
+                  @foreach ($datakegiatan as $key)
+                    <tr>
+                      <td style="text-align:center;">{{$no}}</td>
+                      <td>
+                        @foreach ($getkegiatan as $keg)
+                          @if ($keg->id == $key['id'])
+                            {{$keg->nama_kegiatan}}
+                          @endif
+                        @endforeach
+                      </td>
+                      <td>Rp {{number_format($key['total'], 0, ',', '.')}},-</td>
+                    </tr>
+                    @php
+                      $no++;
+                    @endphp
+                  @endforeach
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      @endif
     </div>
   </div>
 @endsection
@@ -85,6 +138,7 @@
   <script src="{{asset('theme/js/excanvas.min.js')}}"></script>
   <script src="{{asset('theme/js/jquery.min.js')}}"></script>
   <script src="{{asset('theme/js/jquery.ui.custom.js')}}"></script>
+  <script src="{{asset('theme/js/select2.min.js')}}"></script>
   <script src="{{asset('theme/js/bootstrap.min.js')}}"></script>
   {{-- <script src="{{asset('theme/js/jquery.flot.min.js')}}"></script>
   <script src="{{asset('theme/js/jquery.flot.resize.min.js')}}"></script> --}}
@@ -99,10 +153,20 @@
   <script src="{{asset('theme/js/matrix.form_validation.js')}}"></script>
   <script src="{{asset('theme/js/jquery.wizard.js')}}"></script>
   <script src="{{asset('theme/js/jquery.uniform.js')}}"></script>
-  <script src="{{asset('theme/js/select2.min.js')}}"></script>
   <script src="{{asset('theme/js/matrix.popover.js')}}"></script>
   <script src="{{asset('theme/js/jquery.dataTables.min.js')}}"></script>
-  <script src="{{asset('theme/js/matrix.tables.js')}}"></script>
+  {{-- <script src="{{asset('theme/js/matrix.tables.js')}}"></script> --}}
+
+  <script type="text/javascript">
+    $(function(){
+      $('.data-tables').dataTable({
+    		"bJQueryUI": true,
+    		"bLengthChange": false,
+    		"sPaginationType": "full_numbers",
+    		"sDom": '<""l>t<"F"fp>'
+    	});
+    });
+  </script>
 
   <script type="text/javascript">
     Highcharts.chart('container', {
@@ -113,7 +177,11 @@
             type: 'pie'
         },
         title: {
-            text: 'Jumlah Kegiatan Per Bidang, 2017.'
+            @if (Auth::user()->level==1)
+              text: 'Jumlah Kegiatan Per Bidang, 2017.'
+            @else
+              text: 'Jumlah Pencairan Kegiatan, 2017.'
+            @endif
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
