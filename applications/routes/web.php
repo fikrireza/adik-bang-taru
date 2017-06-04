@@ -37,6 +37,8 @@ Route::get('daftar-kegiatan/detail/{id}', 'DaftarKegiatanController@detail')->na
 Route::get('pencairan-dana', 'PencairanDanaController@index')->name('pencairan.index');
 Route::get('pencairan-dana/proses/{id}', 'PencairanDanaController@proses')->name('pencairan.proses');
 Route::get('pencairan-dana/bind-item/{no_rek}', 'PencairanDanaController@binditem')->name('pencairan.binditem');
+Route::get('pencairan-dana/proses/dok/{no_rek}', 'PencairanDokumenController@getDok')->name('pencairan-dokumen.getDok');
+Route::post('pencairan-dana/proses/dok', 'PencairanDokumenController@store')->name('pencairan-dokumen.store');
 Route::get('pencairan-dana/rincian-item/{no_rek}', 'PencairanDanaController@rincian')->name('pencairan.rincian');
 Route::get('pencairan-dana/progress-pencairan-per-item/{id}', 'PencairanDanaController@pencairanbyitem')->name('pencairan.progressbyitem');
 Route::get('pencairan-dana/ubah-flag-rincian/{no_rek}', 'PencairanDanaController@ubahflagrincian')->name('pencairan.ubahflagrincian');

@@ -71,7 +71,7 @@ class ManajemenAkunController extends Controller
     $set = User::find($request->id);
     $set->name = $request->name;
     $set->email = $request->email;
-    $set->password = $request->password;
+    $set->password = Hash::make($request->password);
     $set->id_bidang = $request->id_bidang;
     $set->level = $request->level;
     $set->save();
