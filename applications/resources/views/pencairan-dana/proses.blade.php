@@ -283,7 +283,7 @@
                     <td style="text-align:center;">{{$no}}</td>
                     <td>{{$key->no_rekening}}</td>
                     <td>
-                      <a id="lihatrinci" href="#rincianitem" data-value="{{$key->no_rekening}}" data-toggle="modal" class="tip-top" data-original-title="Lihat Rincian Item">
+                      <a id="lihatrinci" href="#rincianitem" data-value="{{$key->no_rekening}}//{{$getkegiatan->id_kegiatan}}" data-toggle="modal" class="tip-top" data-original-title="Lihat Rincian Item">
                         {{$key->nama_item_kegiatan}}
                       </a>
                     </td>
@@ -390,9 +390,10 @@
 
       $('#tabel_item').on('click','#lihatrinci', function(){
         var rek = $(this).data('value');
+        var data = rek.split("//");
         $(".myTableRow").remove();
         $.ajax({
-          url: "{{url('/')}}/pencairan-dana/bind-item/"+rek,
+          url: "{{url('/')}}/pencairan-dana/bind-item/"+data[0]+"/"+data[1],
           success: function(data){
             var tag;
             data.forEach(function(obj) {

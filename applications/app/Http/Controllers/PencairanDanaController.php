@@ -37,7 +37,7 @@ class PencairanDanaController extends Controller
       ->get();
 
       $getkegiatan = Kegiatan::join('adik_program', 'adik_program.id', '=', 'adik_kegiatan.id_program')
-        ->select('adik_kegiatan.*', 'adik_program.id as id_program', 'adik_program.nama_program', 'adik_program.kode_program')
+        ->select('adik_kegiatan.*', 'adik_kegiatan.id as id_kegiatan', 'adik_program.id as id_program', 'adik_program.nama_program', 'adik_program.kode_program')
         ->where('adik_kegiatan.id', $id)->first();
 
       $getfisik = PresentaseFisik::whereNotNull('no_rekening_kegiatan')->get();
@@ -115,9 +115,11 @@ class PencairanDanaController extends Controller
         ->with('datakontrak', $getkontrak);
     }
 
-    public function binditem($no_rek)
+    public function binditem($no_rek, $id_keg)
     {
-      $get = ItemKegiatan::where('no_rekening', $no_rek)->get();
+      $get = ItemKegiatan::where('no_rekening', $no_rek)
+        ->where('id_kegiatan', $id_keg)
+        ->get();
       return $get;
     }
 }
