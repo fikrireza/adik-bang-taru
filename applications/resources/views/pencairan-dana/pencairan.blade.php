@@ -41,6 +41,31 @@
     }, 5000);
   </script>
 
+  <div id="fisik" class="modal hide">
+    <div class="modal-header" style="background:#faa732;color:white;">
+      <button data-dismiss="modal" class="close" type="button">×</button>
+      <h3 style="text-shadow:0 0px;">Ubah Realisasi Fisik</h3>
+    </div>
+    <form action="{{route('fisik.storefisikitem')}}" method="post">
+      {{ csrf_field() }}
+      <div class="modal-body">
+        <div class="controls" style="margin-left:15px;">
+          <span style="font-weight:bold;">Presentase Realisasi Fisik :</span>
+          <br>
+          <div class="input-append">
+            <input type="text" class="span5" name="nilai" id="nilai_fisik">
+            <input type="hidden" class="span5" name="id_item_kegiatan" value="{{$id_item}}">
+            <span class="add-on">%</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a data-dismiss="modal" class="btn" href="#">Cancel</a>
+        <input type="submit" class="btn btn-warning" value="Simpan Perubahan">
+      </div>
+    </form>
+  </div>
+
   <div id="edit" class="modal hide">
     <div class="modal-header" style="background:#faa732;color:white;">
       <button data-dismiss="modal" class="close" type="button">×</button>
@@ -377,10 +402,28 @@
                 <button type="submit" class="btn btn-success pull-right">Simpan</button>
               </div>
             </form>
+            <br>
+
           </div>
         </div>
       </div>
       <div class="span7">
+        <ul class="quick-actions">
+          <li class="bg_lb span12">
+            <a id="fisikdisplay" data-value="{{$getfisik->id}}" href="#fisik" data-toggle="modal">
+              <i class="icon-signal"></i>
+              <span style="font-size:20px;">
+                @if (count($getfisik)==0)
+                  Presentase Realisasi Fisik: 0 % <br>
+                  <i style="font-size:11px;">Klik disini untuk mengubah nilai realisasi fisik.</i>
+                @else
+                  Presentase Realisasi Fisik: {{$getfisik->nilai}} % <br>
+                  <i style="font-size:11px;">Klik disini untuk mengubah nilai realisasi fisik.</i>
+                @endif
+              </span>
+            </a>
+          </li>
+        </ul>
         <ul class="quick-actions">
           <li class="bg_lg span12">
             <a>
@@ -518,6 +561,16 @@
             }
 
             $('#nilai').attr('value', data.nilai);
+          }
+        });
+      });
+
+      $('#fisikdisplay').click(function(){
+        var id = $(this).data('value');
+        $.ajax({
+          url: "{{url('/')}}/presentase-fisik/bind/"+id,
+          success: function(data) {
+            $('#nilai_fisik').attr('value', data.nilai);
           }
         });
       });

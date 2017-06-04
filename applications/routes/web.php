@@ -47,6 +47,10 @@ Route::post('pencairan-termin', 'PencairanTerminController@store')->name('pencai
 Route::post('pencairan-termin/update', 'PencairanTerminController@update')->name('pencairan-termin.update');
 Route::get('pencairan-termin/bind/{id}', 'PencairanTerminController@bind')->name('pencairan-termin.bind');
 
+Route::post('presentase-fisik/item', 'PresentaseFisikController@storefisikitem')->name('fisik.storefisikitem');
+Route::post('presentase-fisik/kegiatan', 'PresentaseFisikController@storefisikkegiatan')->name('fisik.storefisikkegiatan');
+Route::get('presentase-fisik/bind/{id}', 'PresentaseFisikController@bind')->name('fisik.bind');
+
 
 //----- KPA
 Route::get('kpa', 'KPAController@indexMaster')->name('kpa.index');
