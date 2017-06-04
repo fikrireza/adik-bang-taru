@@ -72,7 +72,13 @@ class PencairanDanaController extends Controller
     public function rincian($no_rek)
     {
       $get = ItemKegiatan::where('no_rekening', $no_rek)->get();
-      return view('pencairan-dana.rincian')->with('dataitem', $get);
+      $getfisik = PresentaseFisik::whereNotNull('id_item_kegiatan')->get();
+      $getpencairan = Pencairan::select('id_item_kegiatan', DB::raw('sum(nilai) as nilai'))->groupby('id_item_kegiatan')->get();
+
+      return view('pencairan-dana.rincian')
+        ->with('getfisik', $getfisik)
+        ->with('getpencairan', $getpencairan)
+        ->with('dataitem', $get);
     }
 
     public function pencairanbyitem($id_item)
@@ -106,5 +112,11 @@ class PencairanDanaController extends Controller
         ->with('getfisik', $getfisik)
         ->with('daysjangkawaktu', $days)
         ->with('datakontrak', $getkontrak);
+    }
+
+    public function binditem($no_rek)
+    {
+      $get = ItemKegiatan::where('no_rekening', $no_rek)->get();
+      return $get;
     }
 }

@@ -19,13 +19,19 @@ class PencairanTerminController extends Controller
       $set->id_aktor = Auth::user()->id;
       $set->save();
 
-      Session::put('success', 'Berhasil memasukkan data pencairan.');
+      Session::flash('success', 'Berhasil memasukkan data pencairan.');
       return redirect()->route('pencairan.progressbyitem', $request->id_item_kegiatan);
     }
 
     public function update(Request $request)
     {
+      $set = Pencairan::find($request->id);
+      $set->termin = $request->termin;
+      $set->nilai = $request->nilai;
+      $set->save();
 
+      Session::flash('success', 'Berhasil memasukkan data pencairan.');
+      return redirect()->route('pencairan.progressbyitem', $request->id_item_kegiatan);
     }
 
     public function bind($id)

@@ -109,6 +109,29 @@
     </div>
   </div>
 
+  <div id="rincianitem" class="modal hide">
+    <div class="modal-header" style="background:#3a87ad;color:white;">
+      <button data-dismiss="modal" class="close" type="button">×</button>
+      <h3 style="text-shadow:0 0px;">Rincian Item Kegiatan</h3>
+    </div>
+    <div class="modal-body">
+      <table class="table table-bordered table-striped" id="rinctable">
+        <thead>
+          <tr>
+            <th>Keterangan Item Rincian</th>
+            <th>Anggaran Per Item</th>
+          </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+      </table>
+    </div>
+    <div class="modal-footer">
+      <a data-dismiss="modal" class="btn" href="#">Tutup</a>
+    </div>
+  </div>
+
   <div id="myInputKontrak" class="modal hide">
     <div class="modal-header" style="background:#3a87ad;color:white;">
       <button data-dismiss="modal" class="close" type="button">×</button>
@@ -253,7 +276,11 @@
                   <tr>
                     <td style="text-align:center;">{{$no}}</td>
                     <td>{{$key->no_rekening}}</td>
-                    <td>{{$key->nama_item_kegiatan}}</td>
+                    <td>
+                      <a id="lihatrinci" href="#rincianitem" data-value="{{$key->no_rekening}}" data-toggle="modal" class="tip-top" data-original-title="Lihat Rincian Item">
+                        {{$key->nama_item_kegiatan}}
+                      </a>
+                    </td>
                     <td>{{number_format($key->total, 0, ',', '.')}}</td>
                     <td style="text-align:center;">
                       @if ($key->flag_rincian_item==0)
@@ -266,33 +293,41 @@
                       @if ($key->flag_rincian_item==0)
                         <span class="badge btn-primary"><a href="#myAlert" data-toggle="modal" style="color:white;">Lihat Dokumen</a></span>
                       @else
-                        -
+                        <span style="color:#b5b5b5;font-size:11px;"><i>Tersedia pada detail.</i></span>
                       @endif
                     </td>
                     <td>
-                      @if (!is_null($key->realisasi_anggaran))
-                        {{number_format($key->realisasi_anggaran, 0, ',', '.')}}
-                      @else
-                        -
-                      @endif
-                    </td>
-                    <td>
-                      @php
-                        $flagfisik=0;
-                        $realfisik=0;
-                      @endphp
-                      @foreach ($getfisik as $fisik)
-                        @if ($fisik->no_rekening_kegiatan == $key->no_rekening)
-                          {{$fisik->nilai}} %
-                          @php
-                            $realfisik = $fisik->nilai;
-                            $flagfisik = 1;
-                            break;
-                          @endphp
+                      @if ($key->flag_rincian_item==0)
+                        @if (!is_null($key->realisasi_anggaran))
+                          {{number_format($key->realisasi_anggaran, 0, ',', '.')}}
+                        @else
+                          -
                         @endif
-                      @endforeach
-                      @if ($flagfisik==0)
-                        -
+                      @else
+                        <span style="color:#b5b5b5;font-size:11px;"><i>Tersedia pada detail.</i></span>
+                      @endif
+                    </td>
+                    <td>
+                      @if ($key->flag_rincian_item==0)
+                        @php
+                          $flagfisik=0;
+                          $realfisik=0;
+                        @endphp
+                        @foreach ($getfisik as $fisik)
+                          @if ($fisik->no_rekening_kegiatan == $key->no_rekening)
+                            {{$fisik->nilai}} %
+                            @php
+                              $realfisik = $fisik->nilai;
+                              $flagfisik = 1;
+                              break;
+                            @endphp
+                          @endif
+                        @endforeach
+                        @if ($flagfisik==0)
+                          -
+                        @endif
+                      @else
+                        <span style="color:#b5b5b5;font-size:11px;"><i>Tersedia pada detail.</i></span>
                       @endif
                     </td>
                     <td style="text-align:center;">
@@ -345,6 +380,31 @@
           $('#realisasi_fisik').attr('value', '');
         }
       });
+
+      $('#tabel_item').on('click','#lihatrinci', function(){
+        var rek = $(this).data('value');
+        $(".myTableRow").remove();
+        $.ajax({
+          url: "{{url('/')}}/pencairan-dana/bind-item/"+rek,
+          success: function(data){
+            var tag;
+            data.forEach(function(obj) {
+              var total = obj.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+              $('#rinctable tr:last').after("<tr class='myTableRow'><td>"+obj.expr1+"</td><td>"+total+"</td></tr>");
+            });
+          }
+        });
+      });
+
+      // $('#realisasi_anggaran').keyup(function(event){
+      //   if(event.which >= 37 && event.which <= 40) return;
+      //   $(this).val(function(index, value) {
+      //     return value
+      //     .replace(/\D/g, "")
+      //     .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+      //     ;
+      //   });
+      // });
     });
   </script>
 @endsection

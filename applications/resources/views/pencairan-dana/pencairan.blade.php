@@ -93,6 +93,8 @@
             <label class="control-label">Nilai Pembayaran</label>
             <div class="controls">
               <input type="text" class="span3" name="nilai" id="nilai">
+              <input type="hidden" class="span3" name="id" id="id_pencairan">
+              <input type="hidden" class="span3" name="id_item_kegiatan" id="edit_id_item_kegiatan">
             </div>
           </div>
           <br>
@@ -567,6 +569,8 @@
             }
 
             $('#nilai').attr('value', data.nilai);
+            $('#id_pencairan').attr('value', data.id);
+            $('#edit_id_item_kegiatan').attr('value', data.id_item_kegiatan);
           }
         });
       });
