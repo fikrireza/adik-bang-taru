@@ -34,6 +34,7 @@ class PencairanDanaController extends Controller
       ->get();
 
       $getkegiatan = Kegiatan::join('adik_program', 'adik_program.id', '=', 'adik_kegiatan.id_program')
+        ->select('adik_kegiatan.*', 'adik_program.id as id_program', 'adik_program.nama_program', 'adik_program.kode_program')
         ->where('adik_kegiatan.id', $id)->first();
 
       $jumlahanggaran = 0;

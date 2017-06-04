@@ -32,12 +32,17 @@
     }, 5000);
   </script>
 
-  <div id="myAlert" class="modal hide">
+  <div id="myDok" class="modal hide" style="min-height:400px">
     <div class="modal-header" style="background:#3a87ad;color:white;">
       <button data-dismiss="modal" class="close" type="button">×</button>
       <h3 style="text-shadow:0 0px;">Kelengkapan Dokumen</h3>
     </div>
     <div class="modal-body">
+      <form class="form-horizontal" action="{{ route('pencairan-dokumen.store') }}" method="post" name="basic_validate" id="basic_validate" novalidate="novalidate" enctype="multipart/form-data">
+      {{ csrf_field() }}
+      <input type="hidden" name="id_dokumen" id="edit_id_dokumen">
+      <input type="hidden" name="no_rekening" id="edit_no_rekening">
+      <input type="hidden" name="id_kegiatan" value="{{ $getkegiatan->id }}">
       <table class="table table-bordered table-striped">
         <thead>
           <tr>
@@ -48,61 +53,62 @@
         <tbody>
           <tr>
             <td><span class="label label-info">SPP</span></td>
-            <td style="text-align:center;">
-              <span class="badge btn-primary"><a href="#myAlert" data-toggle="modal" style="color:white;">Download</a></span>
+            <td style="text-align:center;" id="edit_dok_spp">
+
             </td>
           </tr>
           <tr>
             <td><span class="label label-info">SPM</span></td>
-            <td style="text-align:center;">
-              <span class="badge btn-primary"><a href="#myAlert" data-toggle="modal" style="color:white;">Download</a></span>
+            <td style="text-align:center;" id="edit_dok_spm">
+
             </td>
           </tr>
           <tr>
             <td><span class="label label-info">Pengajuan SP2D</span></td>
-            <td style="text-align:center;">
-              <span class="badge btn-primary"><a href="#myAlert" data-toggle="modal" style="color:white;">Download</a></span>
+            <td style="text-align:center;" id="edit_dok_sp2d">
+
             </td>
           </tr>
           <tr>
             <td><span class="label label-info">Resume Kontrak</span></td>
-            <td style="text-align:center;">
-              <span class="badge btn-primary"><a href="#myAlert" data-toggle="modal" style="color:white;">Download</a></span>
+            <td style="text-align:center;" id="edit_dok_res_kontrak">
+
             </td>
           </tr>
           <tr>
             <td><span class="label label-info">Syarat Khusus Kontrak</span></td>
-            <td style="text-align:center;">
-              <span class="badge btn-primary"><a href="#myAlert" data-toggle="modal" style="color:white;">Download</a></span>
+            <td style="text-align:center;" id="edit_dok_syarat_kontrak">
+
             </td>
           </tr>
           <tr>
             <td><span class="label label-info">NPD</span></td>
-            <td style="text-align:center;">
-              <span class="badge btn-primary"><a href="#myAlert" data-toggle="modal" style="color:white;">Download</a></span>
+            <td style="text-align:center;" id="edit_dok_npd">
+
             </td>
           </tr>
           <tr>
             <td><span class="label label-info">PHO/FHO</span></td>
-            <td style="text-align:center;">
-              <span class="badge btn-primary"><a href="#myAlert" data-toggle="modal" style="color:white;">Download</a></span>
+            <td style="text-align:center;" id="edit_dok_pho">
+
             </td>
           </tr>
           <tr>
             <td><span class="label label-info">Kwitansi</span></td>
-            <td style="text-align:center;">
-              <span class="badge btn-primary"><a href="#myAlert" data-toggle="modal" style="color:white;">Download</a></span>
+            <td style="text-align:center;" id="edit_dok_kwitansi">
+
             </td>
           </tr>
           <tr>
             <td><span class="label label-info">Mutual Cek 100</span></td>
-            <td style="text-align:center;">
-              <span class="badge btn-primary"><a href="#myAlert" data-toggle="modal" style="color:white;">Download</a></span>
+            <td style="text-align:center;" id="edit_dok_mutual">
+
             </td>
           </tr>
         </tbody>
       </table>
-      <a href="#" class="btn btn-primary pull-right btn-mini"><i class="icon-plus"></i> &nbsp;Tambah Dokumen</a>
+        <p id="upload"></p>
+      </form>
     </div>
     <div class="modal-footer">
       <a data-dismiss="modal" class="btn" href="#">Tutup</a>
@@ -248,7 +254,7 @@
                     </td>
                     <td style="width:100px;">
                       @if ($key->flag_rincian_item==0)
-                        <span class="badge btn-primary"><a href="#myAlert" data-toggle="modal" style="color:white;">Lihat Dokumen</a></span>
+                        <a href="#myDok" data-value="{{$key->no_rekening}}" data-toggle="modal" class="badge btn-primary myDok" style="color:white;">Lihat Dokumen</a>
                       @else
                         -
                       @endif
@@ -284,6 +290,7 @@
   <script src="{{asset('theme/js/jquery.dataTables.min.js')}}"></script>
   <script src="{{asset('theme/js/matrix.js')}}"></script>
   <script src="{{asset('theme/js/matrix.tables.js')}}"></script>
+  <script src="{{asset('theme/js/jquery.validate.js') }}"></script>
 
   <script type="text/javascript">
     $(function(){
@@ -292,5 +299,149 @@
         $('#ubahflag').attr('href', '{{url('/')}}/pencairan-dana/ubah-flag-rincian/'+id);
       });
     });
+  });
+  </script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('#tabel_item').on('click','.myDok', function(){
+        var id = $(this).data('value');
+        $.ajax({
+          url: "{{ url('/') }}/pencairan-dana/proses/dok/"+id,
+          success: function(data) {
+            $('#edit_id_dokumen').attr('value', data.id);
+            $('#edit_no_rekening').attr('value', data.no_rekening);
+
+            var dok_spp = data.dok_spp;
+            if (dok_spp == null) {
+              document.getElementById("edit_dok_spp").innerHTML = '<input name="dok_spp" id="dok_spp" type="file" accept=".doc, .docx, .xls, .xlsx, .pdf"/>';
+            } else{
+              document.getElementById("edit_dok_spp").innerHTML = '<a href="{{ url("/")}}/dokumen/pencairan/'+dok_spp+'" class="badge btn-primary" style="color:white;" target="_blank" >Download</a>';
+            }
+
+            var dok_spm = data.dok_spm;
+            if(dok_spm == null){
+              document.getElementById("edit_dok_spm").innerHTML = '<input name="dok_spm" id="dok_spm" type="file" accept=".doc, .docx, .xls, .xlsx, .pdf"/>';
+            }else{
+              document.getElementById("edit_dok_spm").innerHTML = '<a href="{{ url("/")}}/dokumen/pencairan/'+ dok_spm +'" class="badge btn-primary" style="color:white;" target="_blank" >Download</a>';
+            }
+
+            var dok_sp2d = data.dok_sp2d;
+            if(dok_sp2d == null){
+              document.getElementById('edit_dok_sp2d').innerHTML = '<input name="dok_sp2d" id="dok_sp2d" type="file" accept=".doc, .docx, .xls, .xlsx, .pdf"/>';
+            }else{
+              document.getElementById('edit_dok_sp2d').innerHTML = '<a href="{{ url("/")}}/dokumen/pencairan/'+ dok_sp2d +'" class="badge btn-primary" style="color:white;" target="_blank" >Download</a>';
+            }
+
+            var dok_res_kontrak = data.dok_res_kontrak;
+            if(dok_res_kontrak == null){
+              document.getElementById('edit_dok_res_kontrak').innerHTML = '<input name="dok_res_kontrak" id="dok_res_kontrak" type="file" accept=".doc, .docx, .xls, .xlsx, .pdf"/>';
+            }else{
+              document.getElementById('edit_dok_res_kontrak').innerHTML = '<a href="{{ url("/")}}/dokumen/pencairan/'+ dok_res_kontrak +'" class="badge btn-primary" style="color:white;" target="_blank" >Download</a>';
+            }
+
+            var dok_syarat_kontrak = data.dok_syarat_kontrak;
+            if(dok_syarat_kontrak == null){
+              document.getElementById('edit_dok_syarat_kontrak').innerHTML = '<input name="dok_syarat_kontrak" id="dok_syarat_kontrak" type="file"  accept=".doc, .docx, .xls, .xlsx, .pdf"/>';
+            }else{
+              document.getElementById('edit_dok_syarat_kontrak').innerHTML = '<a href="{{ url('/')}}/dokumen/pencairan/'+ dok_syarat_kontrak +'" class="badge btn-primary" style="color:white;" target="_blank" >Download</a>';
+            }
+
+            var dok_npd = data.dok_npd;
+            if(dok_npd == null){
+              document.getElementById('edit_dok_npd').innerHTML = '<input name="dok_npd" id="dok_npd" type="file"  accept=".doc, .docx, .xls, .xlsx, .pdf"/>';
+            }else{
+              document.getElementById('edit_dok_npd').innerHTML = '<a href="{{ url("/")}}/dokumen/pencairan/'+ dok_npd +'" class="badge btn-primary" style="color:white;" target="_blank" >Download</a>';
+            }
+
+            var dok_pho = data.dok_pho;
+            if(dok_pho == null){
+              document.getElementById('edit_dok_pho').innerHTML = '<input name="dok_pho" id="dok_pho" type="file"  accept=".doc, .docx, .xls, .xlsx, .pdf"/>';
+            }else{
+              document.getElementById('edit_dok_pho').innerHTML = '<a href="{{ url("/")}}/dokumen/pencairan/'+ dok_pho +'" class="badge btn-primary" style="color:white;" target="_blank" >Download</a>';
+            }
+
+            var dok_kwitansi = data.dok_kwitansi;
+            if(dok_kwitansi == null){
+              document.getElementById('edit_dok_kwitansi').innerHTML = '<input name="dok_kwitansi" id="dok_kwitansi" type="file"  accept=".doc, .docx, .xls, .xlsx, .pdf"/>';
+            }else{
+              document.getElementById('edit_dok_kwitansi').innerHTML = '<a href="{{ url("/")}}/dokumen/pencairan/'+ dok_kwitansi +'" class="badge btn-primary" style="color:white;" target="_blank" >Download</a>';
+            }
+
+            var dok_mutual = data.dok_mutual;
+            if(dok_mutual == null){
+              document.getElementById('edit_dok_mutual').innerHTML = '<input name="dok_mutual" id="dok_mutual" type="file" accept=".doc, .docx, .xls, .xlsx, .pdf"/>';
+            }else{
+              document.getElementById('edit_dok_mutual').innerHTML = '<a href="{{ url("/")}}/dokumen/pencairan/'+ dok_mutual +'" class="badge btn-primary" style="color:white;" target="_blank" >Download</a>';
+            }
+
+            if((dok_spp != null) && (dok_spm != null) && (dok_sp2d != null) && (dok_res_kontrak != null) && (dok_syarat_kontrak != null) && (dok_npd != null) && (dok_pho  != null) && (dok_kwitansi != null) && (dok_mutual !=null)){
+              document.getElementById('upload').innerHTML = '';
+            }else{
+              document.getElementById('upload').innerHTML = '<button class="btn btn-primary pull-right">Simpan Dokumen</button>';
+            }
+          }
+
+        });
+      });
+    });
+  </script>
+
+  <script type="text/javascript">
+  $(function(){
+    $('#tabel_item').on('click','.myDok', function(){
+      $('input[type=checkbox],input[type=radio],input[type=file]').uniform();
+      $("#basic_validate").validate({
+        ignore: [],
+        rules:{
+          dok_spp:{
+            required:true,
+            accept:"pdf|doc|docx|xls|xlsx",
+          },
+          dok_spm:{
+            required:true,
+            accept:"pdf|doc|docx|xls|xlsx",
+          },
+          dok_sp2d:{
+            required:true,
+            accept:"pdf|doc|docx|xls|xlsx",
+          },
+          dok_res_kontrak:{
+            required:true,
+            accept:"pdf|doc|docx|xls|xlsx",
+          },
+          dok_syarat_kontrak:{
+            required:true,
+            accept:"pdf|doc|docx|xls|xlsx",
+          },
+          dok_pho:{
+            required:true,
+            accept:"pdf|doc|docx|xls|xlsx",
+          },
+          dok_npd:{
+            required:true,
+            accept:"pdf|doc|docx|xls|xlsx",
+          },
+          dok_mutual:{
+            required:true,
+            accept:"pdf|doc|docx|xls|xlsx",
+          },
+          dok_kwitansi:{
+            required:true,
+            accept:"pdf|doc|docx|xls|xlsx",
+          },
+        },
+        errorClass: "help-inline",
+        errorElement: "span",
+        highlight:function(element, errorClass, validClass) {
+          $(element).parents('.control-group').addClass('error');
+        },
+        unhighlight: function(element, errorClass, validClass) {
+          $(element).parents('.control-group').removeClass('error');
+          $(element).parents('.control-group').addClass('success');
+        }
+      });
+    });
+  });
   </script>
 @endsection

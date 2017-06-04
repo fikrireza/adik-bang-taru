@@ -124,7 +124,7 @@ class KPAController extends Controller
         ], $message);
 
         if($validator->fails()){
-          return redirect()->route('kpa.indexKpa')->withErrors($validator)->withInput();
+          return redirect()->route('kpa.setkegiatan')->withErrors($validator)->withInput();
         }
 
         $kegiatan = Kegiatan::find($request->id_kegiatan);
@@ -138,7 +138,7 @@ class KPAController extends Controller
         $save->flag_status = 1;
         $save->save();
 
-        return redirect()->route('kpa.indexKpa')->with('berhasil', 'Berhasil Mengubah Data KPA');
+        return redirect()->route('kpa.setkegiatan')->with('berhasil', 'Berhasil Mengubah Data KPA');
     }
 
 }
