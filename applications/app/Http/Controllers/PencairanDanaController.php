@@ -28,15 +28,18 @@ class PencairanDanaController extends Controller
 
     public function proses($id)
     {
-      $getitem = ItemKegiatan::select('nama_item_kegiatan', 'no_rekening', 'flag_rincian_item', DB::raw('sum(total) as total'))
+      $getitem = ItemKegiatan::select('nama_item_kegiatan', 'no_rekening', 'flag_rincian_item', 'realisasi_anggaran', DB::raw('sum(total) as total'))
       ->where('id_kegiatan', $id)
       ->groupby('nama_item_kegiatan')
       ->groupby('no_rekening')
       ->groupby('flag_rincian_item')
+      ->groupby('realisasi_anggaran')
       ->get();
 
       $getkegiatan = Kegiatan::join('adik_program', 'adik_program.id', '=', 'adik_kegiatan.id_program')
         ->where('adik_kegiatan.id', $id)->first();
+
+      $getfisik = PresentaseFisik::whereNotNull('no_rekening_kegiatan')->get();
 
       $jumlahanggaran = 0;
       foreach ($getitem as $key) {
@@ -44,7 +47,9 @@ class PencairanDanaController extends Controller
       }
 
       return view('pencairan-dana.proses')
+        ->with('id_kegiatan', $id)
         ->with('getkegiatan', $getkegiatan)
+        ->with('getfisik', $getfisik)
         ->with('jumlahanggaran', $jumlahanggaran)
         ->with('getitem', $getitem);
     }

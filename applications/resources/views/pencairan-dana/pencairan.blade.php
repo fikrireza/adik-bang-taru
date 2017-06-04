@@ -410,7 +410,13 @@
       <div class="span7">
         <ul class="quick-actions">
           <li class="bg_lb span12">
-            <a id="fisikdisplay" data-value="{{$getfisik->id}}" href="#fisik" data-toggle="modal">
+            @php
+              $getfisikid = 0;
+              if (count($getfisik)!=0) {
+                $getfisikid = $getfisik->id;
+              }
+            @endphp
+            <a id="fisikdisplay" data-value="{{$getfisikid}}" href="#fisik" data-toggle="modal">
               <i class="icon-signal"></i>
               <span style="font-size:20px;">
                 @if (count($getfisik)==0)

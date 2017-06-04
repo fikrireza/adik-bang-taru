@@ -47,7 +47,7 @@ class ResumeKontrakController extends Controller
       $set->no_rekening_perusahaan = $request->no_rekening_perusahaan;
       $set->save();
 
-      Session::put('success', 'Berhasil mengupdate resume kontrak.');
+      Session::flash('success', 'Berhasil mengupdate resume kontrak.');
       return redirect()->route('pencairan.progressbyitem', $request->id_item);
     }
 
