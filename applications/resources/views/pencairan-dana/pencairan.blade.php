@@ -5,6 +5,12 @@
   <link rel="stylesheet" href="{{asset('theme/css/uniform.css')}}" />
   <link rel="stylesheet" href="{{asset('theme/css/select2.css')}}" />
   <link rel="stylesheet" href="{{asset('theme/css/datepicker.css')}}" />
+
+  <style media="screen">
+    .select2-container.span3 {
+      margin-left: 0px;
+    }
+  </style>
 @endsection
 
 @section('breadcrumb')
@@ -21,15 +27,79 @@
 @endsection
 
 @section('content')
-  {{-- <div class="alert alert-info alert-block" style="margin-bottom:0px;">
-    <a class="close" data-dismiss="alert" href="#">×</a>
-    <h4 class="alert-heading">Pemberitahuan</h4>
-    <hr style="margin:5px 0px 10px 0px; border-top-color:#9fd5dc;">
-    Berikut ini adalah data rincian dari <strong>Honorarium Panitia Pelaksana Kegiatan</strong>. Silahkan lakukan pencairan dana pada tiap-tiap rincian di bawah ini.
-  </div> --}}
+  <script>
+    window.setTimeout(function() {
+      $(".alert-success").fadeTo(500, 0).slideUp(500, function(){
+          $(this).remove();
+      });
+    }, 5000);
+
+    window.setTimeout(function() {
+      $(".alert-danger").fadeTo(500, 0).slideUp(500, function(){
+          $(this).remove();
+      });
+    }, 5000);
+  </script>
+
+  <div id="edit" class="modal hide">
+    <div class="modal-header" style="background:#faa732;color:white;">
+      <button data-dismiss="modal" class="close" type="button">×</button>
+      <h3 style="text-shadow:0 0px;">Edit Data Pencairan</h3>
+    </div>
+    <form action="{{route('pencairan-termin.update')}}" method="post" class="form-horizontal">
+      <div class="modal-body" style="overflow:hidden;">
+          {{ csrf_field() }}
+          <div class="control-group" style="border-bottom:0px;">
+            <label class="control-label">Nama</label>
+            <div class="controls">
+              <select class="span3" name="termin" placeholder="-- Pilih --" id="selecttermin">
+                <option value=""></option>
+                <option value="Uang Muka" id="uang_muka">Uang Muka</option>
+                <option value="Termin 1" id="termin_1">Termin 1</option>
+                <option value="Termin 2" id="termin_2">Termin 2</option>
+                <option value="Termin 3" id="termin_3">Termin 3</option>
+                <option value="Termin 4" id="termin_4">Termin 4</option>
+                <option value="Termin 5" id="termin_5">Termin 5</option>
+                <option value="Termin 6" id="termin_6">Termin 6</option>
+              </select>
+            </div>
+          </div>
+          <div class="control-group" style="border-bottom:0px;">
+            <label class="control-label">Nilai Pembayaran</label>
+            <div class="controls">
+              <input type="text" class="span3" name="nilai" id="nilai">
+            </div>
+          </div>
+          <br>
+      </div>
+      <div class="modal-footer">
+        <a data-dismiss="modal" class="btn" href="#">Cancel</a>
+        <input type="submit" value="Simpan Perubahan" class="btn btn-warning">
+      </div>
+    </form>
+  </div>
 
   <div class="container-fluid">
     <hr style="margin:0px 0px 15px 0px;">
+
+    @if (Session::has('success'))
+      <div class="alert alert-success alert-block" style="margin-bottom:0px;">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">Berhasil!</h4>
+        <hr style="margin:5px 0px 10px 0px; border-top-color:#9fdcae;">
+        {{ Session::get('success') }}
+      </div>
+    @endif
+
+    @if (Session::has('failed'))
+      <div class="alert alert-danger alert-block" style="margin-bottom:0px;">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">Oops, terjadi kesalahan!</h4>
+        <hr style="margin:5px 0px 10px 0px; border-top-color:#dc9f9f;">
+        {{ Session::get('failed') }}
+      </div>
+    @endif
+
     <div class="row-fluid">
       <div class="span12">
         <div class="widget-box">
@@ -53,6 +123,7 @@
                     </span>
 
                     <span class="kontrak_control">
+                      <input type="hidden" name="id_item" value="{{$id_item}}" id="id_item">
                       <input type="text" name="no_dpa" placeholder="Nomor DPA" id="no_dpa"> --
                       <input type="text" name="tanggal_dpa" placeholder="Tanggal Kontrak" id="tanggal_kontrak" data-date-format="yyyy-mm-dd" class="datepicker">
                     </span>
@@ -100,7 +171,7 @@
                   <td>Nilai SPK / Kontrak</td>
                   <td>: &nbsp;&nbsp;
                     <span class="kontrak_label">
-                      @php echo $string = (is_null($datakontrak)) ? "-" : $datakontrak->nilai_kontrak; @endphp
+                      @php echo "Rp ".$string = (is_null($datakontrak)) ? "-" : number_format($datakontrak->nilai_kontrak, '0', ',', '.').",-"; @endphp
                     </span>
 
                     <span class="kontrak_control">
@@ -192,12 +263,16 @@
                   <td>Jangka Waktu</td>
                   <td>: &nbsp;&nbsp;
                     <span class="kontrak_label">
-                      @php echo $string = (is_null($datakontrak)) ? "-" : $datakontrak->jangka_waktu; @endphp
+                      @if ($daysjangkawaktu==-1)
+                        -
+                      @else
+                        {{$daysjangkawaktu}} hari kalendar terhitung mulai tanggal {{$datakontrak->jangka_waktu_awal}} s.d. {{$datakontrak->jangka_waktu_akhir}}.
+                      @endif
                     </span>
 
                     <span class="kontrak_control">
-                      <input type="text" name="jangka_waktu" placeholder="Awal" id="jangka_waktu" data-date-format="yyyy-mm-dd" class="datepicker"> --
-                      <input type="text" name="jangka_waktu" placeholder="Akhir" id="jangka_waktu" data-date-format="yyyy-mm-dd" class="datepicker">
+                      <input type="text" name="jangka_waktu_awal" placeholder="Awal" id="jangka_waktu_awal" data-date-format="yyyy-mm-dd" class="datepicker"> --
+                      <input type="text" name="jangka_waktu_akhir" placeholder="Akhir" id="jangka_waktu_akhir" data-date-format="yyyy-mm-dd" class="datepicker">
                     </span>
                   </td>
                 </tr>
@@ -252,7 +327,7 @@
               </table>
               <br>
               <span class="kontrak_label">
-                <a href="#resume" class="btn btn-warning" id="showformkontrak">Update Kelengkapan Resume Kontrak</a>
+                <a href="#resume" data-value="{{$id_item}}" class="btn btn-warning" id="showformkontrak">Update Kelengkapan Resume Kontrak</a>
                 <a href="#resume" class="btn btn-success">Download Resume Kontrak</a>
               </span>
 
@@ -274,77 +349,30 @@
             <h5>Form Pencairan</h5>
           </div>
           <div class="widget-content nopadding">
-            <form action="#" method="get" class="form-horizontal">
+            <form action="{{route('pencairan-termin.store')}}" method="post" class="form-horizontal">
+              {{ csrf_field() }}
               <div class="control-group" style="padding-bottom:7px;border-bottom:0px;">
                 <label class="control-label">Jenis Pembayaran</label>
                 <div class="controls">
-                  <select class="span11" name="">
-                    <option value="">Uang Muka</option>
-                    <option value="">Termin 1</option>
-                    <option value="">Termin 2</option>
-                    <option value="">Termin 3</option>
-                    <option value="">Termin 4</option>
-                    <option value="">Termin 5</option>
-                    <option value="">Termin 6</option>
+                  <select class="span11" name="termin" placeholder="-- Pilih --">
+                    <option value=""></option>
+                    <option value="Uang Muka">Uang Muka</option>
+                    <option value="Termin 1">Termin 1</option>
+                    <option value="Termin 2">Termin 2</option>
+                    <option value="Termin 3">Termin 3</option>
+                    <option value="Termin 4">Termin 4</option>
+                    <option value="Termin 5">Termin 5</option>
+                    <option value="Termin 6">Termin 6</option>
                   </select>
                 </div>
               </div>
               <div class="control-group" style="padding-bottom:7px;border-bottom:0px;">
                 <label class="control-label">Nilai Pembayaran</label>
                 <div class="controls">
-                  <input type="text" class="span11">
+                  <input type="text" class="span11" name="nilai">
+                  <input type="hidden" class="span11" name="id_item_kegiatan" value="{{$id_item}}">
                 </div>
               </div>
-              {{-- <br>
-              &nbsp;&nbsp;Upload Kelengkapan Dokumen:
-              <table class="table table-bordered table-striped">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Nama Dokumen</th>
-                    <th>Upload File</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td style="text-align:center;"><a href="#" class="btn btn-mini btn-danger"><i class="icon-remove"></i></a></td>
-                    <td>
-                      <select class="span12" name="">
-                        <option value="">SPP</option>
-                        <option value="">SPM</option>
-                        <option value="">Pengajuan SP2D</option>
-                        <option value="">Syarat Khusus Kontrak</option>
-                        <option value="">NDP</option>
-                        <option value="">PHO/FHO</option>
-                        <option value="">Kwitansi</option>
-                        <option value="">Mutual Cek 100</option>
-                        <option value="">Lainnya</option>
-                      </select>
-                    </td>
-                    <td style="text-align:center;"><input type="file" class="span12"></td>
-                  </tr>
-                  <tr>
-                    <td style="text-align:center;"><a href="#" class="btn btn-mini btn-danger"><i class="icon-remove"></i></a></td>
-                    <td>
-                      <select class="span12" name="">
-                        <option value="">SPP</option>
-                        <option value="">SPM</option>
-                        <option value="">Pengajuan SP2D</option>
-                        <option value="">Syarat Khusus Kontrak</option>
-                        <option value="">NDP</option>
-                        <option value="">PHO/FHO</option>
-                        <option value="">Kwitansi</option>
-                        <option value="">Mutual Cek 100</option>
-                        <option value="">Lainnya</option>
-                      </select>
-                    </td>
-                    <td style="text-align:center;"><input type="file" class="span12"></td>
-                  </tr>
-                </tbody>
-                <tfoot>
-                  <a href="#" class="btn btn-mini btn-primary pull-right" style="margin-right:5px;margin-bottom:5px;"><i class="icon-plus"></i> Tambah Dokumen</a>
-                </tfoot>
-              </table> --}}
               <div class="form-actions">
                 <button type="submit" class="btn btn-success pull-right">Simpan</button>
               </div>
@@ -358,7 +386,11 @@
             <a>
               <i class="icon-money"></i>
               <span style="font-size:20px;">
-                Retensi Pembayaran: Rp 123.500.000,-
+                @if (count($gettermin)==0)
+                  Realisasi Pembayaran: Rp 0,-;
+                @else
+                  Realisasi Pembayaran: Rp {{number_format($gettermin->sum('nilai'), 0, ',', '.')}},-
+                @endif
               </span>
             </a>
           </li>
@@ -368,28 +400,32 @@
             <h5>Termin Pembayaran</h5>
           </div>
           <div class="widget-content nopadding">
-            <table class="table table-bordered data-table">
+            <table class="table table-bordered data-table" id="tabel_termin">
               <thead>
                 <tr>
                   <th width="20px;">#</th>
                   <th>Jenis Pembayaran</th>
                   <th>Nilai Pembayaran</th>
-                  {{-- <th>Download Dokumen</th> --}}
                   <th>Aksi</th>
                 </tr>
               </thead>
               <tbody>
-                @for ($i=0; $i < 5; $i++)
+                @php
+                  $no=1;
+                @endphp
+                @foreach ($gettermin as $key)
                   <tr>
-                    <td style="text-align:center;">1</td>
-                    <td>Termin 1</td>
-                    <td>Rp 20.000.000,-</td>
-                    {{-- <td>-</td> --}}
+                    <td style="text-align:center;">{{$no}}</td>
+                    <td>{{$key->termin}}</td>
+                    <td>Rp {{number_format($key->nilai, '0', ',', '.')}},-</td>
                     <td style="text-align:center;">
-                      <a href="#" class="btn btn-warning btn-mini">Ubah</a>
+                      <a href="#edit" data-value="{{$key->id}}" data-toggle="modal" class="btn btn-warning btn-mini ubah">Ubah</a>
                     </td>
                   </tr>
-                @endfor
+                  @php
+                    $no++;
+                  @endphp
+                @endforeach
               </tbody>
             </table>
           </div>
@@ -426,6 +462,65 @@
       });
 
       $('.datepicker').datepicker();
+
+      $('#showformkontrak').click(function(){
+        var id = $(this).data('value');
+        $.ajax({
+          url: "{{url('/')}}/resume-kontrak/bind/"+id,
+          success: function(data){
+            $('#no_dpa').attr('value', data.no_dpa);
+            $('#tanggal_dpa').attr('value', data.tanggal_dpa);
+            $('#no_kontrak').attr('value', data.no_kontrak);
+            $('#tanggal_kontrak').attr('value', data.tanggal_kontrak);
+            $('#nama_perusahaan').attr('value', data.nama_perusahaan);
+            $('#alamat_perusahaan').attr('value', data.alamat_perusahaan);
+            $('#nilai_kontrak').attr('value', data.nilai_kontrak);
+            $('#no_ba_kemajuan').attr('value', data.no_ba_kemajuan);
+            $('#tanggal_ba_kemajuan').attr('value', data.tanggal_ba_kemajuan);
+            $('#no_ba_pembayaran').attr('value', data.no_ba_pembayaran);
+            $('#tanggal_ba_pembayaran').attr('value', data.tanggal_ba_pembayaran);
+            $('#no_ba_penyelesaian').attr('value', data.no_ba_penyelesaian);
+            $('#tanggal_ba_penyelesaian').attr('value', data.tanggal_ba_penyelesaian);
+            $('#no_ba_serah_terima').attr('value', data.no_ba_serah_terima);
+            $('#tanggal_ba_serah_terima').attr('value', data.tanggal_ba_serah_terima);
+            $('#uraian_volume').attr('value', data.uraian_volume);
+            $('#cara_pembayaran').attr('value', data.cara_pembayaran);
+            $('#jangka_waktu_awal').attr('value', data.jangka_waktu_awal);
+            $('#jangka_waktu_akhir').attr('value', data.jangka_waktu_akhir);
+            $('#tanggal_penyelesaian').attr('value', data.tanggal_penyelesaian);
+            $('#ketentuan_sanksi').attr('value', data.ketentuan_sanksi);
+            $('#npwp').attr('value', data.npwp);
+            $('#no_rekening_perusahaan').attr('value', data.no_rekening_perusahaan);
+            $('#id_item').attr('value', data.id_item_kegiatan);
+          }
+        });
+      });
+
+      $('#tabel_termin').on('click','.ubah', function(){
+        var id = $(this).data('value');
+        $.ajax({
+          url: "{{url('/')}}/pencairan-termin/bind/"+id,
+          success: function(data){
+            if (data.termin=="Uang Muka") {
+              $("#selecttermin").select2().select2('val','Uang Muka');
+            } else if (data.termin=="Termin 1") {
+              $("#selecttermin").select2().select2('val','Termin 1');
+            } else if (data.termin=="Termin 2") {
+              $("#selecttermin").select2().select2('val','Termin 2');
+            } else if (data.termin=="Termin 3") {
+              $("#selecttermin").select2().select2('val','Termin 3');
+            } else if (data.termin=="Termin 4") {
+              $("#selecttermin").select2().select2('val','Termin 4');
+            } else if (data.termin=="Termin 5") {
+              $("#selecttermin").select2().select2('val','Termin 5');
+            } else if (data.termin=="Termin 6") {
+              $("#selecttermin").select2().select2('val','Termin 6');
+            }
+
+            $('#nilai').attr('value', data.nilai);
+          }
+        });
+      });
     });
   </script>
 @endsection

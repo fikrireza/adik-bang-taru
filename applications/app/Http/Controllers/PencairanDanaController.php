@@ -10,6 +10,7 @@ use App\Models\Pencairan;
 use App\Models\ResumeKontrak;
 use Auth;
 use DB;
+use Session;
 
 class PencairanDanaController extends Controller
 {
@@ -68,15 +69,34 @@ class PencairanDanaController extends Controller
       return view('pencairan-dana.rincian')->with('dataitem', $get);
     }
 
-    public function pencairanbykegiatan($no_rek)
-    {
-      $getkontrak = ResumeKontrak::where('no_rekening', $no_rek)->first();
-      return view('pencairan-dana.pencairan')->with('datakontrak', $getkontrak);
-    }
-
     public function pencairanbyitem($id_item)
     {
       $getkontrak = ResumeKontrak::where('id_item_kegiatan', $id_item)->first();
-      return view('pencairan-dana.pencairan')->with('datakontrak', $getkontrak);
+      $gettermin = Pencairan::where('id_item_kegiatan', $id_item)->get();
+
+      if (count($getkontrak)!=0) {
+        $date1 = $getkontrak->jangka_waktu_awal;
+        $date2 = $getkontrak->jangka_waktu_akhir;
+
+        $diff = abs(strtotime($date2) - strtotime($date1));
+
+        $years = floor($diff / (365*60*60*24));
+        $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+        $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+      } else {
+        $days = -1;
+      }
+
+      $successmsg = null;
+      if (Session::has('success')) {
+        $successmsg = Session::get('success');
+      }
+
+      return view('pencairan-dana.pencairan')
+        ->with('id_item', $id_item)
+        ->with('success', $successmsg)
+        ->with('gettermin', $gettermin)
+        ->with('daysjangkawaktu', $days)
+        ->with('datakontrak', $getkontrak);
     }
 }

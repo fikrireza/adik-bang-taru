@@ -37,11 +37,15 @@ Route::get('daftar-kegiatan/detail/{id}', 'DaftarKegiatanController@detail')->na
 Route::get('pencairan-dana', 'PencairanDanaController@index')->name('pencairan.index');
 Route::get('pencairan-dana/proses/{id}', 'PencairanDanaController@proses')->name('pencairan.proses');
 Route::get('pencairan-dana/rincian-item/{no_rek}', 'PencairanDanaController@rincian')->name('pencairan.rincian');
-Route::get('pencairan-dana/progress-pencairan/{no_rek}', 'PencairanDanaController@pencairanbykegiatan')->name('pencairan.progressbykegiatan');
 Route::get('pencairan-dana/progress-pencairan-per-item/{id}', 'PencairanDanaController@pencairanbyitem')->name('pencairan.progressbyitem');
 Route::get('pencairan-dana/ubah-flag-rincian/{no_rek}', 'PencairanDanaController@ubahflagrincian')->name('pencairan.ubahflagrincian');
 
 Route::post('resume-kontrak', 'ResumeKontrakController@store')->name('resume.store');
+Route::get('resume-kontrak/bind/{id}', 'ResumeKontrakController@bind')->name('resume.bind');
+
+Route::post('pencairan-termin', 'PencairanTerminController@store')->name('pencairan-termin.store');
+Route::post('pencairan-termin/update', 'PencairanTerminController@update')->name('pencairan-termin.update');
+Route::get('pencairan-termin/bind/{id}', 'PencairanTerminController@bind')->name('pencairan-termin.bind');
 
 
 //----- KPA
