@@ -138,4 +138,20 @@ class PPTKController extends Controller
 
         return redirect()->route('pptk.setkegiatan')->with('berhasil', 'Berhasil Mengubah Data PPTK');
     }
+
+    public function delete($id)
+    {
+        $set = MasterPptk::find($id);
+
+        if(!$set){
+          return view('error.404');
+        }
+
+        if ($set->flag_status == 1) {
+          $set->flag_status = 0;
+          $set->update();
+
+          return redirect()->route('pptk.index')->with('berhasil', 'Berhasil Menghapus');
+        }
+    }
 }

@@ -59,6 +59,7 @@ Route::post('kpa', 'KPAController@storeMaster')->name('kpa.store');
 Route::get('kpa/{id}', 'KPAController@ubahMaster')->name('kpa.ubah');
 Route::post('kpa/edit', 'KPAController@editMaster')->name('kpa.edit');
 Route::get('kpa/status/{id}', 'KPAController@status')->name('kpa.status');
+Route::get('kpa/delete/{id}', 'KPAController@delete')->name('kpa.delete');
 Route::get('kpa-set-kegiatan', 'KPAController@indexKpa')->name('kpa.setkegiatan');
 Route::post('kpa-set-kegiatan', 'KPAController@storeKegiatanKpa')->name('kpa.storeKegiatanKpa');
 
@@ -67,6 +68,7 @@ Route::get('pptk', 'PPTKController@indexMaster')->name('pptk.index');
 Route::post('pptk', 'PPTKController@storeMaster')->name('pptk.store');
 Route::get('pptk/{id}', 'PPTKController@ubahMaster')->name('pptk.ubah');
 Route::post('pptk/edit', 'PPTKController@editMaster')->name('pptk.edit');
+Route::get('pptk/delete/{id}', 'PPTKController@delete')->name('pptk.delete');
 Route::get('pptk-set-kegiatan', 'PPTKController@indexPptk')->name('pptk.setkegiatan');
 Route::post('pptk-set-kegiatan', 'PPTKController@storeKegiatanKpa')->name('pptk.storeKegiatanPptk');
 
@@ -75,6 +77,7 @@ Route::get('ppko', 'PPKOController@indexMaster')->name('ppko.index');
 Route::post('ppko', 'PPKOController@storeMaster')->name('ppko.store');
 Route::get('ppko/{id}', 'PPKOController@ubahMaster')->name('ppko.ubah');
 Route::post('ppko/edit', 'PPKOController@editMaster')->name('ppko.edit');
+Route::get('ppko/delete/{id}', 'PPKOController@delete')->name('ppko.delete');
 Route::get('ppko-set-kegiatan', 'PPKOController@indexPpko')->name('ppko.setkegiatan');
 Route::post('ppko-set-kegiatan', 'PPKOController@storeKegiatanPpko')->name('ppko.storeKegiatanPpko');
 

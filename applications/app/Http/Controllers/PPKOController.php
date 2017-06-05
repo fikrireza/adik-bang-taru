@@ -138,4 +138,20 @@ class PPKOController extends Controller
 
       return redirect()->route('ppko.setkegiatan')->with('berhasil', 'Berhasil Mengubah Data PPTK');
   }
+
+  public function delete($id)
+  {
+      $set = MasterPpko::find($id);
+
+      if(!$set){
+        return view('error.404');
+      }
+
+      if ($set->flag_status == 1) {
+        $set->flag_status = 0;
+        $set->update();
+
+        return redirect()->route('ppko.index')->with('berhasil', 'Berhasil Menghapus');
+      }
+  }
 }

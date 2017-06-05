@@ -138,7 +138,23 @@ class KPAController extends Controller
         $save->flag_status = 1;
         $save->save();
 
-        return redirect()->route('kpa.setkegiatan')->with('berhasil', 'Berhasil Mengubah Data KPA');
+        return redirect()->route('kpa.index')->with('berhasil', 'Berhasil Mengubah Data KPA');
+    }
+
+    public function delete($id)
+    {
+        $set = MasterKpa::find($id);
+
+        if(!$set){
+          return view('error.404');
+        }
+
+        if ($set->flag_status == 1) {
+          $set->flag_status = 0;
+          $set->update();
+
+          return redirect()->route('kpa.index')->with('berhasil', 'Berhasil Menghapus');
+        }
     }
 
 }

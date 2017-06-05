@@ -29,7 +29,7 @@
     </div>
     <div class="modal-footer">
       <a data-dismiss="modal" class="btn" href="#">Tidak</a>
-      <a data-dismiss="modal" class="btn btn-danger" href="#">Ya, saya yakin</a>
+      <a class="btn btn-danger" href="#" id="setDelete">Ya, saya yakin</a>
     </div>
   </div>
 
@@ -141,7 +141,7 @@
                       <a href="{{ route('ppko.ubah', ['id' => $key->id ])}}" class="btn btn-warning btn-mini tip-top" data-original-title="Ubah">
                         <i class="icon-edit"></i>
                       </a>
-                      <a href="#myAlert" data-toggle="modal" class="btn btn-danger btn-mini tip-top" data-original-title="Hapus">
+                      <a href="#myAlert" data-toggle="modal" data-value="{{ $key->id }}" class="btn btn-danger btn-mini tip-top delete" data-original-title="Hapus">
                         <i class="icon-remove"></i>
                       </a>
                     </td>
@@ -198,6 +198,11 @@
         $(element).parents('.control-group').addClass('success');
       }
     });
+  });
+
+  $('a.delete').click(function(){
+    var a = $(this).data('value');
+    $('#setDelete').attr('href', "{{ url('/') }}/ppko/delete/"+a);
   });
 
   </script>
