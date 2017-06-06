@@ -43,19 +43,23 @@
                 </tr>
               </thead>
               <tbody>
-                @for ($i=0; $i < 10; $i++)
-                  <tr>
-                    <td style="text-align:center;">1</td>
-                    <td>Program Pelayanan Administrasi Perkantoran</td>
-                    <td>Penyediaan Barang Cetakan dan Penggandaan</td>
-                    <td>Barang Cetak</td>
-                    <td style="text-align:center;">
-                      <a href="{{route('verifikasi.detail')}}" class="btn btn-primary btn-mini tip-top" data-original-title="Proses Verifikasi">
-                        Proses
-                      </a>
-                    </td>
-                  </tr>
-                @endfor
+                @php
+                  $no = 1;
+                @endphp
+                @foreach ($getprogramkegiatan as $key)
+                <tr>
+                  <td>{{ $no }}</td>
+                  <td>{{ $key['nama_program'] }}</td>
+                  <td>{{ $key['nama_kegiatan'] }}</td>
+                  <td>{{ $key['nama_item_kegiatan'] }}</td>
+                  <td><a href=" {{route('verifikasi.detail', ['no_rekening' => $key['no_rekening']]) }}" class="btn btn-primary btn-mini tip-top" data-original-title="Proses Verifikasi">
+                    Proses
+                  </a></td>
+                </tr>
+                @php
+                  $no++;
+                @endphp
+                @endforeach
               </tbody>
             </table>
           </div>

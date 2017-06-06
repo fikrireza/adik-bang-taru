@@ -9,9 +9,9 @@
             <li><a href="{{route('seleksi-kegiatan.bidang')}}">Kegiatan Per Bidang</a></li>
           </ul>
         </li>
-        <li class="submenu"> <a href="#"><i class="icon icon-file"></i> <span>Verifikasi Dokumen</span> </a>
+        <li class="submenu {{ Route::is('verifikasi*') ? 'active' : ''}}"> <a href="#"><i class="icon icon-file"></i> <span>Verifikasi Dokumen</span> </a>
           <ul>
-            <li><a href="{{route('verifikasi.index')}}">Lakukan Verifikasi Dokumen</a></li>
+            <li class=" {{ Route::is('verifikasi.index') ? 'active' : ''}}"><a href="{{route('verifikasi.index')}}">Lakukan Verifikasi Dokumen</a></li>
           </ul>
         </li>
         <li class="submenu"> <a href="#"><i class="icon icon-building"></i> <span>Manajemen Bidang</span> </a>

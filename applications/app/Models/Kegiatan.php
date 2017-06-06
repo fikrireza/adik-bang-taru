@@ -13,4 +13,9 @@ class Kegiatan extends Model
     {
         return $this->belongsTo('App\Models\Program', 'id_program');
     }
+
+    public function itemKegiatan()
+    {
+        return $this->belongsTo('App\Models\ItemKegiatan', 'id_kegiatan');
+    }
 }

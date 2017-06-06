@@ -24,7 +24,8 @@ Route::post('seleksi-kegiatan/find', 'SeleksiKegiatanController@findkegiatan')->
 Route::get('seleksi-kegiatan/destroy/{id}', 'SeleksiKegiatanController@destroy')->name('seleksi-kegiatan.delete');
 
 Route::get('verifikasi-dokumen', 'VerifikasiDokumenController@index')->name('verifikasi.index');
-Route::get('verifikasi-dokumen/detail', 'VerifikasiDokumenController@detail')->name('verifikasi.detail');
+Route::get('verifikasi-dokumen/detail/{no_rek}', 'VerifikasiDokumenController@detail')->name('verifikasi.detail');
+Route::get('verifikasi-dokumen/proses/{id}', 'VerifikasiDokumenController@proses')->name('verifikasi.proses');
 
 Route::post('authenticate', 'LoginController@dologin')->name('auth.login');
 Route::get('logout', 'LoginController@dologout')->name('auth.logout');
