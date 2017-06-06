@@ -17,6 +17,25 @@
 @endsection
 
 @section('content')
+
+  @if (Session::has('failed'))
+    <script type="text/javascript">
+      window.setTimeout(function() {
+        $(".alert-danger").fadeTo(500, 0).slideUp(500, function(){
+            $(this).remove();
+        });
+      }, 5000);
+    </script>
+  <div class="container-fluid">
+    <div class="alert alert-danger alert-block" style="margin-bottom:0px;">
+      <a class="close" data-dismiss="alert" href="#">×</a>
+      <h4 class="alert-heading">Oops!</h4>
+      <hr style="margin:5px 0px 10px 0px; border-top-color:#dc9f9f;">
+      {{ Session::get('failed') }}
+    </div>
+  </div>
+  @endif
+
   <div class="container-fluid">
     <hr style="margin:0px 0px 15px 0px;">
     <div class="alert alert-info alert-block" style="margin-bottom:0px;">
@@ -52,7 +71,7 @@
                   <td>{{ $key['nama_program'] }}</td>
                   <td>{{ $key['nama_kegiatan'] }}</td>
                   <td>{{ $key['nama_item_kegiatan'] }}</td>
-                  <td><a href=" {{route('verifikasi.detail', ['no_rekening' => $key['no_rekening']]) }}" class="btn btn-primary btn-mini tip-top" data-original-title="Proses Verifikasi">
+                  <td><a href=" {{route('verifikasi.detail', ['no_rekening' => $key['no_rekening']]) }}" class="btn btn-primary btn-mini">
                     Proses
                   </a></td>
                 </tr>

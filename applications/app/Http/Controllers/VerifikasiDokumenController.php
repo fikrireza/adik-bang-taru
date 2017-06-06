@@ -52,6 +52,10 @@ class VerifikasiDokumenController extends Controller
     {
       $getdokumen = PencairanDokumen::where('no_rekening', '=', $no_rek)->first();
 
+      if(!$getdokumen){
+        return redirect()->route('verifikasi.index')->with('failed', 'File Dokumen Belum di Upload');
+      }
+
       return view('verifikasi-dokumen.detail', compact('getdokumen'));
     }
 
