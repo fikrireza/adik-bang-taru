@@ -8,6 +8,8 @@ use App\Models\SimdaAPBDBTL;
 use App\Models\Program;
 use App\Models\Kegiatan;
 use App\Models\ItemKegiatan;
+use App\Models\SimdaRealisasiAnggaran;
+use App\Models\RealisasiAnggaran;
 use DB;
 
 class SyncController extends Controller
@@ -268,6 +270,68 @@ class SyncController extends Controller
         $item->save();
       }
       //---- END OF INSERT ITEM KEGIATAN FROM SIMDA TO ADIK ----
+
+      return "Done!";
+    }
+
+    public function restructure_realisasi()
+    {
+      $get = SimdaRealisasiAnggaran::all();
+
+      foreach ($get as $key) {
+        $bidang_code = 0;
+        if ($key->kd_bidang<10) {
+          $bidang_code = "0".$key->kd_bidang;
+        } else {
+          $bidang_code = $key->kd_bidang;
+        }
+        $program_code = 0;
+        if ($key->kd_prog<10) {
+          $program_code = "0".$key->kd_prog;
+        } else {
+          $program_code = $key->kd_prog;
+        }
+        $rek_program = $key->kd_urusan.".".$bidang_code.".".$key->kd_urusan.".".$bidang_code.".".$program_code;
+
+        $norek_keg = 0;
+        if ($key->kd_keg < 10) {
+          $norek_keg = "00".$key->kd_keg;
+        } else if ($key->kd_keg < 100) {
+          $norek_keg = "0".$key->kd_keg;
+        } else if ($key->kd_keg < 1000) {
+          $norek_keg = $key->kd_keg;
+        }
+        $rek_kegiatan =  $rek_program.".".$norek_keg;
+
+        $rek_4 = 0;
+        if ($key->kd_rek_4 < 10) {
+          $rek_4 = "0".$key->kd_rek_4;
+        } else {
+          $rek_4 = $key->kd_rek_4;
+        }
+        $rek_5 = 0;
+        if ($key->kd_rek_5 < 10) {
+          $rek_5 = "00".$key->kd_rek_5;
+        } else if ($key->kd_rek_5 < 100) {
+          $rek_5 = "0".$key->kd_rek_5;
+        } else if ($key->kd_rek_5 < 1000) {
+          $rek_5 = $key->kd_rek_5;
+        }
+        $rek_item = $key->kd_rek_1.".".$key->kd_rek_2.".".$key->kd_rek_3.".".$rek_4.".".$rek_5;
+
+        $tw_exp = explode('/', $key->no_spd);
+        $tw = (int) $tw_exp[0];
+
+        $set = new RealisasiAnggaran;
+        $set->kode_program = $rek_program;
+        $set->kode_kegiatan = $rek_kegiatan;
+        $set->kode_item = $rek_item;
+        $set->no_spd = $key->no_spd;
+        $set->triwulan = $tw;
+        $set->tahun = $key->tahun;
+        $set->nilai = $key->nilai;
+        $set->save();
+      }
 
       return "Done!";
     }

@@ -83,6 +83,7 @@ Route::post('ppko-set-kegiatan', 'PPKOController@storeKegiatanPpko')->name('ppko
 Route::get('sync/apbd-bl', 'SyncController@apbdbl');
 Route::get('sync/apbd-btl', 'SyncController@apbdbtl');
 Route::get('sync/restructure', 'SyncController@restructure');
+Route::get('sync/restructure-realisasi', 'SyncController@restructure_realisasi');
 
 Route::get('bidang', 'BidangController@index')->name('bidang.index');
 Route::post('bidang', 'BidangController@store')->name('bidang.store');
