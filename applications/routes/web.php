@@ -34,12 +34,12 @@ Route::get('daftar-kegiatan/detail/{id}', 'DaftarKegiatanController@detail')->na
 
 Route::get('pencairan-dana', 'PencairanDanaController@index')->name('pencairan.index');
 Route::get('pencairan-dana/proses/{id}', 'PencairanDanaController@proses')->name('pencairan.proses');
-Route::get('pencairan-dana/bind-item/{no_rek}/{id_keg}', 'PencairanDanaController@binditem')->name('pencairan.binditem');
+Route::get('pencairan-dana/bind-item/{no_rek}/{id_keg}/{nama_item?}', 'PencairanDanaController@binditem')->name('pencairan.binditem')->where('nama_item', '(.*)');
 Route::get('pencairan-dana/proses/dok/{no_rek}', 'PencairanDokumenController@getDok')->name('pencairan-dokumen.getDok');
 Route::post('pencairan-dana/proses/dok', 'PencairanDokumenController@store')->name('pencairan-dokumen.store');
 Route::get('pencairan-dana/rincian-item/{no_rek}', 'PencairanDanaController@rincian')->name('pencairan.rincian');
 Route::get('pencairan-dana/progress-pencairan-per-item/{id}', 'PencairanDanaController@pencairanbyitem')->name('pencairan.progressbyitem');
-Route::get('pencairan-dana/ubah-flag-rincian/{no_rek}', 'PencairanDanaController@ubahflagrincian')->name('pencairan.ubahflagrincian');
+Route::get('pencairan-dana/ubah-flag-rincian/{no_rek}/{id_keg}/{nama_item?}', 'PencairanDanaController@ubahflagrincian')->name('pencairan.ubahflagrincian')->where('nama_item', '(.*)');
 
 Route::post('resume-kontrak', 'ResumeKontrakController@store')->name('resume.store');
 Route::get('resume-kontrak/bind/{id}', 'ResumeKontrakController@bind')->name('resume.bind');

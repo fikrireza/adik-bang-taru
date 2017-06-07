@@ -260,18 +260,25 @@
             <table class="table table-bordered data-table" id="tabel_item">
               <thead>
                 <tr>
-                  <th width="20px;" rowspan="2">#</th>
-                  <th rowspan="2">Kode</th>
-                  <th rowspan="2">Uraian Item Kegiatan</th>
-                  <th rowspan="2">Jumlah Anggaran</th>
-                  <th rowspan="2">Memiliki Kontrak</th>
-                  <th rowspan="2">Kelengkapan Dokumen</th>
-                  <th colspan="2">Realisasi By Input</th>
-                  <th rowspan="2">Aksi</th>
+                  <th width="20px;" rowspan="3">#</th>
+                  <th rowspan="3">Kode</th>
+                  <th rowspan="3">Uraian Item Kegiatan</th>
+                  <th rowspan="3">Jumlah Anggaran</th>
+                  <th rowspan="3">Memiliki Kontrak</th>
+                  <th rowspan="3">Kelengkapan Dokumen</th>
+                  <th colspan="4">Realisasi Anggaran</th>
+                  <th rowspan="3">Realisasi Fisik</th>
+                  <th rowspan="3">Aksi</th>
                 </tr>
                 <tr>
-                  <th>Anggaran</th>
-                  <th>Fisik</th>
+                  <th colspan="2">Sistem</th>
+                  <th colspan="2">Manual</th>
+                </tr>
+                <tr>
+                  <th>Nilai</th>
+                  <th>Presentase</th>
+                  <th>Nilai</th>
+                  <th>Presentase</th>
                 </tr>
               </thead>
               <tbody>
@@ -283,16 +290,16 @@
                     <td style="text-align:center;">{{$no}}</td>
                     <td>{{$key->no_rekening}}</td>
                     <td>
-                      <a id="lihatrinci" href="#rincianitem" data-value="{{$key->no_rekening}}//{{$getkegiatan->id_kegiatan}}" data-toggle="modal" class="tip-top" data-original-title="Lihat Rincian Item">
+                      <a id="lihatrinci" href="#rincianitem" data-value="{{$key->no_rekening}}//{{$getkegiatan->id_kegiatan}}//{{$key->nama_item_kegiatan}}" data-toggle="modal" class="tip-top" data-original-title="Lihat Rincian Item">
                         {{$key->nama_item_kegiatan}}
                       </a>
                     </td>
                     <td>{{number_format($key->total, 0, ',', '.')}}</td>
                     <td style="text-align:center;">
                       @if ($key->flag_rincian_item==0)
-                        <a href="#myInputKontrak" data-value="{{$key->no_rekening}}" data-toggle="modal" class="badge btn-warning kontrak">Tidak</a>
+                        <a href="#myInputKontrak" data-value="{{$key->no_rekening}}//{{$getkegiatan->id_kegiatan}}//{{$key->nama_item_kegiatan}}" data-toggle="modal" class="badge btn-warning kontrak">Tidak</a>
                       @else
-                        <a href="#myInputKontrak" data-value="{{$key->no_rekening}}" data-toggle="modal" class="badge btn-info kontrak">Ya</a>
+                        <a href="#myInputKontrak" data-value="{{$key->no_rekening}}//{{$getkegiatan->id_kegiatan}}//{{$key->nama_item_kegiatan}}" data-toggle="modal" class="badge btn-info kontrak">Ya</a>
                       @endif
                     </td>
                     <td style="width:100px;">
@@ -300,6 +307,30 @@
                         <a href="#myDok" data-value="{{$key->no_rekening}}" data-toggle="modal" class="badge btn-primary myDok" style="color:white;">Lihat Dokumen</a>
                       @else
                         <span style="color:#b5b5b5;font-size:11px;"><i>Tersedia pada detail.</i></span>
+                      @endif
+                    </td>
+                    <td>
+                      @php
+                        $real_anggaran=0;
+                      @endphp
+                      @foreach ($getrealisasi as $real)
+                        @if ($real->kode_item==$key->no_rekening)
+                          {{number_format($real->realisasi_anggaran)}}
+                          @php
+                            $real_anggaran = $real->realisasi_anggaran;
+                            break;
+                          @endphp
+                        @endif
+                      @endforeach
+                    </td>
+                    <td>
+                      @if ($real_anggaran!=0)
+                        @php
+                          $persensimda = ($real_anggaran*100)/$key->total;
+                        @endphp
+                        {{round($persensimda,2)}} %
+                      @else
+                        0 %
                       @endif
                     </td>
                     <td>
@@ -315,17 +346,31 @@
                     </td>
                     <td>
                       @if ($key->flag_rincian_item==0)
+                        @if (!is_null($key->realisasi_anggaran))
+                          @php
+                            $persenmanual = ($key->realisasi_anggaran*100)/$key->total;
+                          @endphp
+                          {{round($persenmanual,2)}} %
+                        @else
+                          -
+                        @endif
+                      @else
+                        <span style="color:#b5b5b5;font-size:11px;"><i>Tersedia pada detail.</i></span>
+                      @endif
+                    </td>
+                    <td>
+                      @if ($key->flag_rincian_item==0)
                         @php
-                          $flagfisik=0;
-                          $realfisik=0;
+                        $flagfisik=0;
+                        $realfisik=0;
                         @endphp
                         @foreach ($getfisik as $fisik)
                           @if ($fisik->no_rekening_kegiatan == $key->no_rekening)
                             {{$fisik->nilai}} %
                             @php
-                              $realfisik = $fisik->nilai;
-                              $flagfisik = 1;
-                              break;
+                            $realfisik = $fisik->nilai;
+                            $flagfisik = 1;
+                            break;
                             @endphp
                           @endif
                         @endforeach
@@ -372,7 +417,8 @@
     $(function(){
       $('#tabel_item').on('click','.kontrak', function(){
         var id = $(this).data('value');
-        $('#ubahflag').attr('href', '{{url('/')}}/pencairan-dana/ubah-flag-rincian/'+id);
+        var data = id.split("//");
+        $('#ubahflag').attr('href', '{{url('/')}}/pencairan-dana/ubah-flag-rincian/'+data[0]+"/"+data[1]+"/"+data[2]);
       });
 
       $('#tabel_item').on('click','.cair', function(){
@@ -393,7 +439,7 @@
         var data = rek.split("//");
         $(".myTableRow").remove();
         $.ajax({
-          url: "{{url('/')}}/pencairan-dana/bind-item/"+data[0]+"/"+data[1],
+          url: "{{url('/')}}/pencairan-dana/bind-item/"+data[0]+"/"+data[1]+"/"+data[2],
           success: function(data){
             var tag;
             data.forEach(function(obj) {

@@ -255,7 +255,7 @@ class SyncController extends Controller
           }
         }
         $item = new ItemKegiatan;
-        $item->nama_item_kegiatan = $key->keterangan;
+        $item->nama_item_kegiatan = trim($key->keterangan);
         $item->no_rekening = $no_rekening;
         $item->satuan_1 = $key->sat_1;
         $item->nilai_1 = $key->nilai_1;
