@@ -237,7 +237,7 @@
                   <td>{{$getkegiatan->kode_kegiatan}}</td>
                 </tr>
                 <tr>
-                  <td style="width:130px;">Jumlah Item Kegiatan</td>
+                  <td>Jumlah Item Kegiatan</td>
                   <td style="width:1px;">:</td>
                   <td><span class="badge badge-info">{{count($getitem)}}</span></td>
                 </tr>
@@ -245,6 +245,22 @@
                   <td>Jumlah Anggaran</td>
                   <td style="width:1px;">:</td>
                   <td>Rp {{number_format($jumlahanggaran, 0, ',', '.')}},-</td>
+                </tr>
+                <tr>
+                  <td>Jumlah Realisasi By Sistem</td>
+                  <td style="width:1px;">:</td>
+                  <td>
+                    Rp {{number_format($getrealisasi->realisasi_anggaran, 0, ',', '.')}},-&nbsp;&nbsp;|&nbsp;&nbsp;
+                    <span class="badge badge-info">{{round(($getrealisasi->realisasi_anggaran*100)/$jumlahanggaran, 2)}} %</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Jumlah Realisasi By Input</td>
+                  <td style="width:1px;">:</td>
+                  <td>
+                    Rp {{number_format($realisasibyinput, 0, ',', '.')}},-&nbsp;&nbsp;|&nbsp;&nbsp;
+                    <span class="badge badge-info">{{round(($realisasibyinput*100)/$jumlahanggaran, 2)}} %</span>
+                  </td>
                 </tr>
               </table>
             </div>
@@ -262,23 +278,17 @@
             <table class="table table-bordered data-table" id="tabel_item">
               <thead>
                 <tr>
-                  <th width="20px;" rowspan="3">#</th>
-                  <th rowspan="3">Kode</th>
-                  <th rowspan="3">Uraian Item Kegiatan</th>
-                  <th rowspan="3">Jumlah Anggaran</th>
-                  <th rowspan="3">Memiliki Kontrak</th>
-                  <th rowspan="3">Kelengkapan Dokumen</th>
-                  <th colspan="4">Realisasi Anggaran</th>
-                  <th rowspan="3">Realisasi Fisik</th>
-                  <th rowspan="3">Aksi</th>
+                  <th width="20px;" rowspan="2">#</th>
+                  <th rowspan="2">Kode</th>
+                  <th rowspan="2">Uraian Item Kegiatan</th>
+                  <th rowspan="2">Jumlah Anggaran</th>
+                  <th rowspan="2">Memiliki Kontrak</th>
+                  <th rowspan="2">Kelengkapan Dokumen</th>
+                  <th colspan="2">Realisasi Anggaran By Input</th>
+                  <th rowspan="2">Realisasi Fisik</th>
+                  <th rowspan="2">Aksi</th>
                 </tr>
                 <tr>
-                  <th colspan="2">Sistem</th>
-                  <th colspan="2">Manual</th>
-                </tr>
-                <tr>
-                  <th>Nilai</th>
-                  <th>Presentase</th>
                   <th>Nilai</th>
                   <th>Presentase</th>
                 </tr>
@@ -309,30 +319,6 @@
                         <a href="#myDok" data-value="{{$key->no_rekening}}" data-toggle="modal" class="badge btn-primary myDok" style="color:white;">Lihat Dokumen</a>
                       @else
                         <span style="color:#b5b5b5;font-size:11px;"><i>Tersedia pada detail.</i></span>
-                      @endif
-                    </td>
-                    <td>
-                      @php
-                        $real_anggaran=0;
-                      @endphp
-                      @foreach ($getrealisasi as $real)
-                        @if ($real->kode_item==$key->no_rekening)
-                          {{number_format($real->realisasi_anggaran)}}
-                          @php
-                            $real_anggaran = $real->realisasi_anggaran;
-                            break;
-                          @endphp
-                        @endif
-                      @endforeach
-                    </td>
-                    <td>
-                      @if ($real_anggaran!=0)
-                        @php
-                          $persensimda = ($real_anggaran*100)/$key->total;
-                        @endphp
-                        {{round($persensimda,2)}} %
-                      @else
-                        0 %
                       @endif
                     </td>
                     <td>

@@ -45,14 +45,16 @@ class PencairanDanaController extends Controller
 
       $getfisik = PresentaseFisik::whereNotNull('no_rekening_kegiatan')->get();
 
-      $getrealisasi = RealisasiAnggaran::select('kode_item', DB::raw('sum(nilai) as realisasi_anggaran'))
+      $getrealisasi = RealisasiAnggaran::select('kode_kegiatan', DB::raw('sum(nilai) as realisasi_anggaran'))
         ->where('adik_realisasi_anggaran.kode_kegiatan', $getkegiatan->kode_kegiatan)
-        ->groupby('kode_item')
-        ->get();
+        ->groupby('kode_kegiatan')
+        ->first();
 
       $jumlahanggaran = 0;
+      $realisasibyinput = 0;
       foreach ($getitem as $key) {
         $jumlahanggaran = $jumlahanggaran + $key->total;
+        $realisasibyinput = $realisasibyinput + $key->realisasi_anggaran;
       }
 
       return view('pencairan-dana.proses')
@@ -61,6 +63,7 @@ class PencairanDanaController extends Controller
         ->with('getfisik', $getfisik)
         ->with('getrealisasi', $getrealisasi)
         ->with('getiditemkegiatan', $getiditemkegiatan)
+        ->with('realisasibyinput', $realisasibyinput)
         ->with('jumlahanggaran', $jumlahanggaran)
         ->with('getitem', $getitem);
     }
