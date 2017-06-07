@@ -12,19 +12,23 @@ class PresentaseFisikController extends Controller
     public function storefisikkegiatan(Request $request)
     {
       if (!is_null($request->realisasi_fisik)) {
-        $cekfisik = PresentaseFisik::where('no_rekening_kegiatan', $request->no_rekening)->get();
+        $cekfisik = PresentaseFisik::where('id_item_kegiatan', $request->id_item)->get();
         if (count($cekfisik)==0) {
           $setfisik = new PresentaseFisik;
         } else {
-          $setfisik = PresentaseFisik::where('no_rekening_kegiatan', $request->no_rekening)->first();
+          $setfisik = PresentaseFisik::where('id_item_kegiatan', $request->id_item)->first();
         }
         $setfisik->no_rekening_kegiatan = $request->no_rekening;
         $setfisik->nilai = $request->realisasi_fisik;
+        $setfisik->id_item_kegiatan = $request->id_item;
         $setfisik->save();
       }
 
       if (!is_null($request->realisasi_anggaran)) {
-        $setall = ItemKegiatan::where('no_rekening', $request->no_rekening)->update(array('realisasi_anggaran'=>$request->realisasi_anggaran));
+        $setall = ItemKegiatan::where('no_rekening', $request->no_rekening)
+          ->where('id_kegiatan', $request->id_kegiatan)
+          ->where('nama_item_kegiatan', $request->nama_item)
+          ->update(array('realisasi_anggaran'=>$request->realisasi_anggaran));
       }
 
       Session::flash('success', 'Berhasil input presentase realisasi fisik dan anggaran.');

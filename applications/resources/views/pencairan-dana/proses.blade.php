@@ -175,6 +175,8 @@
             <input type="text" class="span5" name="realisasi_fisik" id="realisasi_fisik" required>
             <input type="hidden" class="span5" name="no_rekening" id="no_rekening_kegiatan">
             <input type="hidden" class="span5" name="id_kegiatan" id="id_kegiatans">
+            <input type="hidden" class="span5" name="nama_item" id="nama_item">
+            <input type="hidden" class="span5" name="id_item" id="id_item">
             <span class="add-on">%</span>
           </div>
         </div>
@@ -359,13 +361,23 @@
                       @endif
                     </td>
                     <td>
+                      @php
+                        $iditemkegi=0;
+                      @endphp
+                      @foreach ($getiditemkegiatan as $giik)
+                        @if ($giik->no_rekening==$key->no_rekening && $giik->nama_item_kegiatan==$key->nama_item_kegiatan)
+                          @php
+                            $iditemkegi=$giik->id;
+                          @endphp
+                        @endif
+                      @endforeach
                       @if ($key->flag_rincian_item==0)
                         @php
                         $flagfisik=0;
                         $realfisik=0;
                         @endphp
                         @foreach ($getfisik as $fisik)
-                          @if ($fisik->no_rekening_kegiatan == $key->no_rekening)
+                          @if ($fisik->no_rekening_kegiatan == $key->no_rekening && $fisik->id_item_kegiatan == $iditemkegi)
                             {{$fisik->nilai}} %
                             @php
                             $realfisik = $fisik->nilai;
@@ -383,7 +395,7 @@
                     </td>
                     <td style="text-align:center;">
                       @if ($key->flag_rincian_item==0)
-                        <a href="#myCair" data-toggle="modal" data-value="{{$key->no_rekening}}//{{$id_kegiatan}}//{{$key->realisasi_anggaran}}//{{$realfisik}}" class="btn btn-primary btn-mini cair">Proses Pencairan</a>
+                        <a href="#myCair" data-toggle="modal" data-value="{{$key->no_rekening}}//{{$id_kegiatan}}//{{$key->realisasi_anggaran}}//{{$realfisik}}//{{$key->nama_item_kegiatan}}//{{$iditemkegi}}" class="btn btn-primary btn-mini cair">Proses Pencairan</a>
                       @else
                         <a href="{{route('pencairan.rincian', $key->no_rekening)}}" class="btn btn-primary btn-mini">Lihat Detail</a>
                       @endif
@@ -427,6 +439,8 @@
         $('#no_rekening_kegiatan').attr('value', data[0]);
         $('#id_kegiatans').attr('value', data[1]);
         $('#realisasi_anggaran').attr('value', data[2]);
+        $('#nama_item').attr('value', data[4]);
+        $('#id_item').attr('value', data[5]);
         if (data[3]!=0) {
           $('#realisasi_fisik').attr('value', data[3]);
         } else {

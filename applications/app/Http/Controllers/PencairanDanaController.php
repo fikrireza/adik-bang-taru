@@ -41,6 +41,8 @@ class PencairanDanaController extends Controller
         ->join('adik_program', 'adik_program.id', '=', 'adik_kegiatan.id_program')
         ->where('adik_kegiatan.id', $id)->first();
 
+      $getiditemkegiatan = ItemKegiatan::select('id', 'nama_item_kegiatan', 'no_rekening')->get();
+
       $getfisik = PresentaseFisik::whereNotNull('no_rekening_kegiatan')->get();
 
       $getrealisasi = RealisasiAnggaran::select('kode_item', DB::raw('sum(nilai) as realisasi_anggaran'))
@@ -58,6 +60,7 @@ class PencairanDanaController extends Controller
         ->with('getkegiatan', $getkegiatan)
         ->with('getfisik', $getfisik)
         ->with('getrealisasi', $getrealisasi)
+        ->with('getiditemkegiatan', $getiditemkegiatan)
         ->with('jumlahanggaran', $jumlahanggaran)
         ->with('getitem', $getitem);
     }
@@ -68,7 +71,7 @@ class PencairanDanaController extends Controller
         ->where('id_kegiatan', $id_keg)
         ->where('nama_item_kegiatan', $nama_item)
         ->first();
-        
+
       $flag = 2;
       if ($set->flag_rincian_item==0) {
         $flag = 1;

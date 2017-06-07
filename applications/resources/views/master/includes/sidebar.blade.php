@@ -43,14 +43,19 @@
           </ul>
         </li>
       @else
-        <li class="submenu"> <a href="#"><i class="icon-flag"></i> <span>Daftar Kegiatan</span> </a>
+        {{-- <li class="submenu"> <a href="#"><i class="icon-flag"></i> <span>Daftar Kegiatan</span> </a>
           <ul>
             <li><a href="{{route('daftar-kegiatan.index')}}">Lihat Kegiatan Saya</a></li>
           </ul>
-        </li>
+        </li> --}}
         <li class="submenu"> <a href="#"><i class="icon-money"></i> <span>Pencairan Dana</span> </a>
           <ul>
             <li><a href="{{route('pencairan.index')}}">Lakukan Pencairan Dana</a></li>
+          </ul>
+        </li>
+        <li class="submenu"> <a href="#"><i class="icon-flag"></i> <span>Laporan Pencairan</span> </a>
+          <ul>
+            <li><a href="{{route('daftar-kegiatan.index')}}">Kelola Laporan Pencairan</a></li>
           </ul>
         </li>
       @endif
