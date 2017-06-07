@@ -6,7 +6,11 @@ use Illuminate\Http\Request;
 use App\Models\ResumeKontrak;
 use App\Models\ItemKegiatan;
 use App\Models\Kegiatan;
+use App\Models\PencairanDokumen;
 use Session;
+
+use Auth;
+use Excel;
 
 class ResumeKontrakController extends Controller
 {
@@ -46,6 +50,50 @@ class ResumeKontrakController extends Controller
       $set->npwp = $request->npwp;
       $set->no_rekening_perusahaan = $request->no_rekening_perusahaan;
       $set->save();
+
+      $date = date('Y-m-d');
+      $rand = rand(1000,9999);
+
+
+      $getkontrak = ResumeKontrak::where('id_item_kegiatan', $request->id_item)->first();
+      if (count($getkontrak)!=0) {
+        $date1 = $getkontrak->jangka_waktu_awal;
+        $date2 = $getkontrak->jangka_waktu_akhir;
+
+        $diff = abs(strtotime($date2) - strtotime($date1));
+
+        $years = floor($diff / (365*60*60*24));
+        $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+        $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+      } else {
+        $days = -1;
+      }
+
+      $dok_res_kontrak = 'Resume Kontrak -'.$date.' - '.$request->no_dpa.' - '.$rand.'.pdf';
+
+      Excel::create($dok_res_kontrak, function($excel) use($dok_res_kontrak,$request, $date, $days) {
+        $excel->sheet('Resume Kontrak -'.$date, function($sheet) use($request,$date, $days) {
+          $sheet->loadView('pencairan-dana.ResumeKontrak')
+                  ->with('id_item', $request->id_item)
+                  ->with('daysjangkawaktu', $days)
+                  ->with('datakontrak', $request);
+        });
+      })->store("pdf", $path = false, $returnInfo = false);
+      // })->store("pdf", storage_path('app\public\dokumen\pencairan'));
+
+
+      $check2 = PencairanDokumen::where('id_item_kegiatan', $request->id_item)->count();
+      if ($check2==0) {
+        $saveDok = new PencairanDokumen;
+      } else {
+        $saveDok = PencairanDokumen::where('id_item_kegiatan', $request->id_item)->first();
+      }
+      $saveDok->id_item_kegiatan = $request->id_item;
+      $saveDok->dok_res_kontrak = $dok_res_kontrak;
+      $saveDok->id_aktor = Auth::user()->id;
+      $saveDok->flag_status = 1;
+      $saveDok->save();
+
 
       Session::flash('success', 'Berhasil mengupdate resume kontrak.');
       return redirect()->route('pencairan.progressbyitem', $request->id_item);

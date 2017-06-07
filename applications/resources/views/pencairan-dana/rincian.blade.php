@@ -58,7 +58,7 @@
           </tr>
           <tr>
             <td><span class="label label-info">Resume Kontrak</span></td>
-            <td style="text-align:center;" id="edit_res_kontrak">
+            <td style="text-align:center;" id="edit_dok_res_kontrak">
 
             </td>
           </tr>
@@ -249,6 +249,13 @@
               document.getElementById('edit_dok_sp2d').innerHTML = '<input name="dok_sp2d" id="dok_sp2d" type="file" accept=".doc, .docx, .xls, .xlsx, .pdf"/>';
             }else{
               document.getElementById('edit_dok_sp2d').innerHTML = '<a href="{{ url("/")}}/dokumen/pencairan/'+ dok_sp2d +'" class="badge btn-primary" style="color:white;" target="_blank" >Download</a>';
+            }
+
+            var dok_res_kontrak = data.dok_res_kontrak;
+            if(dok_res_kontrak == null){
+              document.getElementById('edit_dok_res_kontrak').innerHTML = '-';
+            }else{
+              document.getElementById('edit_dok_res_kontrak').innerHTML = '<a href="{{ url('/')}}/dokumen/pencairan/'+ dok_res_kontrak +'" class="badge btn-primary" style="color:white;" target="_blank" >Download</a>';
             }
 
             var dok_syarat_kontrak = data.dok_syarat_kontrak;
