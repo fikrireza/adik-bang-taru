@@ -141,7 +141,7 @@ class PencairanDokumenController extends Controller
         $save->dok_kwitansi = $file8;
         $save->dok_mutual = $file9;
         $save->id_aktor = Auth::user()->id;
-        $save->flag_status = 1;
+        $save->flag_status = 0;
         $save->save();
 
 
