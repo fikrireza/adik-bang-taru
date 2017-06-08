@@ -29,12 +29,13 @@ class PencairanDanaController extends Controller
 
     public function proses($id)
     {
-      $getitem = ItemKegiatan::select('nama_item_kegiatan', 'no_rekening', 'flag_rincian_item', 'realisasi_anggaran', DB::raw('sum(total) as total'))
+      $getitem = ItemKegiatan::select('id_kegiatan', 'nama_item_kegiatan', 'no_rekening', 'flag_rincian_item', 'realisasi_anggaran', DB::raw('sum(total) as total'))
       ->where('id_kegiatan', $id)
       ->groupby('nama_item_kegiatan')
       ->groupby('no_rekening')
       ->groupby('flag_rincian_item')
       ->groupby('realisasi_anggaran')
+      ->groupby('id_kegiatan')
       ->get();
 
       $getkegiatan = Kegiatan::select('adik_kegiatan.*', 'adik_kegiatan.id as id_kegiatan', 'adik_program.id as id_program', 'adik_program.nama_program', 'adik_program.kode_program')
@@ -90,10 +91,15 @@ class PencairanDanaController extends Controller
       return redirect()->route('pencairan.proses', $set->id_kegiatan)->with('success', 'Berhasil mengganti status kontrak.');
     }
 
-    public function rincian($no_rek)
+    public function rincian($no_rek, $id_keg, $nama_item)
     {
-      $get = ItemKegiatan::where('no_rekening', $no_rek)->get();
+      $get = ItemKegiatan::where('no_rekening', $no_rek)
+        ->where('nama_item_kegiatan', $nama_item)
+        ->where('id_kegiatan', $id_keg)
+        ->get();
+
       $getfisik = PresentaseFisik::whereNotNull('id_item_kegiatan')->get();
+
       $getpencairan = Pencairan::select('id_item_kegiatan', DB::raw('sum(nilai) as nilai'))->groupby('id_item_kegiatan')->get();
 
       return view('pencairan-dana.rincian')

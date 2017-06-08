@@ -383,7 +383,7 @@
                       @if ($key->flag_rincian_item==0)
                         <a href="#myCair" data-toggle="modal" data-value="{{$key->no_rekening}}//{{$id_kegiatan}}//{{$key->realisasi_anggaran}}//{{$realfisik}}//{{$key->nama_item_kegiatan}}//{{$iditemkegi}}" class="btn btn-primary btn-mini cair">Proses Pencairan</a>
                       @else
-                        <a href="{{route('pencairan.rincian', $key->no_rekening)}}" class="btn btn-primary btn-mini">Lihat Detail</a>
+                        <a href="{{route('pencairan.rincian', [$key->no_rekening, $id_kegiatan, $key->nama_item_kegiatan])}}" class="btn btn-primary btn-mini">Lihat Detail</a>
                       @endif
                     </td>
                   </tr>
