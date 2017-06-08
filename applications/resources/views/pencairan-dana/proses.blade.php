@@ -41,7 +41,7 @@
       <form class="form-horizontal" action="{{ route('pencairan-dokumen.store') }}" method="post" name="basic_validate" id="basic_validate" novalidate="novalidate" enctype="multipart/form-data">
       {{ csrf_field() }}
       <input type="hidden" name="id_dokumen" id="edit_id_dokumen">
-      <input type="hidden" name="no_rekening" id="edit_no_rekening">
+      <input type="hidden" name="id_item_kegiatan" id="edit_id_item_kegiatan">
       <input type="hidden" name="id_kegiatan" value="{{ $getkegiatan->id }}">
       <table class="table table-bordered table-striped">
         <thead>
@@ -66,12 +66,6 @@
           <tr>
             <td><span class="label label-info">Pengajuan SP2D</span></td>
             <td style="text-align:center;" id="edit_dok_sp2d">
-
-            </td>
-          </tr>
-          <tr>
-            <td><span class="label label-info">Resume Kontrak</span></td>
-            <td style="text-align:center;" id="edit_dok_res_kontrak">
 
             </td>
           </tr>
@@ -250,8 +244,8 @@
                   <td>Jumlah Realisasi By Sistem</td>
                   <td style="width:1px;">:</td>
                   <td>
-                    Rp {{number_format($getrealisasi->realisasi_anggaran, 0, ',', '.')}},-&nbsp;&nbsp;|&nbsp;&nbsp;
-                    <span class="badge badge-info">{{round(($getrealisasi->realisasi_anggaran*100)/$jumlahanggaran, 2)}} %</span>
+                    {{-- Rp {{number_format($getrealisasi->realisasi_anggaran, 0, ',', '.')}},-&nbsp;&nbsp;|&nbsp;&nbsp; --}}
+                    {{-- <span class="badge badge-info">{{round(($getrealisasi->realisasi_anggaran*100)/$jumlahanggaran, 2)}} %</span> --}}
                   </td>
                 </tr>
                 <tr>
@@ -315,8 +309,18 @@
                       @endif
                     </td>
                     <td style="width:100px;">
+                      @php
+                        $iditemkegi=0;
+                      @endphp
+                      @foreach ($getiditemkegiatan as $giik)
+                        @if ($giik->no_rekening==$key->no_rekening && $giik->nama_item_kegiatan==$key->nama_item_kegiatan)
+                          @php
+                            $iditemkegi=$giik->id;
+                          @endphp
+                        @endif
+                      @endforeach
                       @if ($key->flag_rincian_item==0)
-                        <a href="#myDok" data-value="{{$key->no_rekening}}" data-toggle="modal" class="badge btn-primary myDok" style="color:white;">Lihat Dokumen</a>
+                        <a href="#myDok" data-value="{{$iditemkegi}}" data-toggle="modal" class="badge btn-primary myDok" style="color:white;">Lihat Dokumen</a>
                       @else
                         <span style="color:#b5b5b5;font-size:11px;"><i>Tersedia pada detail.</i></span>
                       @endif
@@ -347,16 +351,6 @@
                       @endif
                     </td>
                     <td>
-                      @php
-                        $iditemkegi=0;
-                      @endphp
-                      @foreach ($getiditemkegiatan as $giik)
-                        @if ($giik->no_rekening==$key->no_rekening && $giik->nama_item_kegiatan==$key->nama_item_kegiatan)
-                          @php
-                            $iditemkegi=$giik->id;
-                          @endphp
-                        @endif
-                      @endforeach
                       @if ($key->flag_rincian_item==0)
                         @php
                         $flagfisik=0;
@@ -470,7 +464,7 @@
           url: "{{ url('/') }}/pencairan-dana/proses/dok/"+id,
           success: function(data) {
             $('#edit_id_dokumen').attr('value', data.id);
-            $('#edit_no_rekening').attr('value', data.no_rekening);
+            $('#edit_id_item_kegiatan').attr('value', data.id_item_kegiatan);
 
             var dok_spp = data.dok_spp;
             if (dok_spp == null) {
@@ -491,13 +485,6 @@
               document.getElementById('edit_dok_sp2d').innerHTML = '<input name="dok_sp2d" id="dok_sp2d" type="file" accept=".doc, .docx, .xls, .xlsx, .pdf"/>';
             }else{
               document.getElementById('edit_dok_sp2d').innerHTML = '<a href="{{ url("/")}}/dokumen/pencairan/'+ dok_sp2d +'" class="badge btn-primary" style="color:white;" target="_blank" >Download</a>';
-            }
-
-            var dok_res_kontrak = data.dok_res_kontrak;
-            if(dok_res_kontrak == null){
-              document.getElementById('edit_dok_res_kontrak').innerHTML = '<input name="dok_res_kontrak" id="dok_res_kontrak" type="file" accept=".doc, .docx, .xls, .xlsx, .pdf"/>';
-            }else{
-              document.getElementById('edit_dok_res_kontrak').innerHTML = '<a href="{{ url("/")}}/dokumen/pencairan/'+ dok_res_kontrak +'" class="badge btn-primary" style="color:white;" target="_blank" >Download</a>';
             }
 
             var dok_syarat_kontrak = data.dok_syarat_kontrak;
@@ -535,7 +522,7 @@
               document.getElementById('edit_dok_mutual').innerHTML = '<a href="{{ url("/")}}/dokumen/pencairan/'+ dok_mutual +'" class="badge btn-primary" style="color:white;" target="_blank" >Download</a>';
             }
 
-            if((dok_spp != null) && (dok_spm != null) && (dok_sp2d != null) && (dok_res_kontrak != null) && (dok_syarat_kontrak != null) && (dok_npd != null) && (dok_pho  != null) && (dok_kwitansi != null) && (dok_mutual !=null)){
+            if((dok_spp != null) && (dok_spm != null) && (dok_sp2d != null) && (dok_syarat_kontrak != null) && (dok_npd != null) && (dok_pho  != null) && (dok_kwitansi != null) && (dok_mutual !=null)){
               document.getElementById('upload').innerHTML = '';
             }else{
               document.getElementById('upload').innerHTML = '<button class="btn btn-primary pull-right">Simpan Dokumen</button>';
@@ -550,44 +537,44 @@
   <script type="text/javascript">
   $(function(){
     $('#tabel_item').on('click','.myDok', function(){
-      $('input[type=checkbox],input[type=radio],input[type=file]').uniform();
+      $('input[type=file]').uniform();
       $("#basic_validate").validate({
         ignore: [],
         rules:{
           dok_spp:{
-            required:true,
+            // required:true,
             accept:"pdf|doc|docx|xls|xlsx",
           },
           dok_spm:{
-            required:true,
+            // required:true,
             accept:"pdf|doc|docx|xls|xlsx",
           },
           dok_sp2d:{
-            required:true,
+            // required:true,
             accept:"pdf|doc|docx|xls|xlsx",
           },
           dok_res_kontrak:{
-            required:true,
+            // required:true,
             accept:"pdf|doc|docx|xls|xlsx",
           },
           dok_syarat_kontrak:{
-            required:true,
+            // required:true,
             accept:"pdf|doc|docx|xls|xlsx",
           },
           dok_pho:{
-            required:true,
+            // required:true,
             accept:"pdf|doc|docx|xls|xlsx",
           },
           dok_npd:{
-            required:true,
+            // required:true,
             accept:"pdf|doc|docx|xls|xlsx",
           },
           dok_mutual:{
-            required:true,
+            // required:true,
             accept:"pdf|doc|docx|xls|xlsx",
           },
           dok_kwitansi:{
-            required:true,
+            // required:true,
             accept:"pdf|doc|docx|xls|xlsx",
           },
         },

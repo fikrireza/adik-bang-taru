@@ -105,6 +105,7 @@ class PencairanDanaController extends Controller
       return view('pencairan-dana.rincian')
         ->with('getfisik', $getfisik)
         ->with('getpencairan', $getpencairan)
+        ->with('no_rek', $no_rek)
         ->with('dataitem', $get);
     }
 
