@@ -91,7 +91,7 @@ class ResumeKontrakController extends Controller
       $saveDok->id_item_kegiatan = $request->id_item;
       $saveDok->dok_res_kontrak = $dok_res_kontrak;
       $saveDok->id_aktor = Auth::user()->id;
-      $saveDok->flag_status = 1;
+      $saveDok->flag_status = 0;
       $saveDok->save();
 
 
