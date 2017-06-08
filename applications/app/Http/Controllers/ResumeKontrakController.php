@@ -69,17 +69,17 @@ class ResumeKontrakController extends Controller
         $days = -1;
       }
 
-      $dok_res_kontrak = 'Resume Kontrak -'.$date.' - '.$request->no_dpa.' - '.$rand.'.pdf';
+      $dok_res_kontrak = 'Resume Kontrak - '.$date.' - '.$request->no_dpa.' - '.$rand;
 
       Excel::create($dok_res_kontrak, function($excel) use($dok_res_kontrak,$request, $date, $days) {
-        $excel->sheet('Resume Kontrak -'.$date, function($sheet) use($request,$date, $days) {
+        $excel->sheet('Resume Kontrak - '.$date, function($sheet) use($request,$date, $days) {
           $sheet->loadView('pencairan-dana.ResumeKontrak')
                   ->with('id_item', $request->id_item)
                   ->with('daysjangkawaktu', $days)
                   ->with('datakontrak', $request);
         });
-      })->store("pdf", $path = false, $returnInfo = false);
-      // })->store("pdf", storage_path('app\public\dokumen\pencairan'));
+      // })->store("pdf", $path = false, $returnInfo = false);
+      })->store("pdf", storage_path('..\..\dokumen\pencairan'));
 
 
       $check2 = PencairanDokumen::where('id_item_kegiatan', $request->id_item)->count();
@@ -89,7 +89,7 @@ class ResumeKontrakController extends Controller
         $saveDok = PencairanDokumen::where('id_item_kegiatan', $request->id_item)->first();
       }
       $saveDok->id_item_kegiatan = $request->id_item;
-      $saveDok->dok_res_kontrak = $dok_res_kontrak;
+      $saveDok->dok_res_kontrak = $dok_res_kontrak.'pdf';
       $saveDok->id_aktor = Auth::user()->id;
       $saveDok->flag_status = 0;
       $saveDok->save();
