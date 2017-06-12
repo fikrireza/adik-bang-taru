@@ -89,7 +89,7 @@ class ResumeKontrakController extends Controller
         $saveDok = PencairanDokumen::where('id_item_kegiatan', $request->id_item)->first();
       }
       $saveDok->id_item_kegiatan = $request->id_item;
-      $saveDok->dok_res_kontrak = $dok_res_kontrak.'pdf';
+      $saveDok->dok_res_kontrak = $dok_res_kontrak.'.pdf';
       $saveDok->id_aktor = Auth::user()->id;
       $saveDok->flag_status = 0;
       $saveDok->save();
