@@ -27,7 +27,7 @@ Route::get('seleksi-kegiatan/destroy/{id}', 'SeleksiKegiatanController@destroy')
 
 // ---- VERIFIKASI DOKUMEN ----
 Route::get('verifikasi-dokumen', 'VerifikasiDokumenController@index')->name('verifikasi.index');
-Route::get('verifikasi-dokumen/detail/{no_rek}', 'VerifikasiDokumenController@detail')->name('verifikasi.detail');
+Route::get('verifikasi-dokumen/detail/{id_item_kegiatan}', 'VerifikasiDokumenController@detail')->name('verifikasi.detail');
 Route::get('verifikasi-dokumen/proses/{id}', 'VerifikasiDokumenController@proses')->name('verifikasi.proses');
 // ---- END OF VERIFIKASI DOKUMEN ----
 

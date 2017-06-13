@@ -65,13 +65,13 @@
                 @php
                   $no = 1;
                 @endphp
-                @foreach ($getprogramkegiatan as $key)
+                @foreach ($getDokumen as $key)
                 <tr>
                   <td>{{ $no }}</td>
-                  <td>{{ $key['nama_program'] }}</td>
-                  <td>{{ $key['nama_kegiatan'] }}</td>
-                  <td>{{ $key['nama_item_kegiatan'] }}</td>
-                  <td><a href=" {{route('verifikasi.detail', ['no_rekening' => $key['no_rekening']]) }}" class="btn btn-primary btn-mini">
+                  <td>{{ $key->itemkegiatan->kegiatan->program->nama_program }}</td>
+                  <td>{{ $key->itemkegiatan->kegiatan->nama_kegiatan }}</td>
+                  <td>{{ $key->itemKegiatan->nama_item_kegiatan }} | {{ $key->itemKegiatan->expr1 }}</td>
+                  <td><a href=" {{route('verifikasi.detail', ['id_item_kegiatan' => $key->id]) }}" class="btn btn-primary btn-mini">
                     Proses
                   </a></td>
                 </tr>

@@ -126,7 +126,7 @@
                 </tr>
                 <tr>
                   <td colspan="2" style="text-align:center;">
-                    <a data-toggle="modal" data-value="{{ $getdokumen->id }}" class="btn btn-success tip-top proses" data-original-title="Proses" {!! $getdokumen->flag_status == 1 ? 'disabled=""' : 'href="#myAlert"'!!} >Proses Dokumen</a>
+                    <a data-toggle="modal" data-value="{{ $getdokumen->id }}" class="btn btn-success proses" {!! $getdokumen->flag_status == 1 ? 'disabled=""' : 'href="#myAlert"'!!} >Proses Dokumen</a>
                   </td>
                 </tr>
               </tbody>

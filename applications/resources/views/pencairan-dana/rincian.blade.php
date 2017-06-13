@@ -255,7 +255,7 @@
             if(dok_res_kontrak == null){
               document.getElementById('edit_dok_res_kontrak').innerHTML = '-';
             }else{
-              document.getElementById('edit_dok_res_kontrak').innerHTML = '<a href="{{ url('/')}}/dokumen/pencairan/'+ dok_res_kontrak +'" class="badge btn-primary" style="color:white;" target="_blank" >Download</a>';
+              document.getElementById('edit_dok_res_kontrak').innerHTML = '<a href="{{ url('/')}}/dokumen/pencairan/'+ dok_res_kontrak +'" class="badge btn-primary" style="color:white;" target="_blank" download>Download</a>';
             }
 
             var dok_syarat_kontrak = data.dok_syarat_kontrak;

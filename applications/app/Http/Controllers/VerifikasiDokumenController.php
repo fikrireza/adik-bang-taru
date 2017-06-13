@@ -20,37 +20,38 @@ class VerifikasiDokumenController extends Controller
     public function index()
     {
 
-        $getkegiatan = Kegiatan::join('adik_program', 'adik_program.id', '=', 'adik_kegiatan.id_program')
-                                ->select('adik_kegiatan.id as id_kegiatan', 'adik_kegiatan.id_program', 'adik_kegiatan.nama_kegiatan', 'adik_program.nama_program')
-                                ->get();
+        // $getkegiatan = Kegiatan::join('adik_program', 'adik_program.id', '=', 'adik_kegiatan.id_program')
+        //                         ->select('adik_kegiatan.id as id_kegiatan', 'adik_kegiatan.id_program', 'adik_kegiatan.nama_kegiatan', 'adik_program.nama_program')
+        //                         ->get();
+        //
+        //
+        // foreach ($getkegiatan as $key) {
+        //   $getitemkegiatan[] = ItemKegiatan::where('id_kegiatan', $key->id_kegiatan)->whereNotNull('realisasi_anggaran')->get();
+        // }
+        //
+        // foreach ($getitemkegiatan as $itemkegiatan) {
+        //   foreach ($itemkegiatan as $item) {
+        //     $coba = array();
+        //     $coba['nama_item_kegiatan'] = $item->nama_item_kegiatan;
+        //     $coba['no_rekening']  = $item->no_rekening;
+        //     $coba['id_kegiatan'] = $item->id_kegiatan;
+        //     $coba['nama_kegiatan'] = $item->kegiatan->nama_kegiatan;
+        //     $coba['nama_program']  = $item->kegiatan->program->nama_program;
+        //
+        //     $hasil[] = $coba;
+        //   }
+        // }
+        //
+        // $hasil = collect($hasil);
+        // $getprogramkegiatan = $hasil->unique('id_kegiatan');
+        $getDokumen = PencairanDokumen::get();
 
-
-        foreach ($getkegiatan as $key) {
-          $getitemkegiatan[] = ItemKegiatan::where('id_kegiatan', $key->id_kegiatan)->whereNotNull('realisasi_anggaran')->get();
-        }
-
-        foreach ($getitemkegiatan as $itemkegiatan) {
-          foreach ($itemkegiatan as $item) {
-            $coba = array();
-            $coba['nama_item_kegiatan'] = $item->nama_item_kegiatan;
-            $coba['no_rekening']  = $item->no_rekening;
-            $coba['id_kegiatan'] = $item->id_kegiatan;
-            $coba['nama_kegiatan'] = $item->kegiatan->nama_kegiatan;
-            $coba['nama_program']  = $item->kegiatan->program->nama_program;
-
-            $hasil[] = $coba;
-          }
-        }
-
-        $hasil = collect($hasil);
-        $getprogramkegiatan = $hasil->unique('id_kegiatan');
-
-        return view('verifikasi-dokumen.index', compact('getprogramkegiatan', $getprogramkegiatan));
+        return view('verifikasi-dokumen.index', compact('getDokumen'));
     }
 
-    public function detail($no_rek)
+    public function detail($id_item_kegiatan)
     {
-      $getdokumen = PencairanDokumen::where('no_rekening', '=', $no_rek)->first();
+      $getdokumen = PencairanDokumen::where('id', '=', $id_item_kegiatan)->first();
 
       if(!$getdokumen){
         return redirect()->route('verifikasi.index')->with('failed', 'File Dokumen Belum di Upload');
