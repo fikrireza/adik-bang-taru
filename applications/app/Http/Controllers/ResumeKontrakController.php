@@ -10,7 +10,7 @@ use App\Models\PencairanDokumen;
 use Session;
 
 use Auth;
-use Excel;
+use PDF;
 
 class ResumeKontrakController extends Controller
 {
@@ -71,15 +71,21 @@ class ResumeKontrakController extends Controller
 
       $dok_res_kontrak = 'Resume Kontrak - '.$date.' - '.$request->no_dpa.' - '.$rand;
 
-      Excel::create($dok_res_kontrak, function($excel) use($dok_res_kontrak,$request, $date, $days) {
-        $excel->sheet('Resume Kontrak - '.$date, function($sheet) use($request,$date, $days) {
-          $sheet->loadView('pencairan-dana.resumeKontrak')
-                  ->with('id_item', $request->id_item)
-                  ->with('daysjangkawaktu', $days)
-                  ->with('datakontrak', $request);
-        });
-      // })->store("pdf", $path = false, $returnInfo = false);
-      })->store("pdf", storage_path('..\..\dokumen\pencairan'));
+      // Excel::create($dok_res_kontrak, function($excel) use($dok_res_kontrak,$request, $date, $days) {
+      //   $excel->sheet('Resume Kontrak - '.$date, function($sheet) use($request,$date, $days) {
+      //     $sheet->loadView('pencairan-dana.resumeKontrak')
+      //             ->with('id_item', $request->id_item)
+      //             ->with('daysjangkawaktu', $days)
+      //             ->with('datakontrak', $request);
+      //   });
+      // // })->store("pdf", $path = false, $returnInfo = false);
+      // })->store("pdf", storage_path('..\..\dokumen\pencairan'));
+
+      view()->share('id_item', $request->id_item);
+      view()->share('daysjangkawaktu', $days);
+      view()->share('datakontrak', $request);
+
+      $pdf = PDF::loadView('pencairan-dana.resumeKontrak')->save( 'dokumen/pencairan/'.$dok_res_kontrak.'.pdf' );
 
 
       $check2 = PencairanDokumen::where('id_item_kegiatan', $request->id_item)->count();

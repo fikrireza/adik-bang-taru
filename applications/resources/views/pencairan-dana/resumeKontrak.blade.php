@@ -1,240 +1,118 @@
-<!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-    <link rel="stylesheet" href="{{asset('theme/css/bootstrap.min.css')}}" />
-    <link rel="stylesheet" href="{{asset('theme/css/bootstrap-responsive.min.css')}}" />
-    <link rel="stylesheet" href="{{asset('theme/css/fullcalendar.css')}}" />
-    <link rel="stylesheet" href="{{asset('theme/css/matrix-style.css')}}" />
-    <link rel="stylesheet" href="{{asset('theme/css/matrix-media.css')}}" />
-    <link href="{{asset('theme/font-awesome/css/font-awesome.css')}}" rel="stylesheet" />
-  </head>
-  <body>
+    <style>
+      table {
+          border-collapse: collapse;
+      }
 
-    <table cellpadding="5" style="margin-top:5px;">
+      table, td, th {
+          border: 1px solid black;
+          font-size: 15px;
+      }
+    </style>
+
+    <h2 style="font-size:18px;" class="text-center">Resume Kontrak</h2>
+    <br>
+    <hr>
+    <table border="1px" class="table table-bordered" style="font-size:15px;">
       <tr>
-        <table>
-          <tr>
-            <td>
-              <h4 class="alert-heading">Resume Kontrak</h4>
-              <hr style="margin:5px 0px 10px 0px; border-top-color:#9fd5dc;">
-              Berikut adalah resume kontrak untuk pencairan dana:
-            </td>
-          </tr>
-        </table>
+        <td>1</td>
+        <td>NOMOR DAN TANGGAL DPA SKPD</td>
+        <td>No. DPA @php echo $string = (is_null($datakontrak->no_dpa)) ? "-" : $datakontrak->no_dpa; @endphp
+            <br>
+            Tgl. DPA @php echo $string = (is_null($datakontrak->tanggal_dpa)) ? "-" : $datakontrak->tanggal_dpa; @endphp</td>
       </tr>
       <tr>
-        <td>Nomor & Tanggal DPA</td>
-        <td>: &nbsp;&nbsp;
-          <span class="kontrak_label">
-            @php echo $string = (is_null($datakontrak)) ? "-" : $datakontrak->no_dpa; @endphp |
-            @php echo $string = (is_null($datakontrak)) ? "-" : $datakontrak->tanggal_dpa; @endphp
-          </span>
-
-          <span class="kontrak_control">
-            <input type="hidden" name="id_item" value="{{$id_item}}" id="id_item">
-            <input type="text" name="no_dpa" placeholder="Nomor DPA" id="no_dpa"> --
-            <input type="text" name="tanggal_dpa" placeholder="Tanggal Kontrak" id="tanggal_kontrak" data-date-format="yyyy-mm-dd" class="datepicker">
-          </span>
-        </td>
+        <td>2</td>
+        <td>KODE KEGIATAN / SUB KEGIATAN</td>
+        <td></td>
       </tr>
       <tr>
-        <td>Nomor & Tanggal Kontrak</td>
-        <td>: &nbsp;&nbsp;
-          <span class="kontrak_label">
-            @php echo $string = (is_null($datakontrak)) ? "-" : $datakontrak->no_kontrak; @endphp |
-            @php echo $string = (is_null($datakontrak)) ? "-" : $datakontrak->tanggal_kontrak; @endphp
-          </span>
-
-          <span class="kontrak_control">
-            <input type="text" name="no_kontrak" placeholder="Nomor Kontrak" id="no_kontrak"> --
-            <input type="text" name="tanggal_kontrak" placeholder="Tanggal Kontrak" id="tanggal_dpa" data-date-format="yyyy-mm-dd" class="datepicker">
-          </span>
-        </td>
+        <td>3</td>
+        <td>NO DAN TANGGAL KONTRAK</td>
+        <td>No. Kontrak @php echo $string = (is_null($datakontrak->no_kontrak)) ? "-" : $datakontrak->no_kontrak; @endphp
+          <br>
+          Tgl. Kontrak @php echo $string = (is_null($datakontrak->tanggal_kontrak)) ? "-" : $datakontrak->tanggal_kontrak; @endphp</td>
       </tr>
       <tr>
-        <td>Nama Perusahaan</td>
-        <td>: &nbsp;&nbsp;
-          <span class="kontrak_label">
-            @php echo $string = (is_null($datakontrak)) ? "-" : $datakontrak->nama_perusahaan; @endphp
-          </span>
-
-          <span class="kontrak_control">
-            <input type="text" name="nama_perusahaan" placeholder="Nama Perusahaan" id="nama_perusahaan">
-          </span>
-        </td>
+        <td>4</td>
+        <td>NAMA PERUSAHAAN</td>
+        <td>@php echo $string = (is_null($datakontrak->nama_perusahaan)) ? "-" : $datakontrak->nama_perusahaan; @endphp</td>
       </tr>
       <tr>
-        <td>Alamat Perusahaan</td>
-        <td>: &nbsp;&nbsp;
-          <span class="kontrak_label">
-            @php echo $string = (is_null($datakontrak)) ? "-" : $datakontrak->alamat_perusahaan; @endphp
-          </span>
-
-          <span class="kontrak_control">
-            <input type="text" name="alamat_perusahaan" placeholder="Alamat Perusahaan" id="alamat_perusahaan">
-          </span>
-        </td>
+        <td>5</td>
+        <td>ALAMAT PERUSAHAAN</td>
+        <td>@php echo $string = (is_null($datakontrak->alamat_perusahaan)) ? "-" : $datakontrak->alamat_perusahaan; @endphp</td>
       </tr>
       <tr>
-        <td>Nilai SPK / Kontrak</td>
-        <td>: &nbsp;&nbsp;
-          <span class="kontrak_label">
-            @php echo "Rp ".$string = (is_null($datakontrak)) ? "-" : number_format($datakontrak->nilai_kontrak, '0', ',', '.').",-"; @endphp
-          </span>
-
-          <span class="kontrak_control">
-            <input type="text" name="nilai_kontrak" placeholder="Nilai Kontrak" id="nilai_kontrak">
-          </span>
-        </td>
+        <td>6</td>
+        <td>NILAI SPK/KONTRAK</td>
+        <td>@php echo "Rp ".$string = (is_null($datakontrak->nilai_kontrak)) ? "-" : number_format($datakontrak->nilai_kontrak, '0', ',', '.').",-"; @endphp</td>
       </tr>
       <tr>
-        <td>Nomor & Tanggal BA. Kemajuan Pekerjaan</td>
-        <td>: &nbsp;&nbsp;
-          <span class="kontrak_label">
-            @php echo $string = (is_null($datakontrak)) ? "-" : $datakontrak->no_ba_kemajuan; @endphp |
-            @php echo $string = (is_null($datakontrak)) ? "-" : $datakontrak->tanggal_ba_kemajuan; @endphp
-          </span>
-
-          <span class="kontrak_control">
-            <input type="text" name="no_ba_kemajuan" placeholder="Nomor BA Kemajuan" id="no_ba_kemajuan"> --
-            <input type="text" name="tanggal_ba_kemajuan" placeholder="Tanggal BA Kemajuan" id="tanggal_ba_kemajuan" data-date-format="yyyy-mm-dd" class="datepicker">
-          </span>
-        </td>
+        <td>7</td>
+        <td>NO & TANGGAL BA. KEMAJUAN PEKERJAAN</td>
+        <td>No. @php echo $string = (is_null($datakontrak->no_ba_kemajuan)) ? "-" : $datakontrak->no_ba_kemajuan; @endphp <br>
+        Tgl. Kemajuan Kerja @php echo $string = (is_null($datakontrak->tanggal_ba_kemajuan)) ? "-" : $datakontrak->tanggal_ba_kemajuan; @endphp</td>
       </tr>
       <tr>
-        <td>Nomor & Tanggal BA. Pembayaran</td>
-        <td>: &nbsp;&nbsp;
-          <span class="kontrak_label">
-            @php echo $string = (is_null($datakontrak)) ? "-" : $datakontrak->no_ba_pembayaran; @endphp |
-            @php echo $string = (is_null($datakontrak)) ? "-" : $datakontrak->tanggal_ba_pembayaran; @endphp
-          </span>
-
-          <span class="kontrak_control">
-            <input type="text" name="no_ba_pembayaran" placeholder="Nomor BA Pembayaran" id="no_ba_pembayaran"> --
-            <input type="text" name="tanggal_ba_pembayaran" placeholder="Tanggal BA Pembayaran" id="tanggal_ba_pembayaran" data-date-format="yyyy-mm-dd" class="datepicker">
-          </span>
-        </td>
+        <td>8</td>
+        <td>NO & TANGGAL BA. PEMBAYARAN</td>
+        <td>No. @php echo $string = (is_null($datakontrak->no_ba_pembayaran)) ? "-" : $datakontrak->no_ba_pembayaran; @endphp <br>
+        Tgl. Pembayaran @php echo $string = (is_null($datakontrak->tanggal_ba_pembayaran)) ? "-" : $datakontrak->tanggal_ba_pembayaran; @endphp</td>
       </tr>
       <tr>
-        <td>Nomor & Tanggal BA. Penyelesaian Hasil Pekerjaan</td>
-        <td>: &nbsp;&nbsp;
-          <span class="kontrak_label">
-            @php echo $string = (is_null($datakontrak)) ? "-" : $datakontrak->no_ba_penyelesaian; @endphp |
-            @php echo $string = (is_null($datakontrak)) ? "-" : $datakontrak->tanggal_ba_penyelesaian; @endphp
-          </span>
-
-          <span class="kontrak_control">
-            <input type="text" name="no_ba_penyelesaian" placeholder="Nomor BA Penyelesaian" id="no_ba_penyelesaian"> --
-            <input type="text" name="tanggal_ba_penyelesaian" placeholder="Tanggal BA Penyelesaian" id="tanggal_ba_penyelesaian" data-date-format="yyyy-mm-dd" class="datepicker">
-          </span>
-        </td>
+        <td>9</td>
+        <td>NO & TANGGAL BA. PENYELESAIAN HASIL PEKERJAAN</td>
+        <td>No. @php echo $string = (is_null($datakontrak->no_ba_penyelesaian)) ? "-" : $datakontrak->no_ba_penyelesaian; @endphp <br>
+        Tgl. Penyelesaian Hasil @php echo $string = (is_null($datakontrak->tanggal_ba_penyelesaian)) ? "-" : $datakontrak->tanggal_ba_penyelesaian; @endphp</td>
       </tr>
       <tr>
-        <td>Nomor & Tanggal BA. Serah Terima Pekerjaan</td>
-        <td>: &nbsp;&nbsp;
-          <span class="kontrak_label">
-            @php echo $string = (is_null($datakontrak)) ? "-" : $datakontrak->no_ba_serah_terima; @endphp |
-            @php echo $string = (is_null($datakontrak)) ? "-" : $datakontrak->tanggal_ba_serah_terima; @endphp
-          </span>
-
-          <span class="kontrak_control">
-            <input type="text" name="no_ba_serah_terima" placeholder="Nomor BA Serah Terima" id="no_ba_serah_terima"> --
-            <input type="text" name="tanggal_ba_serah_terima" placeholder="Tanggal BA Serah Terima" id="tanggal_ba_serah_terima" data-date-format="yyyy-mm-dd" class="datepicker">
-          </span>
-        </td>
+        <td>10</td>
+        <td>NO & TANGGAL BA. SERAH TERIMA PEKERJAAN</td>
+        <td>No. @php echo $string = (is_null($datakontrak->no_ba_serah_terima)) ? "-" : $datakontrak->no_ba_serah_terima; @endphp <br>
+        Tgl. Serah Terima @php echo $string = (is_null($datakontrak->tanggal_ba_serah_terima)) ? "-" : $datakontrak->tanggal_ba_serah_terima; @endphp</td>
       </tr>
       <tr>
-        <td>Uraian & Volume Kegiatan</td>
-        <td>: &nbsp;&nbsp;
-          <span class="kontrak_label">
-            @php echo $string = (is_null($datakontrak)) ? "-" : $datakontrak->uraian_volume; @endphp
-          </span>
-
-          <span class="kontrak_control">
-            <input type="text" name="uraian_volume" placeholder="Uraian" id="uraian_volume">
-          </span>
-        </td>
+        <td>11</td>
+        <td>URAIAN DAN VOLUME KEGIATAN</td>
+        <td>@php echo $string = (is_null($datakontrak->uraian_volume)) ? "-" : $datakontrak->uraian_volume; @endphp</td>
       </tr>
       <tr>
-        <td>Cara Pembayaran</td>
-        <td>: &nbsp;&nbsp;
-          <span class="kontrak_label">
-            @php echo $string = (is_null($datakontrak)) ? "-" : $datakontrak->cara_pembayaran; @endphp
-          </span>
-
-          <span class="kontrak_control">
-            <input type="text" name="cara_pembayaran" placeholder="Cara Pembayaran" id="cara_pembayaran">
-          </span>
-        </td>
+        <td>12</td>
+        <td>CARA PEMBAYARAN</td>
+        <td>@php echo $string = (is_null($datakontrak->cara_pembayaran)) ? "-" : $datakontrak->cara_pembayaran; @endphp</td>
       </tr>
       <tr>
-        <td>Jangka Waktu</td>
-        <td>: &nbsp;&nbsp;
-          <span class="kontrak_label">
-            @if ($daysjangkawaktu==-1)
-              -
-            @else
-              {{$daysjangkawaktu}} hari kalendar terhitung mulai tanggal {{$datakontrak->jangka_waktu_awal}} s.d. {{$datakontrak->jangka_waktu_akhir}}.
-            @endif
-          </span>
-
-          <span class="kontrak_control">
-            <input type="text" name="jangka_waktu_awal" placeholder="Awal" id="jangka_waktu_awal" data-date-format="yyyy-mm-dd" class="datepicker"> --
-            <input type="text" name="jangka_waktu_akhir" placeholder="Akhir" id="jangka_waktu_akhir" data-date-format="yyyy-mm-dd" class="datepicker">
-          </span>
-        </td>
+        <td>13</td>
+        <td>JANGKA WAKTU</td>
+        <td>@if ($daysjangkawaktu==-1)
+          -
+        @else
+          {{$daysjangkawaktu}} hari kalendar terhitung mulai tanggal {{$datakontrak->jangka_waktu_awal}} s.d. {{$datakontrak->jangka_waktu_akhir}}.
+        @endif</td>
       </tr>
       <tr>
-        <td>Tanggal Penyelesaian Pekerjaan</td>
-        <td>: &nbsp;&nbsp;
-          <span class="kontrak_label">
-            @php echo $string = (is_null($datakontrak)) ? "-" : $datakontrak->tanggal_penyelesaian; @endphp
-          </span>
-
-          <span class="kontrak_control">
-            <input type="text" name="tanggal_penyelesaian" placeholder="Tanggal Penyelesaian" id="tanggal_penyelesaian" data-date-format="yyyy-mm-dd" class="datepicker">
-          </span>
-        </td>
+        <td>14</td>
+        <td>TANGGAL PENYELESAIAN PEKERJAAN</td>
+        <td>@php echo $string = (is_null($datakontrak->tanggal_penyelesaian)) ? "-" : $datakontrak->tanggal_penyelesaian; @endphp</td>
       </tr>
       <tr>
-        <td>Ketentuan Sanksi / Denda</td>
-        <td>: &nbsp;&nbsp;
-          <span class="kontrak_label">
-            @php echo $string = (is_null($datakontrak)) ? "-" : $datakontrak->ketentuan_sanksi; @endphp
-          </span>
-
-          <span class="kontrak_control">
-            <input type="text" name="ketentuan_sanksi" placeholder="Ketentuan Sanksi" id="ketentuan_sanksi">
-          </span>
-        </td>
+        <td>15</td>
+        <td>KETENTUAN SANKSI/DENDA</td>
+        <td>@php echo $string = (is_null($datakontrak->ketentuan_sanksi)) ? "-" : $datakontrak->ketentuan_sanksi; @endphp</td>
       </tr>
       <tr>
-        <td>Nomor Pokok Wajib Pajak (NPWP)</td>
-        <td>: &nbsp;&nbsp;
-          <span class="kontrak_label">
-            @php echo $string = (is_null($datakontrak)) ? "-" : $datakontrak->npwp; @endphp
-          </span>
-
-          <span class="kontrak_control">
-            <input type="text" name="npwp" placeholder="NPWP" id="npwp">
-          </span>
-        </td>
+        <td>16</td>
+        <td>NOMOR POKOK WAJIB PAJAK</td>
+        <td>@php echo $string = (is_null($datakontrak->npwp)) ? "-" : $datakontrak->npwp; @endphp</td>
       </tr>
       <tr>
-        <td>Nomor Rekening BANK</td>
-        <td>: &nbsp;&nbsp;
-          <span class="kontrak_label">
-            @php echo $string = (is_null($datakontrak)) ? "-" : $datakontrak->no_rekening_perusahaan; @endphp
-          </span>
-
-          <span class="kontrak_control">
-            <input type="text" name="no_rekening_perusahaan" placeholder="No Rekening Perusahaan" id="no_rekening_perusahaan">
-          </span>
-        </td>
+        <td>17</td>
+        <td>NOMOR REKENING BANK</td>
+        <td>@php echo $string = (is_null($datakontrak->no_rekening_perusahaan)) ? "-" : $datakontrak->no_rekening_perusahaan; @endphp</td>
       </tr>
     </table>
-  </body>
+
 </html>
