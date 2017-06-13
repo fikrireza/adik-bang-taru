@@ -261,7 +261,6 @@ class PencairanDokumenController extends Controller
         $save->flag_status = 0;
         $save->save();
 
-
-        return redirect()->route('pencairan.rincian', ['id' => $request->no_rek])->with('success', 'Berhasil Upload Dokumen');
+        return redirect()->route('pencairan.rincian', ['no_rek' => $request->no_rek, 'id_keg' => $request->id_keg, 'nama_item' => $request->nama_item])->with('success', 'Berhasil Upload Dokumen');
     }
 }

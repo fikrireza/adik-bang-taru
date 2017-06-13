@@ -28,6 +28,8 @@
       <form class="form-horizontal" action="{{ route('pencairan-dokumen.storeRincian') }}" method="post" name="basic_validate" id="basic_validate" novalidate="novalidate" enctype="multipart/form-data">
       {{ csrf_field() }}
       <input type="hidden" name="no_rek" value="{{ $no_rek }}">
+      <input type="hidden" name="id_keg" value="{{ $id_keg }}">
+      <input type="hidden" name="nama_item" value="{{ $nama_item }}">
       <input type="hidden" name="id_dokumen" id="edit_id_dokumen">
       <input type="hidden" name="id_item_kegiatan" id="edit_id_item_kegiatan">
       <table class="table table-bordered table-striped">

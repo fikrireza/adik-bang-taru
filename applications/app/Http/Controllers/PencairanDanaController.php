@@ -107,6 +107,8 @@ class PencairanDanaController extends Controller
         ->with('getfisik', $getfisik)
         ->with('getpencairan', $getpencairan)
         ->with('no_rek', $no_rek)
+        ->with('id_keg', $id_keg)
+        ->with('nama_item', $nama_item)
         ->with('dataitem', $get);
     }
 
