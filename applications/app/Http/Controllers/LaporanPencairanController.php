@@ -10,6 +10,7 @@ use App\Models\ItemKegiatan;
 use App\Models\ResumeKontrak;
 use App\Models\PresentaseFisik;
 use DB;
+use PDF;
 
 class LaporanPencairanController extends Controller
 {
@@ -56,13 +57,24 @@ class LaporanPencairanController extends Controller
       $getresume = ResumeKontrak::all();
       $getfisik = PresentaseFisik::all();
 
-      return view('laporan-pencairan.printout')
-        ->with('getsumitem', $getsumitem)
-        ->with('getitem', $getitem)
-        ->with('getresume', $getresume)
-        ->with('getfisik', $getfisik)
-        ->with('getkegiatan', $getkegiatan)
-        ->with('getprogram', $getprogram)
-        ->with('datacair', $datacair);
+      view()->share('getsumitem', $getsumitem);
+      view()->share('getitem', $getitem);
+      view()->share('getresume', $getresume);
+      view()->share('getfisik', $getfisik);
+      view()->share('getkegiatan', $getkegiatan);
+      view()->share('getprogram', $getprogram);
+      view()->share('datacair', $datacair);
+
+      $pdf = PDF::loadView('laporan-pencairan.printout')->setPaper('a4', 'landscape');
+      return $pdf->download('laporan-pencairan.pdf');
+
+      // return view('laporan-pencairan.printout')
+      //   ->with('getsumitem', $getsumitem)
+      //   ->with('getitem', $getitem)
+      //   ->with('getresume', $getresume)
+      //   ->with('getfisik', $getfisik)
+      //   ->with('getkegiatan', $getkegiatan)
+      //   ->with('getprogram', $getprogram)
+      //   ->with('datacair', $datacair);
     }
 }

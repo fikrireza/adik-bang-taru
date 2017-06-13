@@ -15,7 +15,7 @@
     <table border="1" cellpadding="5" cellspacing="0">
       <thead>
         <tr>
-          <th rowspan="3">No</th>
+          <th rowspan="3" style="width:30px;">No</th>
           <th rowspan="3" colspan="4">Program / Kegiatan</th>
           <th rowspan="3">Anggaran</th>
           <th rowspan="3">Nilai Kontrak</th>
@@ -33,7 +33,7 @@
       </thead>
       <tbody>
         <tr>
-          <td>1</td>
+          <td style="text-align:center;">1</td>
           <td colspan="4">{{$getprogram->nama_program}}</td>
           <td></td>
           <td></td>

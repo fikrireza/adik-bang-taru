@@ -73,7 +73,7 @@ class ResumeKontrakController extends Controller
 
       Excel::create($dok_res_kontrak, function($excel) use($dok_res_kontrak,$request, $date, $days) {
         $excel->sheet('Resume Kontrak - '.$date, function($sheet) use($request,$date, $days) {
-          $sheet->loadView('pencairan-dana.ResumeKontrak')
+          $sheet->loadView('pencairan-dana.resumeKontrak')
                   ->with('id_item', $request->id_item)
                   ->with('daysjangkawaktu', $days)
                   ->with('datakontrak', $request);
