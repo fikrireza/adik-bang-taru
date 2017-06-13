@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\PresentaseFisik;
 use App\Models\ItemKegiatan;
+use App\Models\Pencairan;
 use Session;
+use Auth;
 
 class PresentaseFisikController extends Controller
 {
@@ -29,6 +31,14 @@ class PresentaseFisikController extends Controller
           ->where('id_kegiatan', $request->id_kegiatan)
           ->where('nama_item_kegiatan', $request->nama_item)
           ->update(array('realisasi_anggaran'=>$request->realisasi_anggaran));
+
+        $inputpencairan = new Pencairan;
+        $inputpencairan->no_rek = $request->no_rekening;
+        $inputpencairan->nilai = $request->realisasi_anggaran;
+        $inputpencairan->termin = "1x Bayar";
+        $inputpencairan->flag_status = 1;
+        $inputpencairan->id_aktor = Auth::user()->id;
+        $inputpencairan->save();
       }
 
       Session::flash('success', 'Berhasil input presentase realisasi fisik dan anggaran.');

@@ -55,7 +55,7 @@
         </li>
         <li class="submenu"> <a href="#"><i class="icon-flag"></i> <span>Laporan Pencairan</span> </a>
           <ul>
-            <li><a href="{{route('daftar-kegiatan.index')}}">Kelola Laporan Pencairan</a></li>
+            <li><a href="{{route('laporan-pencairan.index')}}">Kelola Laporan Pencairan</a></li>
           </ul>
         </li>
       @endif

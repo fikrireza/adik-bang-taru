@@ -244,8 +244,8 @@
                   <td>Jumlah Realisasi By Sistem</td>
                   <td style="width:1px;">:</td>
                   <td>
-                    {{-- Rp {{number_format($getrealisasi->realisasi_anggaran, 0, ',', '.')}},-&nbsp;&nbsp;|&nbsp;&nbsp; --}}
-                    {{-- <span class="badge badge-info">{{round(($getrealisasi->realisasi_anggaran*100)/$jumlahanggaran, 2)}} %</span> --}}
+                    Rp {{number_format($getrealisasi->realisasi_anggaran, 0, ',', '.')}},-&nbsp;&nbsp;|&nbsp;&nbsp;
+                    <span class="badge badge-info">{{round(($getrealisasi->realisasi_anggaran*100)/$jumlahanggaran, 2)}} %</span>
                   </td>
                 </tr>
                 <tr>

@@ -7,18 +7,20 @@ use App\Models\Pencairan;
 use App\Models\Kegiatan;
 use App\Models\Program;
 use App\Models\ItemKegiatan;
+use App\Models\ResumeKontrak;
+use App\Models\PresentaseFisik;
+use DB;
 
 class LaporanPencairanController extends Controller
 {
     public function index()
     {
-      $get = Pencairan::select('id_kegiatan', 'nama_kegiatan', 'no_rekening', 'nama_program', 'kode_kegiatan')
+      $get = Pencairan::select('id_kegiatan', 'nama_kegiatan', 'nama_program', 'kode_kegiatan')
         ->join('adik_item_kegiatan', 'adik_item_kegiatan.id', 'adik_pencairan.id_item_kegiatan')
         ->join('adik_kegiatan', 'adik_kegiatan.id', 'adik_item_kegiatan.id_kegiatan')
         ->join('adik_program', 'adik_program.id', 'adik_kegiatan.id_program')
         ->groupby('id_kegiatan')
         ->groupby('nama_kegiatan')
-        ->groupby('no_rekening')
         ->get();
 
       return view('laporan-pencairan.index')->with('datapencairan', $get);
@@ -26,17 +28,41 @@ class LaporanPencairanController extends Controller
 
     public function print($id)
     {
-      $getkegiatan = Kegiatan::find($id);
       $getitem = ItemKegiatan::where('id_kegiatan', $id)->get();
-
-      $arriditem = array();
+      $id_item = array();
+      $no_rek = array();
       foreach ($getitem as $key) {
-        $arriditem[] = $key->id;
+        $id_item[] = $key->id;
+        if (!in_array($key->no_rekening, $no_rek)) {
+          $no_rek[] = $key->no_rekening;
+        }
       }
 
-      $getpencairan = Pencairan::wherein('id_item_kegiatan', $arriditem)->get();
-      return $getpencairan;
+      $getcair = Pencairan::select('id_item_kegiatan', 'no_rek', DB::RAW('sum(nilai) as nilai'))
+        ->groupby('id_item_kegiatan')
+        ->groupby('no_rek')
+        ->orderby('id_item_kegiatan')
+        ->get();
+      $datacair = array();
+      foreach ($getcair as $key) {
+        if (in_array($key->id_item_kegiatan, $id_item) || in_array($key->no_rek, $no_rek)) {
+          $datacair[] = $key;
+        }
+      }
 
-      return view('laporan-pencairan.printout')->with('data', $get);
+      $getkegiatan = Kegiatan::find($id);
+      $getprogram = Program::find($getkegiatan->id_program);
+      $getsumitem = Pencairan::select('id_item_kegiatan', DB::RAW('sum(nilai) as nilai'))->groupby('id_item_kegiatan')->get();
+      $getresume = ResumeKontrak::all();
+      $getfisik = PresentaseFisik::all();
+
+      return view('laporan-pencairan.printout')
+        ->with('getsumitem', $getsumitem)
+        ->with('getitem', $getitem)
+        ->with('getresume', $getresume)
+        ->with('getfisik', $getfisik)
+        ->with('getkegiatan', $getkegiatan)
+        ->with('getprogram', $getprogram)
+        ->with('datacair', $datacair);
     }
 }
