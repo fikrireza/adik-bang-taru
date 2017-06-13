@@ -10,6 +10,7 @@ use App\Models\Pencairan;
 use App\Models\ResumeKontrak;
 use App\Models\PresentaseFisik;
 use App\Models\RealisasiAnggaran;
+use App\Models\PencairanDokumen;
 use Auth;
 use DB;
 use Session;
@@ -114,6 +115,7 @@ class PencairanDanaController extends Controller
       $getkontrak = ResumeKontrak::where('id_item_kegiatan', $id_item)->first();
       $gettermin = Pencairan::where('id_item_kegiatan', $id_item)->get();
       $getfisik = PresentaseFisik::where('id_item_kegiatan', $id_item)->first();
+      $getDokumen = PencairanDokumen::where('id_item_kegiatan', $id_item)->first();
 
       if (count($getkontrak)!=0) {
         $date1 = $getkontrak->jangka_waktu_awal;
@@ -139,6 +141,7 @@ class PencairanDanaController extends Controller
         ->with('gettermin', $gettermin)
         ->with('getfisik', $getfisik)
         ->with('daysjangkawaktu', $days)
+        ->with('getDokumen', $getDokumen)
         ->with('datakontrak', $getkontrak);
     }
 
