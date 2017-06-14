@@ -11,23 +11,28 @@ use App\Models\ResumeKontrak;
 use App\Models\PresentaseFisik;
 use DB;
 use PDF;
+use Auth;
 
 class LaporanPencairanController extends Controller
 {
     public function index()
     {
-      $get = Pencairan::select('id_kegiatan', 'nama_kegiatan', 'nama_program', 'kode_kegiatan')
+      $get = Pencairan::select('adik_item_kegiatan.id_kegiatan', 'nama_kegiatan', 'nama_program', 'kode_kegiatan')
         ->join('adik_item_kegiatan', 'adik_item_kegiatan.id', 'adik_pencairan.id_item_kegiatan')
         ->join('adik_kegiatan', 'adik_kegiatan.id', 'adik_item_kegiatan.id_kegiatan')
         ->join('adik_program', 'adik_program.id', 'adik_kegiatan.id_program')
-        ->groupby('id_kegiatan')
+        ->join('adik_kegiatan_per_bidang', 'adik_kegiatan.id', 'adik_kegiatan_per_bidang.id_kegiatan')
+        ->where('adik_kegiatan_per_bidang.id_bidang', Auth::user()->id_bidang)
+        ->groupby('adik_item_kegiatan.id_kegiatan')
         ->groupby('nama_kegiatan')
+        ->groupby('nama_program')
+        ->groupby('kode_kegiatan')
         ->get();
 
       return view('laporan-pencairan.index')->with('datapencairan', $get);
     }
 
-    public function print($id)
+    public function printcair($id)
     {
       $getitem = ItemKegiatan::where('id_kegiatan', $id)->get();
       $id_item = array();
