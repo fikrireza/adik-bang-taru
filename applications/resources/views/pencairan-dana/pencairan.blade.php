@@ -79,6 +79,7 @@
             <div class="controls">
               <select class="span3" name="termin" placeholder="-- Pilih --" id="selecttermin">
                 <option value=""></option>
+                <option value="Non Termin" id="non_termin">Non Termin</option>
                 <option value="Uang Muka" id="uang_muka">Uang Muka</option>
                 <option value="Termin 1" id="termin_1">Termin 1</option>
                 <option value="Termin 2" id="termin_2">Termin 2</option>
@@ -385,6 +386,7 @@
                 <div class="controls">
                   <select class="span11" name="termin" placeholder="-- Pilih --">
                     <option value=""></option>
+                    <option value="Non Termin">Non Termin</option>
                     <option value="Uang Muka">Uang Muka</option>
                     <option value="Termin 1">Termin 1</option>
                     <option value="Termin 2">Termin 2</option>
@@ -568,6 +570,8 @@
               $("#selecttermin").select2().select2('val','Termin 5');
             } else if (data.termin=="Termin 6") {
               $("#selecttermin").select2().select2('val','Termin 6');
+            } else if (data.termin=="Non Termin") {
+              $("#selecttermin").select2().select2('val','Non Termin');
             }
 
             $('#nilai').attr('value', data.nilai);

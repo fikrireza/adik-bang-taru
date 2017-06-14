@@ -11,6 +11,7 @@ use App\Models\ResumeKontrak;
 use App\Models\PresentaseFisik;
 use App\Models\RealisasiAnggaran;
 use App\Models\PencairanDokumen;
+use Carbon\Carbon;
 use Auth;
 use DB;
 use Session;
@@ -119,18 +120,9 @@ class PencairanDanaController extends Controller
       $getfisik = PresentaseFisik::where('id_item_kegiatan', $id_item)->first();
       $getDokumen = PencairanDokumen::where('id_item_kegiatan', $id_item)->first();
 
-      if (count($getkontrak)!=0) {
-        $date1 = $getkontrak->jangka_waktu_awal;
-        $date2 = $getkontrak->jangka_waktu_akhir;
-
-        $diff = abs(strtotime($date2) - strtotime($date1));
-
-        $years = floor($diff / (365*60*60*24));
-        $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
-        $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
-      } else {
-        $days = -1;
-      }
+      $start = Carbon::parse($getkontrak->jangka_waktu_awal);
+      $end = Carbon::parse($getkontrak->jangka_waktu_akhir);
+      $days = $end->diffInDays($start);
 
       $successmsg = null;
       if (Session::has('success')) {

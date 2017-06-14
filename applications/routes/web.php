@@ -127,5 +127,5 @@ Route::get('manajemen-akun/destroy/{id}', 'ManajemenAkunController@destroy')->na
 
 // ---- LAPORAN PENCAIRAN ----
 Route::get('laporan-pencairan', 'LaporanPencairanController@index')->name('laporan-pencairan.index');
-Route::get('laporan-pencairan/print/{id_keg}', 'LaporanPencairanController@print')->name('laporan-pencairan.print');
+Route::get('laporan-pencairan/print/{id_keg}', 'LaporanPencairanController@printcair')->name('laporan-pencairan.print');
 // ---- END OF LAPORAN PENCAIRAN ----
