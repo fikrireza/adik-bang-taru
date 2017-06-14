@@ -44,11 +44,14 @@ class LaporanPencairanController extends Controller
         }
       }
 
-      $getcair = Pencairan::select('id_item_kegiatan', 'no_rek', DB::RAW('sum(nilai) as nilai'))
+      $getcair = Pencairan::select('id_item_kegiatan', 'no_rek', 'nama_item_kegiatan', 'id_kegiatan', DB::RAW('sum(nilai) as nilai'))
         ->groupby('id_item_kegiatan')
         ->groupby('no_rek')
+        ->groupby('nama_item_kegiatan')
+        ->groupby('id_kegiatan')
         ->orderby('id_item_kegiatan')
         ->get();
+
       $datacair = array();
       foreach ($getcair as $key) {
         if (in_array($key->id_item_kegiatan, $id_item) || in_array($key->no_rek, $no_rek)) {
@@ -73,13 +76,13 @@ class LaporanPencairanController extends Controller
       $pdf = PDF::loadView('laporan-pencairan.printout')->setPaper('a4', 'landscape');
       return $pdf->download('laporan-pencairan.pdf');
 
-      // return view('laporan-pencairan.printout')
-      //   ->with('getsumitem', $getsumitem)
-      //   ->with('getitem', $getitem)
-      //   ->with('getresume', $getresume)
-      //   ->with('getfisik', $getfisik)
-      //   ->with('getkegiatan', $getkegiatan)
-      //   ->with('getprogram', $getprogram)
-      //   ->with('datacair', $datacair);
+      return view('laporan-pencairan.printout')
+        ->with('getsumitem', $getsumitem)
+        ->with('getitem', $getitem)
+        ->with('getresume', $getresume)
+        ->with('getfisik', $getfisik)
+        ->with('getkegiatan', $getkegiatan)
+        ->with('getprogram', $getprogram)
+        ->with('datacair', $datacair);
     }
 }

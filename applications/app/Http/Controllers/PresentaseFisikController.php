@@ -34,8 +34,10 @@ class PresentaseFisikController extends Controller
 
         $inputpencairan = new Pencairan;
         $inputpencairan->no_rek = $request->no_rekening;
+        $inputpencairan->id_kegiatan = $request->id_kegiatan;
+        $inputpencairan->nama_item_kegiatan = $request->nama_item;
         $inputpencairan->nilai = $request->realisasi_anggaran;
-        $inputpencairan->termin = "1x Bayar";
+        $inputpencairan->termin = "Non Termin";
         $inputpencairan->flag_status = 1;
         $inputpencairan->id_aktor = Auth::user()->id;
         $inputpencairan->save();

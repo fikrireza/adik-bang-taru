@@ -120,9 +120,13 @@ class PencairanDanaController extends Controller
       $getfisik = PresentaseFisik::where('id_item_kegiatan', $id_item)->first();
       $getDokumen = PencairanDokumen::where('id_item_kegiatan', $id_item)->first();
 
-      $start = Carbon::parse($getkontrak->jangka_waktu_awal);
-      $end = Carbon::parse($getkontrak->jangka_waktu_akhir);
-      $days = $end->diffInDays($start);
+      if (count($getkontrak)!=0) {
+        $start = Carbon::parse($getkontrak->jangka_waktu_awal);
+        $end = Carbon::parse($getkontrak->jangka_waktu_akhir);
+        $days = $end->diffInDays($start);
+      } else {
+        $days = "-1";
+      }
 
       $successmsg = null;
       if (Session::has('success')) {
