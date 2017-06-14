@@ -88,9 +88,15 @@
 
             </td>
           </tr>
-          <tr>
+          {{-- <tr>
             <td><span class="label label-info">Mutual Cek 100</span></td>
             <td style="text-align:center;" id="edit_dok_mutual">
+
+            </td>
+          </tr> --}}
+          <tr>
+            <td><span class="label label-info">Photo Kegiatan</span></td>
+            <td style="text-align:center;" id="edit_img_kegiatan">
 
             </td>
           </tr>
@@ -121,6 +127,41 @@
 
   <div class="container-fluid">
     <hr style="margin:0px 0px 15px 0px;">
+
+    @if (Session::has('success'))
+      <script>
+        window.setTimeout(function() {
+          $(".alert-success").fadeTo(500, 0).slideUp(500, function(){
+              $(this).remove();
+          });
+        }, 5000);
+      </script>
+      <div class="alert alert-success alert-block" style="margin-bottom:0px;">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">Berhasil!</h4>
+        <hr style="margin:5px 0px 10px 0px; border-top-color:#9fdcae;">
+        {{ Session::get('success') }}
+      </div>
+      <hr class="alert-success">
+    @endif
+
+    @if (Session::has('failed'))
+      <script>
+        window.setTimeout(function() {
+          $(".alert-danger").fadeTo(500, 0).slideUp(500, function(){
+              $(this).remove();
+          });
+        }, 5000);
+      </script>
+      <div class="alert alert-danger alert-block" style="margin-bottom:0px;">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">Oops, terjadi kesalahan!</h4>
+        <hr style="margin:5px 0px 10px 0px; border-top-color:#dc9f9f;">
+        {{ Session::get('failed') }}
+      </div>
+      <hr class="alert-danger">
+    @endif
+
     <div class="alert alert-info alert-block" style="margin-bottom:0px;">
       <a class="close" data-dismiss="alert" href="#">×</a>
       <h4 class="alert-heading">Pemberitahuan</h4>
@@ -288,11 +329,25 @@
               document.getElementById('edit_dok_kwitansi').innerHTML = '<a href="{{ url("/")}}/dokumen/pencairan/'+ dok_kwitansi +'" class="badge btn-primary" style="color:white;" target="_blank" >Download</a>';
             }
 
-            var dok_mutual = data.dok_mutual;
-            if(dok_mutual == null){
-              document.getElementById('edit_dok_mutual').innerHTML = '<input name="dok_mutual" id="dok_mutual" type="file" accept=".doc, .docx, .xls, .xlsx, .pdf"/>';
+            // var dok_mutual = data.dok_mutual;
+            // if(dok_mutual == null){
+            //   document.getElementById('edit_dok_mutual').innerHTML = '<input name="dok_mutual" id="dok_mutual" type="file" accept=".doc, .docx, .xls, .xlsx, .pdf"/>';
+            // }else{
+            //   document.getElementById('edit_dok_mutual').innerHTML = '<a href="{{ url("/")}}/dokumen/pencairan/'+ dok_mutual +'" class="badge btn-primary" style="color:white;" target="_blank" >Download</a>';
+            // }
+
+            var img_kegiatan = data.img_kegiatan;
+            if(img_kegiatan == null){
+              document.getElementById('edit_img_kegiatan').innerHTML = '<input name="img_kegiatan[]" id="img_kegiatan" type="file" accept=".png, .jpg, .jpeg, .bmp" multiple=""/>';
             }else{
-              document.getElementById('edit_dok_mutual').innerHTML = '<a href="{{ url("/")}}/dokumen/pencairan/'+ dok_mutual +'" class="badge btn-primary" style="color:white;" target="_blank" >Download</a>';
+              var img = img_kegiatan.split('|');
+              console.log(img);
+
+              var img_1 = img[0];
+              var img_2 = img[1];
+              var img_3 = img[2];
+
+              document.getElementById('edit_img_kegiatan').innerHTML = '<a href="{{ url("/")}}/dokumen/pencairan/'+ img_1 +'" class="badge btn-primary" style="color:white;" target="_blank" >Download</a><a href="{{ url("/")}}/dokumen/pencairan/'+ img_2 +'" class="badge btn-primary" style="color:white;" target="_blank" >Download</a><a href="{{ url("/")}}/dokumen/pencairan/'+ img_3 +'" class="badge btn-primary" style="color:white;" target="_blank" >Download</a>';
             }
 
             if((dok_spp != null) && (dok_spm != null) && (dok_sp2d != null) && (dok_syarat_kontrak != null) && (dok_npd != null) && (dok_pho  != null) && (dok_kwitansi != null) && (dok_mutual !=null)){

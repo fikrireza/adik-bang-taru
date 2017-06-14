@@ -48,7 +48,7 @@
             <li><a href="{{route('daftar-kegiatan.index')}}">Lihat Kegiatan Saya</a></li>
           </ul>
         </li> --}}
-        <li class="submenu"> <a href="#"><i class="icon-money"></i> <span>Pencairan Dana</span> </a>
+        <li class="submenu {{ Route::is('pencairan*') ? 'active' : '' }}"> <a href="#"><i class="icon-money"></i> <span>Pencairan Dana</span> </a>
           <ul>
             <li><a href="{{route('pencairan.index')}}">Lakukan Pencairan Dana</a></li>
           </ul>
