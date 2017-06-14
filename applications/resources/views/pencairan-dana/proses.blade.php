@@ -81,24 +81,24 @@
 
             </td>
           </tr>
-          <tr>
+          {{-- <tr>
             <td><span class="label label-info">PHO/FHO</span></td>
             <td style="text-align:center;" id="edit_dok_pho">
 
             </td>
-          </tr>
+          </tr> --}}
           <tr>
             <td><span class="label label-info">Kwitansi</span></td>
             <td style="text-align:center;" id="edit_dok_kwitansi">
 
             </td>
           </tr>
-          <tr>
+          {{-- <tr>
             <td><span class="label label-info">Mutual Cek 100</span></td>
             <td style="text-align:center;" id="edit_dok_mutual">
 
             </td>
-          </tr>
+          </tr> --}}
         </tbody>
       </table>
         <p id="upload"></p>
@@ -501,12 +501,12 @@
               document.getElementById('edit_dok_npd').innerHTML = '<a href="{{ url("/")}}/dokumen/pencairan/'+ dok_npd +'" class="badge btn-primary" style="color:white;" target="_blank" >Download</a>';
             }
 
-            var dok_pho = data.dok_pho;
-            if(dok_pho == null){
-              document.getElementById('edit_dok_pho').innerHTML = '<input name="dok_pho" id="dok_pho" type="file"  accept=".doc, .docx, .xls, .xlsx, .pdf"/>';
-            }else{
-              document.getElementById('edit_dok_pho').innerHTML = '<a href="{{ url("/")}}/dokumen/pencairan/'+ dok_pho +'" class="badge btn-primary" style="color:white;" target="_blank" >Download</a>';
-            }
+            // var dok_pho = data.dok_pho;
+            // if(dok_pho == null){
+            //   document.getElementById('edit_dok_pho').innerHTML = '<input name="dok_pho" id="dok_pho" type="file"  accept=".doc, .docx, .xls, .xlsx, .pdf"/>';
+            // }else{
+            //   document.getElementById('edit_dok_pho').innerHTML = '<a href="{{ url("/")}}/dokumen/pencairan/'+ dok_pho +'" class="badge btn-primary" style="color:white;" target="_blank" >Download</a>';
+            // }
 
             var dok_kwitansi = data.dok_kwitansi;
             if(dok_kwitansi == null){
@@ -515,12 +515,12 @@
               document.getElementById('edit_dok_kwitansi').innerHTML = '<a href="{{ url("/")}}/dokumen/pencairan/'+ dok_kwitansi +'" class="badge btn-primary" style="color:white;" target="_blank" >Download</a>';
             }
 
-            var dok_mutual = data.dok_mutual;
-            if(dok_mutual == null){
-              document.getElementById('edit_dok_mutual').innerHTML = '<input name="dok_mutual" id="dok_mutual" type="file" accept=".doc, .docx, .xls, .xlsx, .pdf"/>';
-            }else{
-              document.getElementById('edit_dok_mutual').innerHTML = '<a href="{{ url("/")}}/dokumen/pencairan/'+ dok_mutual +'" class="badge btn-primary" style="color:white;" target="_blank" >Download</a>';
-            }
+            // var dok_mutual = data.dok_mutual;
+            // if(dok_mutual == null){
+            //   document.getElementById('edit_dok_mutual').innerHTML = '<input name="dok_mutual" id="dok_mutual" type="file" accept=".doc, .docx, .xls, .xlsx, .pdf"/>';
+            // }else{
+            //   document.getElementById('edit_dok_mutual').innerHTML = '<a href="{{ url("/")}}/dokumen/pencairan/'+ dok_mutual +'" class="badge btn-primary" style="color:white;" target="_blank" >Download</a>';
+            // }
 
             if((dok_spp != null) && (dok_spm != null) && (dok_sp2d != null) && (dok_syarat_kontrak != null) && (dok_npd != null) && (dok_pho  != null) && (dok_kwitansi != null) && (dok_mutual !=null)){
               document.getElementById('upload').innerHTML = '';

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 use App\Models\KegiatanPerBidang;
 use App\Models\ItemKegiatan;
@@ -93,7 +94,7 @@ class PencairanDokumenController extends Controller
             $save->dok_res_kontrak = $file4;
           }
 
-          if ($request->file('dok_syarat_kontrak')) {
+          if ($request->hasFile('dok_syarat_kontrak')) {
             $file5_ = $request->file('dok_syarat_kontrak');
             $file5 = 'Syarat Kontrak'.' - '.$date.' - ' . $file5_->getClientOriginalName();
             $file5_->move($pathUpload, $file5);
@@ -101,7 +102,7 @@ class PencairanDokumenController extends Controller
             $save->dok_syarat_kontrak = $file5;
           }
 
-          if ($request->file('dok_npd')) {
+          if ($request->hasFile('dok_npd')) {
             $file6_ = $request->file('dok_npd');
             $file6 = 'NPD'.' - '.$date.' - ' . $file6_->getClientOriginalName();
             $file6_->move($pathUpload, $file6);
@@ -109,7 +110,7 @@ class PencairanDokumenController extends Controller
             $save->dok_npd = $file6;
           }
 
-          if ($request->file('dok_pho')) {
+          if ($request->hasFile('dok_pho')) {
             $file7_ = $request->file('dok_pho');
             $file7 = 'PHO'.' - '.$date.' - ' . $file7_->getClientOriginalName();
             $file7_->move($pathUpload, $file7);
@@ -117,7 +118,7 @@ class PencairanDokumenController extends Controller
             $save->dok_pho = $file7;
           }
 
-          if ($request->file('dok_kwitansi')) {
+          if ($request->hasFile('dok_kwitansi')) {
             $file8_ = $request->file('dok_kwitansi');
             $file8 = 'Kwitansi'.' - '.$date.' - ' . $file8_->getClientOriginalName();
             $file8_->move($pathUpload, $file8);
@@ -125,7 +126,7 @@ class PencairanDokumenController extends Controller
             $save->dok_kwitansi = $file8;
           }
 
-          if ($request->file('dok_mutual')) {
+          if ($request->hasFile('dok_mutual')) {
             $file9_ = $request->file('dok_mutual');
             $file9 = 'Mutual'.' - '.$date.' - ' . $file9_->getClientOriginalName();
             $file9_->move($pathUpload, $file9);
@@ -159,7 +160,8 @@ class PencairanDokumenController extends Controller
             "dok_npd" => null,
             "dok_pho" => null,
             "dok_kwitansi" => null,
-            "dok_mutual" => null
+            "dok_mutual" => null,
+            "img_kegiatan"  => null,
           );
         }else{
           $getDok = $getDokumen;
@@ -217,7 +219,7 @@ class PencairanDokumenController extends Controller
             $save->dok_res_kontrak = $file4;
           }
 
-          if ($request->file('dok_syarat_kontrak')) {
+          if ($request->hasFile('dok_syarat_kontrak')) {
             $file5_ = $request->file('dok_syarat_kontrak');
             $file5 = 'Syarat Kontrak'.' - '.$date.' - ' . $file5_->getClientOriginalName();
             $file5_->move($pathUpload, $file5);
@@ -225,7 +227,7 @@ class PencairanDokumenController extends Controller
             $save->dok_syarat_kontrak = $file5;
           }
 
-          if ($request->file('dok_npd')) {
+          if ($request->hasFile('dok_npd')) {
             $file6_ = $request->file('dok_npd');
             $file6 = 'NPD'.' - '.$date.' - ' . $file6_->getClientOriginalName();
             $file6_->move($pathUpload, $file6);
@@ -233,7 +235,7 @@ class PencairanDokumenController extends Controller
             $save->dok_npd = $file6;
           }
 
-          if ($request->file('dok_pho')) {
+          if ($request->hasFile('dok_pho')) {
             $file7_ = $request->file('dok_pho');
             $file7 = 'PHO'.' - '.$date.' - ' . $file7_->getClientOriginalName();
             $file7_->move($pathUpload, $file7);
@@ -241,7 +243,7 @@ class PencairanDokumenController extends Controller
             $save->dok_pho = $file7;
           }
 
-          if ($request->file('dok_kwitansi')) {
+          if ($request->hasFile('dok_kwitansi')) {
             $file8_ = $request->file('dok_kwitansi');
             $file8 = 'Kwitansi'.' - '.$date.' - ' . $file8_->getClientOriginalName();
             $file8_->move($pathUpload, $file8);
@@ -249,13 +251,39 @@ class PencairanDokumenController extends Controller
             $save->dok_kwitansi = $file8;
           }
 
-          if ($request->file('dok_mutual')) {
+          if ($request->hasFile('dok_mutual')) {
             $file9_ = $request->file('dok_mutual');
             $file9 = 'Mutual'.' - '.$date.' - ' . $file9_->getClientOriginalName();
             $file9_->move($pathUpload, $file9);
 
             $save->dok_mutual = $file9;
           }
+
+          if($request->hasFile('img_kegiatan')){
+
+            $files = Input::file('img_kegiatan');
+            $file_count = count($files);
+
+            if($file_count != 3){
+              return redirect()->route('pencairan.rincian', ['no_rek' => $request->no_rek, 'id_keg' => $request->id_keg, 'nama_item' => $request->nama_item])->with('failed', 'Upload 3 Photo Kegiatan');
+            }
+
+            $i = 1;
+            $tampung = array();
+            foreach($request->file('img_kegiatan') as $file10_ )
+            {
+              $file10 = 'Photo Kegiatan'.' - '.$date.' - '.$i.' - '. $file10_->getClientOriginalName();
+              $file10_->move($pathUpload, $file10);
+
+              $tampung[] = $file10;
+              $i++;
+            }
+
+            $img_kegiatan = implode('|', $tampung);
+
+            $save->img_kegiatan = $img_kegiatan;
+          }
+
 
         $save->id_aktor = Auth::user()->id;
         $save->flag_status = 0;
