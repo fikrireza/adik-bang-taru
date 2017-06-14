@@ -19,31 +19,6 @@ class VerifikasiDokumenController extends Controller
 {
     public function index()
     {
-
-        // $getkegiatan = Kegiatan::join('adik_program', 'adik_program.id', '=', 'adik_kegiatan.id_program')
-        //                         ->select('adik_kegiatan.id as id_kegiatan', 'adik_kegiatan.id_program', 'adik_kegiatan.nama_kegiatan', 'adik_program.nama_program')
-        //                         ->get();
-        //
-        //
-        // foreach ($getkegiatan as $key) {
-        //   $getitemkegiatan[] = ItemKegiatan::where('id_kegiatan', $key->id_kegiatan)->whereNotNull('realisasi_anggaran')->get();
-        // }
-        //
-        // foreach ($getitemkegiatan as $itemkegiatan) {
-        //   foreach ($itemkegiatan as $item) {
-        //     $coba = array();
-        //     $coba['nama_item_kegiatan'] = $item->nama_item_kegiatan;
-        //     $coba['no_rekening']  = $item->no_rekening;
-        //     $coba['id_kegiatan'] = $item->id_kegiatan;
-        //     $coba['nama_kegiatan'] = $item->kegiatan->nama_kegiatan;
-        //     $coba['nama_program']  = $item->kegiatan->program->nama_program;
-        //
-        //     $hasil[] = $coba;
-        //   }
-        // }
-        //
-        // $hasil = collect($hasil);
-        // $getprogramkegiatan = $hasil->unique('id_kegiatan');
         $getDokumen = PencairanDokumen::get();
 
         return view('verifikasi-dokumen.index', compact('getDokumen'));
@@ -71,6 +46,6 @@ class VerifikasiDokumenController extends Controller
         $getDok->flag_status = 1;
         $getDok->update();
 
-        return redirect()->route('verifikasi.detail', ['no_rek' => $getDok->no_rekening])->with('berhasil', 'Dokumen Berhasil di proses');
+        return redirect()->route('verifikasi.detail', ['no_rek' => $getDok->id])->with('berhasil', 'Dokumen Berhasil di proses');
     }
 }

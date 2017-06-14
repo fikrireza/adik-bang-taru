@@ -4,7 +4,7 @@
   <title>Adik Bang Taru</title>
   <link rel="stylesheet" href="{{asset('theme/css/uniform.css')}}" />
   <link rel="stylesheet" href="{{asset('theme/css/select2.css')}}" />
-  <link rel="stylesheet" href="{{ asset('backend/css/jquery.gritter.css') }}" />
+  <link rel="stylesheet" href="{{asset('theme/css/jquery.gritter.css') }}" />
 @endsection
 
 @section('breadcrumb')

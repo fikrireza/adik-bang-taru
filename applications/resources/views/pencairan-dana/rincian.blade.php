@@ -128,6 +128,23 @@
   <div class="container-fluid">
     <hr style="margin:0px 0px 15px 0px;">
 
+    @if (Session::has('success'))
+      <script>
+        window.setTimeout(function() {
+          $(".alert-success").fadeTo(500, 0).slideUp(500, function(){
+              $(this).remove();
+          });
+        }, 5000);
+      </script>
+      <div class="alert alert-success alert-block" style="margin-bottom:0px;">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">Berhasil!</h4>
+        <hr style="margin:5px 0px 10px 0px; border-top-color:#9fdcae;">
+        {{ Session::get('success') }}
+      </div>
+      <hr class="alert-success">
+    @endif
+
     @if (Session::has('failed'))
       <script>
         window.setTimeout(function() {
@@ -142,7 +159,7 @@
         <hr style="margin:5px 0px 10px 0px; border-top-color:#dc9f9f;">
         {{ Session::get('failed') }}
       </div>
-      <hr>
+      <hr class="alert-danger">
     @endif
 
     <div class="alert alert-info alert-block" style="margin-bottom:0px;">
