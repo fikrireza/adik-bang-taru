@@ -355,7 +355,7 @@
               </table>
               <br>
               <span class="kontrak_label">
-                <a href="" data-value="{{$id_item}}" class="btn btn-warning" id="showformkontrak">Update Kelengkapan Resume Kontrak</a>
+                <a href="#" data-value="{{$id_item}}" class="btn btn-warning" id="showformkontrak">Update Kelengkapan Resume Kontrak</a>
                 @if ($getDokumen != null)
                 <a href="{{ asset('dokumen/pencairan').'/'.$getDokumen->dok_res_kontrak }}" class="btn btn-success" target="_blank">Download Resume Kontrak</a>
                 @endif

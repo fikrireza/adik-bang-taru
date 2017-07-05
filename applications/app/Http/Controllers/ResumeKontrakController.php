@@ -7,10 +7,12 @@ use App\Models\ResumeKontrak;
 use App\Models\ItemKegiatan;
 use App\Models\Kegiatan;
 use App\Models\PencairanDokumen;
+use App\Models\MasterKpa;
 use Session;
 
 use Auth;
 use PDF;
+use DB;
 
 class ResumeKontrakController extends Controller
 {
@@ -70,6 +72,13 @@ class ResumeKontrakController extends Controller
       }
 
       $dok_res_kontrak = 'Resume Kontrak - '.$date.' - '.$request->no_dpa.' - '.$rand;
+      $getPejabat = DB::select("SELECT a.nip_sapk, a.nama, e.nama_bidang
+                                FROM master_kpa a, adik_kegiatan_kpa b, adik_kegiatan c, adik_item_kegiatan d, master_bidang e
+                                WHERE a.id = b.id_master_kpa
+                                AND c.id = d.id_kegiatan
+                                AND b.id_kegiatan = c.id
+                                AND e.id = a.id_bidang
+                                AND d.id = $request->id_item");
 
       // Excel::create($dok_res_kontrak, function($excel) use($dok_res_kontrak,$request, $date, $days) {
       //   $excel->sheet('Resume Kontrak - '.$date, function($sheet) use($request,$date, $days) {
@@ -84,6 +93,7 @@ class ResumeKontrakController extends Controller
       view()->share('id_item', $request->id_item);
       view()->share('daysjangkawaktu', $days);
       view()->share('datakontrak', $request);
+      view()->share('getPejabat', $getPejabat);
 
       $pdf = PDF::loadView('pencairan-dana.resumeKontrak')->save( 'dokumen/pencairan/'.$dok_res_kontrak.'.pdf' );
 
