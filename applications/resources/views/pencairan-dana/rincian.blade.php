@@ -102,6 +102,7 @@
           </tr>
         </tbody>
       </table>
+        <p id="edit_data_dokumen"></p>
         <p id="upload"></p>
       </form>
     </div>
@@ -269,7 +270,6 @@
         $.ajax({
           url: "{{ url('/') }}/pencairan-dana/proses/dokRincian/"+id,
           success: function(data) {
-            console.log(data);
             $('#edit_id_dokumen').attr('value', data.id);
             $('#edit_id_item_kegiatan').attr('value', data.id_item_kegiatan);
 
@@ -341,8 +341,6 @@
               document.getElementById('edit_img_kegiatan').innerHTML = '<input name="img_kegiatan[]" id="img_kegiatan" type="file" accept=".png, .jpg, .jpeg, .bmp" multiple=""/>';
             }else{
               var img = img_kegiatan.split('|');
-              console.log(img);
-
               var img_1 = img[0];
               var img_2 = img[1];
               var img_3 = img[2];
@@ -350,10 +348,21 @@
               document.getElementById('edit_img_kegiatan').innerHTML = '<a href="{{ url("/")}}/dokumen/pencairan/'+ img_1 +'" class="badge btn-primary" style="color:white;" target="_blank" >Download</a><a href="{{ url("/")}}/dokumen/pencairan/'+ img_2 +'" class="badge btn-primary" style="color:white;" target="_blank" >Download</a><a href="{{ url("/")}}/dokumen/pencairan/'+ img_3 +'" class="badge btn-primary" style="color:white;" target="_blank" >Download</a>';
             }
 
-            if((dok_spp != null) && (dok_spm != null) && (dok_sp2d != null) && (dok_syarat_kontrak != null) && (dok_npd != null) && (dok_pho  != null) && (dok_kwitansi != null) && (dok_mutual !=null)){
+            if((dok_spp != null) && (dok_spm != null) && (dok_sp2d != null) && (dok_syarat_kontrak != null) && (dok_npd != null) && (dok_pho  != null) && (dok_kwitansi != null)){
               document.getElementById('upload').innerHTML = '';
             }else{
               document.getElementById('upload').innerHTML = '<button class="btn btn-primary pull-right">Simpan Dokumen</button>';
+            }
+
+            var id_dokumen = data.id;
+            var no_rek = '{{ $no_rek }}';
+            var getKegiatan = '{{ $id_keg }}';
+            var nama_item = '{{ $nama_item }}';
+            var flag_status = data.flag_status;
+            if(flag_status == 1){
+              document.getElementById('edit_data_dokumen').innerHTML = '';
+            }else{
+              document.getElementById('edit_data_dokumen').innerHTML = '<a href="{{ url("/")}}/pencairan-dana/proses/ubah-dokumenKontrak/'+no_rek+'/'+getKegiatan+'/'+id_dokumen+'/'+nama_item+'" class="btn btn-warning pull-left">Ubah Dokumen</a>';
             }
           }
 
@@ -370,35 +379,35 @@
         ignore: [],
         rules:{
           dok_spp:{
-            required:true,
+            // required:true,
             accept:"pdf|doc|docx|xls|xlsx",
           },
           dok_spm:{
-            required:true,
+            // required:true,
             accept:"pdf|doc|docx|xls|xlsx",
           },
           dok_sp2d:{
-            required:true,
+            // required:true,
             accept:"pdf|doc|docx|xls|xlsx",
           },
           dok_res_kontrak:{
-            required:true,
+            // required:true,
             accept:"pdf|doc|docx|xls|xlsx",
           },
           dok_syarat_kontrak:{
-            required:true,
+            // required:true,
             accept:"pdf|doc|docx|xls|xlsx",
           },
           dok_pho:{
-            required:true,
+            // required:true,
             accept:"pdf|doc|docx|xls|xlsx",
           },
           dok_npd:{
-            required:true,
+            // required:true,
             accept:"pdf|doc|docx|xls|xlsx",
           },
           dok_mutual:{
-            required:true,
+            // required:true,
             accept:"pdf|doc|docx|xls|xlsx",
           },
           dok_kwitansi:{

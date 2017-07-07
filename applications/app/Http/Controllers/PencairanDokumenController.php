@@ -173,7 +173,7 @@ class PencairanDokumenController extends Controller
 
     public function storeRincian(Request $request)
     {
-
+        // dd($request);
         $rand = rand();
         $date = date('Y-m-d');
         $pathUpload = 'dokumen/pencairan/';
@@ -265,7 +265,11 @@ class PencairanDokumenController extends Controller
             $file_count = count($files);
 
             if($file_count != 3){
-              return redirect()->route('pencairan.rincian', ['no_rek' => $request->no_rek, 'id_keg' => $request->id_keg, 'nama_item' => $request->nama_item])->with('failed', 'Upload 3 Photo Kegiatan');
+              if($request->flag_dokumen_rincian != 1){
+                return redirect()->route('pencairan.rincian', ['no_rek' => $request->no_rek, 'id_keg' => $request->id_keg, 'nama_item' => $request->nama_item])->with('failed', 'Upload 3 Photo Kegiatan');
+              }else{
+                return redirect()->route('pencairan-dokumen.ubahDokumenKontrak', ['no_rek' => $request->no_rek, 'id_keg' => $request->id_keg, 'id_dokumen' => $request->id_dokumen ,'nama_item' => $request->nama_item])->with('failed', 'Upload 3 Photo Kegiatan');
+              }
             }
 
             $i = 1;
@@ -299,8 +303,10 @@ class PencairanDokumenController extends Controller
         return view('pencairan-dana.edit-dokumen', compact('getDokumen', 'id_kegiatan'));
     }
 
-    public function editDokumen(Request $request)
+    public function ubahDokumenKontrak($no_rek, $id_keg, $id_dokumen, $nama_item)
     {
-        dd($request);
+        $getDokumen = PencairanDokumen::find($id_dokumen);
+
+        return view('pencairan-dana.edit-dokumenKontrak', compact('getDokumen', 'id_keg', 'no_rek', 'nama_item'));
     }
 }
