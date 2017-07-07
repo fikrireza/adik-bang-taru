@@ -125,13 +125,13 @@
         <td height="70">&nbsp;</td>
       </tr>
       <tr>
-        <td>{{ $getPejabat[0]->nama_bidang}}</td>
+        <td>{{ $getPejabat[0]->nama_bidang ? $getPejabat[0]->nama_bidang : '' }}</td>
       </tr>
       <tr>
-        <td>{{ $getPejabat[0]->nama}}</td>
+        <td>{{ $getPejabat[0]->nama ? $getPejabat[0]->nama : '' }}</td>
       </tr>
       <tr>
-        <td>{{ $getPejabat[0]->nip_sapk}}</td>
+        <td>{{ $getPejabat[0]->nip_sapk ? $getPejabat[0]->nip_sapk : '' }}</td>
       </tr>
     </table>
 

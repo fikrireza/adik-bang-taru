@@ -291,4 +291,16 @@ class PencairanDokumenController extends Controller
 
         return redirect()->route('pencairan.rincian', ['no_rek' => $request->no_rek, 'id_keg' => $request->id_keg, 'nama_item' => $request->nama_item])->with('success', 'Berhasil Upload Dokumen');
     }
+
+    public function ubahDokumen($id_kegiatan, $id_dokumen)
+    {
+        $getDokumen = PencairanDokumen::find($id_dokumen);
+
+        return view('pencairan-dana.edit-dokumen', compact('getDokumen', 'id_kegiatan'));
+    }
+
+    public function editDokumen(Request $request)
+    {
+        dd($request);
+    }
 }

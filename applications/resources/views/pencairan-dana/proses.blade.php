@@ -101,6 +101,7 @@
           </tr> --}}
         </tbody>
       </table>
+        <p id="edit_data_dokumen"></p>
         <p id="upload"></p>
       </form>
     </div>
@@ -466,6 +467,8 @@
             $('#edit_id_dokumen').attr('value', data.id);
             $('#edit_id_item_kegiatan').attr('value', data.id_item_kegiatan);
 
+            var id_dokumen = data.id;
+
             var dok_spp = data.dok_spp;
             if (dok_spp == null) {
               document.getElementById("edit_dok_spp").innerHTML = '<input name="dok_spp" id="dok_spp" type="file" accept=".doc, .docx, .xls, .xlsx, .pdf"/>';
@@ -522,10 +525,18 @@
             //   document.getElementById('edit_dok_mutual').innerHTML = '<a href="{{ url("/")}}/dokumen/pencairan/'+ dok_mutual +'" class="badge btn-primary" style="color:white;" target="_blank" >Download</a>';
             // }
 
-            if((dok_spp != null) && (dok_spm != null) && (dok_sp2d != null) && (dok_syarat_kontrak != null) && (dok_npd != null) && (dok_pho  != null) && (dok_kwitansi != null) && (dok_mutual !=null)){
-              document.getElementById('upload').innerHTML = '';
-            }else{
+            if((dok_spp == null) || (dok_spm == null) || (dok_sp2d == null) || (dok_syarat_kontrak == null) || (dok_npd == null) || (dok_kwitansi == null)){
               document.getElementById('upload').innerHTML = '<button class="btn btn-primary pull-right">Simpan Dokumen</button>';
+            }else{
+              document.getElementById('upload').innerHTML = '';
+            }
+
+            var getKegiatan = '{{ $getkegiatan->id }}';
+            var flag_status = data.flag_status;
+            if(flag_status == 1){
+              document.getElementById('edit_data_dokumen').innerHTML = '';
+            }else{
+              document.getElementById('edit_data_dokumen').innerHTML = '<a href="{{ url("/")}}/pencairan-dana/proses/ubah-dokumen/'+getKegiatan+'/'+id_dokumen+'" class="btn btn-warning pull-left">Ubah Dokumen</a>';
             }
           }
 
@@ -561,10 +572,10 @@
             // required:true,
             accept:"pdf|doc|docx|xls|xlsx",
           },
-          dok_pho:{
-            // required:true,
-            accept:"pdf|doc|docx|xls|xlsx",
-          },
+          // dok_pho:{
+          // required:true,
+          //   accept:"pdf|doc|docx|xls|xlsx",
+          // },
           dok_npd:{
             // required:true,
             accept:"pdf|doc|docx|xls|xlsx",

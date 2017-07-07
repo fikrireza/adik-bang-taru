@@ -48,6 +48,8 @@ Route::get('pencairan-dana/bind-item/{no_rek}/{id_keg}/{nama_item?}', 'Pencairan
 Route::get('pencairan-dana/proses/dok/{id}', 'PencairanDokumenController@getDok')->name('pencairan-dokumen.getDok');
 Route::get('pencairan-dana/proses/dokRincian/{id}', 'PencairanDokumenController@getDokRincian')->name('pencairan-dokumen.getDok');
 Route::post('pencairan-dana/proses/dok', 'PencairanDokumenController@store')->name('pencairan-dokumen.store');
+Route::get('pencairan-dana/proses/ubah-dokumen/{id_kegiatan}/{id_dokumen}', 'PencairanDokumenController@ubahDokumen')->name('pencairan-dokumen.ubahDokumen');
+Route::post('pencairan-dana/proses/ubah-dokumen', 'PencairanDokumenController@editDokumen')->name('pencairan-dokumen.editDokumen');
 Route::get('pencairan-dana/rincian-item/{no_rek}/{id_keg}/{nama_item?}', 'PencairanDanaController@rincian')->name('pencairan.rincian')->where('nama_item', '(.*)');
 Route::post('pencairan-dana/rincian-item', 'PencairanDokumenController@storeRincian')->name('pencairan-dokumen.storeRincian');
 Route::get('pencairan-dana/progress-pencairan-per-item/{id}', 'PencairanDanaController@pencairanbyitem')->name('pencairan.progressbyitem');
