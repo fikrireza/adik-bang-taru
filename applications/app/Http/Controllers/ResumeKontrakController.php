@@ -7,11 +7,13 @@ use App\Models\ResumeKontrak;
 use App\Models\ItemKegiatan;
 use App\Models\Kegiatan;
 use App\Models\PencairanDokumen;
+use App\Models\Pencairan;
 use App\Models\MasterKpa;
 use Session;
 
 use Auth;
 use PDF;
+use File;
 use DB;
 
 class ResumeKontrakController extends Controller
@@ -80,6 +82,8 @@ class ResumeKontrakController extends Controller
                                 AND e.id = a.id_bidang
                                 AND d.id = $request->id_item");
 
+      $getTermin = Pencairan::with('item_kegiatan')->get();
+
       // Excel::create($dok_res_kontrak, function($excel) use($dok_res_kontrak,$request, $date, $days) {
       //   $excel->sheet('Resume Kontrak - '.$date, function($sheet) use($request,$date, $days) {
       //     $sheet->loadView('pencairan-dana.resumeKontrak')
@@ -94,15 +98,15 @@ class ResumeKontrakController extends Controller
       view()->share('daysjangkawaktu', $days);
       view()->share('datakontrak', $request);
       view()->share('getPejabat', $getPejabat);
+      view()->share('getTermin', $getTermin);
 
       $pdf = PDF::loadView('pencairan-dana.resumeKontrak')->save( 'dokumen/pencairan/'.$dok_res_kontrak.'.pdf' );
 
 
-      $check2 = PencairanDokumen::where('id_item_kegiatan', $request->id_item)->count();
-      if ($check2==0) {
-        $saveDok = new PencairanDokumen;
-      } else {
-        $saveDok = PencairanDokumen::where('id_item_kegiatan', $request->id_item)->first();
+
+      $saveDok = PencairanDokumen::firstOrNew(['id_item_kegiatan' => $request->id_item]);
+      if($saveDok->dok_res_kontrak){
+        File::delete('dokumen/pencairan/' .$saveDok->dok_res_kontrak);
       }
       $saveDok->id_item_kegiatan = $request->id_item;
       $saveDok->dok_res_kontrak = $dok_res_kontrak.'.pdf';

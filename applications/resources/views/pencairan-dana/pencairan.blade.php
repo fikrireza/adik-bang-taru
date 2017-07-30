@@ -356,7 +356,7 @@
               <br>
               <span class="kontrak_label">
                 <a href="#" data-value="{{$id_item}}" class="btn btn-warning" id="showformkontrak">Update Kelengkapan Resume Kontrak</a>
-                @if ($getDokumen != null)
+                @if ($getDokumen->dok_res_kontrak != null)
                 <a href="{{ asset('dokumen/pencairan').'/'.$getDokumen->dok_res_kontrak }}" class="btn btn-success" target="_blank">Download Resume Kontrak</a>
                 @endif
               </span>
@@ -475,6 +475,7 @@
                     <td>Rp {{number_format($key->nilai, '0', ',', '.')}},-</td>
                     <td style="text-align:center;">
                       <a href="#edit" data-value="{{$key->id}}" data-toggle="modal" class="btn btn-warning btn-mini ubah">Ubah</a>
+                      <a href="{{ asset('dokumen/pencairan').'/'.$getDokumen->dok_res_kontrak }}" class="btn btn-success btn-mini" target="_blank">Download Resume Kontrak</a>
                     </td>
                   </tr>
                   @php
